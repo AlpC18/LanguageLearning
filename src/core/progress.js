@@ -2,6 +2,13 @@
 import { review } from './srs.js';
 import { t } from '../i18n.js';
 
+// Exercise type → skill category (kept here to avoid an import cycle with insights.js).
+const CATEGORY = {
+  article: 'article', conjugate: 'conjugation', build: 'order', cloze: 'grammar', type: 'spelling',
+  'listen-type': 'listening', 'listen-choice': 'listening', speak: 'pronunciation',
+  choice: 'vocab', reverse: 'vocab', match: 'vocab', read: 'reading', comprehend: 'reading',
+};
+
 const KEY = 'dilbaz:v1';
 export const DAILY_GOAL = 30;
 export const GOALS = [10, 20, 30, 50];
@@ -78,7 +85,9 @@ export function streakWithFreeze(streak, freezes, today) {
   return { streak: next, freezes: Math.min(MAX_FREEZES, freezes + (earned ? 1 : 0)) };
 }
 
-export function recordLesson(state, { lang, unitId = null, advance = false, results, xp, today = dayKey(), now = Date.now(), perfect = false }) {
+// attempts: every answer incl. reading/verb ones (feeds skill stats); results: only SRS-tracked items.
+// isReview: this session was a review/quick review (counts toward review quests).
+export function recordLesson(state, { lang, unitId = null, advance = false, results, attempts = results, xp, today = dayKey(), now = Date.now(), perfect = false, isReview = false }) {
   const course = courseState(state, lang);
   const cards = { ...course.cards };
   const mistakes = { ...course.mistakes };
@@ -91,6 +100,16 @@ export function recordLesson(state, { lang, unitId = null, advance = false, resu
   const units = advance && unitId
     ? { ...course.units, [unitId]: Math.min(LESSONS_PER_UNIT, (course.units[unitId] ?? 0) + 1) }
     : course.units;
+  const newWords = results.filter((r) => !course.cards[r.key]).map((r) => r.key);
+  const skills = { ...(state.skills ?? {}) };
+  for (const { type, correct } of attempts) {
+    const cat = CATEGORY[type];
+    if (!cat) continue;
+    const prev = skills[cat] ?? { right: 0, wrong: 0 };
+    skills[cat] = correct ? { ...prev, right: prev.right + 1 } : { ...prev, wrong: prev.wrong + 1 };
+  }
+  const day = state.days?.[today] ?? { lessons: 0, perfect: 0, reviews: 0, newWords: 0 };
+  const days = { ...state.days, [today]: { lessons: day.lessons + 1, perfect: day.perfect + (perfect ? 1 : 0), reviews: day.reviews + (isReview ? 1 : 0), newWords: day.newWords + new Set(newWords).size } };
   const { streak, freezes } = streakWithFreeze(state.streak, state.freezes ?? 0, today);
   const stats = state.stats ?? { lessons: 0, perfect: 0 };
   return {
@@ -100,6 +119,8 @@ export function recordLesson(state, { lang, unitId = null, advance = false, resu
     freezes,
     bestStreak: Math.max(state.bestStreak ?? 0, streak.count),
     stats: { lessons: stats.lessons + 1, perfect: stats.perfect + (perfect ? 1 : 0) },
+    skills,
+    days,
     daily: { ...state.daily, [today]: (state.daily[today] ?? 0) + xp },
     courses: { ...state.courses, [lang]: { units, cards, mistakes } },
   };
