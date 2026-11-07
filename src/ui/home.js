@@ -61,7 +61,7 @@ export function renderHome(root, { state, courses, units, today, dueCount, mista
         .join('')}</nav>
       <div class="stats"><span title="${t('home.streak')}">🔥 ${t('home.days', { n: state.streak.count })}</span><span title="${t('home.totalXp')}">⭐ ${state.xp} XP</span><span title="${t('home.freezeTitle')}">🧊 ${state.freezes ?? 0}</span></div>
     </header>
-    <nav class="pages">${['stats', 'notebook', 'reading', 'chat', 'settings'].map((p) => `<button class="btn" data-page="${p}">${t(`nav.${p}`)}</button>`).join('')}</nav>
+    <nav class="pages">${['stats', 'notebook', 'reading', 'tutor', 'chat', 'settings'].map((p) => `<button class="btn" data-page="${p}">${t(`nav.${p}`)}</button>`).join('')}</nav>
     ${units.length ? '' : `<p class="card muted">${t('empty.course')}</p>`}
     ${continueCard(units)}
     <div class="meaning" role="group" aria-label="${t('home.meaning')}">

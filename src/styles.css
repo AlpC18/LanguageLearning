@@ -265,3 +265,20 @@ button:disabled { cursor: default; }
   }
   .home .pages .btn { border: 0; box-shadow: none; background: none; font-size: .72rem; padding: 6px 2px; white-space: normal; line-height: 1.2; }
 }
+
+/* AI tutor */
+.tutor-form textarea { width: 100%; padding: 10px 12px; border: 1px solid var(--border); border-radius: 10px; background: var(--bg); color: var(--text); font: inherit; }
+.tutor-output { display: grid; gap: 12px; }
+.exercise-list, .quiz, .mistakes { display: grid; gap: 12px; padding-left: 1.2em; }
+.quiz-score { font-weight: 700; color: var(--ok); }
+.flashcards { list-style: none; padding: 0; margin: 0; display: grid; grid-template-columns: repeat(auto-fill, minmax(150px, 1fr)); gap: 10px; }
+.flashcards li { display: grid; justify-items: end; }
+.flashcard { width: 100%; min-height: 120px; border: 1px solid var(--border); border-radius: var(--radius); background: var(--surface); box-shadow: var(--shadow); padding: 12px; text-align: center; }
+.flashcard .front { font-size: 1.2rem; font-weight: 700; }
+.flashcard .back, .flashcard.flipped .front { display: none; }
+.flashcard.flipped .back { display: block; font-size: .9rem; }
+.bad-text { color: var(--bad); }
+.ok-text { color: var(--ok); }
+.chat-bar { display: flex; flex-wrap: wrap; gap: 8px; align-items: center; }
+.chat-bar input { flex: 1 1 160px; padding: 8px 10px; border: 1px solid var(--border); border-radius: 10px; background: var(--bg); color: var(--text); font: inherit; }
+@media (max-width: 600px) { .home .pages { grid-template-columns: repeat(6, 1fr); } }

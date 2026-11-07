@@ -11,13 +11,15 @@ const NAMES = { de: 'German', it: 'Italian', es: 'Spanish' };
 export function renderChat(root, { lang, ai, defaultLevel, onBack }) {
   let messages = [];
   let level = defaultLevel;
+  let topic = '';
   let busy = false;
   const ready = Boolean(ai.apiKey);
 
   renderPage(root, {
     title: t('chat.title'), onBack,
     body: ready ? `<div class="chat-bar"><label>${t('chat.level')}
-          <select data-role="level">${LEVELS.map((l) => `<option ${l === level ? 'selected' : ''}>${l}</option>`).join('')}</select></label></div>
+          <select data-role="level">${LEVELS.map((l) => `<option ${l === level ? 'selected' : ''}>${l}</option>`).join('')}</select></label>
+          <input data-role="topic" placeholder="${t('chat.topic')}" autocomplete="off"></div>
         <ol class="chat-log" aria-live="polite"><li class="muted">${t('chat.start')}</li></ol>
         <form class="chat-form" data-role="form">
           <input name="msg" lang="${lang}" placeholder="${t('chat.placeholder')}" autocomplete="off" required>
@@ -35,7 +37,10 @@ export function renderChat(root, { lang, ai, defaultLevel, onBack }) {
         }
       }
     },
-    onChange: (el) => { if (el.matches('[data-role="level"]')) { level = el.value; messages = []; } },
+    onChange: (el) => {
+      if (el.matches('[data-role="level"]')) { level = el.value; messages = []; }
+      if (el.matches('[data-role="topic"]')) { topic = el.value.trim(); messages = []; } // new topic → fresh conversation
+    },
   });
   if (!ready) return;
 
@@ -62,7 +67,7 @@ export function renderChat(root, { lang, ai, defaultLevel, onBack }) {
     messages = [...messages, { role: 'user', content: text }];
     const pending = append('pending', t('chat.thinking'));
     try {
-      const system = tutorPrompt({ language: NAMES[lang], level, explain: locale() === 'en' ? 'English' : 'Turkish' });
+      const system = tutorPrompt({ language: NAMES[lang], level, topic, explain: locale() === 'en' ? 'English' : 'Turkish' });
       const reply = await sendChat({ apiKey: ai.apiKey, model: ai.model, system, messages });
       pending.remove();
       messages = [...messages, { role: 'assistant', content: reply }];

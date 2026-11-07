@@ -23,6 +23,7 @@ import { renderReadingList } from './ui/reading.js';
 import { renderChat } from './ui/chat.js';
 import { renderSettings } from './ui/settings.js';
 import { renderOnboarding } from './ui/onboarding.js';
+import { renderTutor } from './ui/tutor.js';
 import { setEffects } from './core/effects.js';
 import { LEVELS } from './components/search-filter.js';
 import { t, setLocale, locale, unitTip } from './i18n.js';
@@ -122,6 +123,10 @@ const PAGES = {
     onRead: (id) => play(buildReading(READINGS[state.lang].find((r) => r.id === id)), { retry: false }),
     onVerbs: () => play(buildConjugation(state.lang, VERBS[state.lang], currentLevel()), {}),
   }),
+  tutor: () => renderTutor(root, {
+    lang: state.lang, ai, level: currentLevel(), explain: locale() === 'en' ? 'English' : 'Turkish', onBack: () => home(),
+    onAddCards: addCards,
+  }),
   chat: () => renderChat(root, { lang: state.lang, ai, defaultLevel: currentLevel(), onBack: () => home() }),
   settings: (notice = '') => renderSettings(root, {
     state, ai, langs: Object.keys(COURSES), notice, onBack: () => home(),
@@ -138,6 +143,18 @@ const PAGES = {
     },
   }),
 };
+
+// Flashcards → the learner's own words (skips ones already in the list). Returns how many were added.
+function addCards(cards) {
+  const mine = state.custom?.[state.lang] ?? [];
+  const have = new Set(mine.map((w) => w.target.toLowerCase()));
+  const stamp = Date.now().toString(36);
+  const fresh = cards
+    .filter((c) => c.word && c.tr && !have.has(c.word.toLowerCase()))
+    .map((c, i) => ({ id: `${stamp}${i}`, target: c.word, tr: c.tr, en: c.en ?? '' }));
+  commit({ ...state, custom: { ...state.custom, [state.lang]: [...mine, ...fresh] } });
+  return fresh.length;
+}
 
 function addWord({ target, tr, en }) {
   if (!target || !tr) return PAGES.notebook(t('nb.invalid'));

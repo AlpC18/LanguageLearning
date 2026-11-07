@@ -14,14 +14,14 @@ export function saveAi(ai) {
   try { localStorage.setItem(KEY, JSON.stringify(ai)); } catch { /* private mode: key lives for this session only */ }
 }
 
-export function tutorPrompt({ language, level, explain }) {
-  return `You are a friendly ${language} conversation partner for a learner at CEFR level ${level}. `
+export function tutorPrompt({ language, level, explain, topic = '' }) {
+  return `You are a native ${language} speaker chatting naturally with a learner at CEFR level ${level}${topic ? ` about: ${topic}` : ''}. `
     + `Reply ONLY in ${language}, in 1–3 short sentences suited to ${level}, and keep the conversation going with a question. `
     + `If the learner's last message contains mistakes, begin your reply with a line starting with "✏️ " that gives the corrected sentence `
     + `and a very short explanation in ${explain}. Never switch the conversation language.`;
 }
 
-export async function sendChat({ apiKey, model, system, messages }) {
+export async function sendChat({ apiKey, model, system, messages, maxTokens = 600 }) {
   const res = await fetch('https://api.anthropic.com/v1/messages', {
     method: 'POST',
     headers: {
@@ -30,7 +30,7 @@ export async function sendChat({ apiKey, model, system, messages }) {
       'anthropic-version': '2023-06-01',
       'anthropic-dangerous-direct-browser-access': 'true',
     },
-    body: JSON.stringify({ model, max_tokens: 600, system, messages }),
+    body: JSON.stringify({ model, max_tokens: maxTokens, system, messages }),
   });
   const data = await res.json().catch(() => null);
   if (!res.ok) throw new Error(data?.error?.message ?? `HTTP ${res.status}`);

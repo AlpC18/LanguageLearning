@@ -43,3 +43,12 @@ assert.deepEqual([buildReading(reading)[0].question, buildReading(reading)[0].an
 setLocale('tr');
 assert.equal(buildReading(reading)[0].answer, 'c');
 console.log('features: all checks passed');
+
+// AI teacher: JSON extraction and prompt shape (no network)
+import { extractJson, PROMPTS } from '../src/core/tutor-api.js';
+assert.deepEqual(extractJson('Here you go:\n```json\n{"a": {"b": 1}}\n```'), { a: { b: 1 } });
+assert.throws(() => extractJson('sorry'), /no JSON/);
+const p = PROMPTS.cards({ lang: 'it', level: 'A1', explain: 'Turkish', words: ['cane', 'gatto'] });
+assert.ok(p.system.includes('Italian') && p.system.includes('Turkish') && p.user.includes('cane, gatto'));
+assert.ok(PROMPTS.lesson({ lang: 'de', level: 'B1', explain: 'English', focus: 'listening', topic: '' }).user.includes('listening'));
+console.log('tutor: all checks passed');
