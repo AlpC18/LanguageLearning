@@ -6,6 +6,7 @@ import { wordDiff } from '../core/insights.js';
 
 const TYPED = new Set(['type', 'listen-type', 'conjugate', 'build', 'speak']); // answers that can be right in more than one way
 import { speak, listen, canListen } from '../core/speech.js';
+import { whisperReady, whisperKnown, canRecord, startRecording, transcribe, wordFeedback } from '../core/pronounce.js';
 
 const CHARS = { de: ['ä', 'ö', 'ü', 'ß'], it: ['à', 'è', 'é', 'ì', 'ò', 'ù'], es: ['á', 'é', 'í', 'ó', 'ú', 'ñ', 'ü', '¿', '¡'] };
 const MAX_RETRIES = 2;
@@ -17,7 +18,7 @@ const AUTO_SPEAK = new Set(['choice', 'listen-choice', 'listen-type', 'speak']);
 // tipFor(key) → grammar note for the item's unit (shown after a wrong answer).
 // onFlag(item): learner reports wrong content.
 export function runLesson(root, { lang, exercises, onFinish, onExit, retry = true, tipFor = () => '', onFlag = null }) {
-  const queue = exercises.map((ex) => (ex.type === 'speak' && !canListen() ? { ...ex, type: 'listen-type' } : ex));
+  const queue = exercises.map((ex) => (ex.type === 'speak' && !canListen() && !(whisperKnown() && canRecord()) ? { ...ex, type: 'listen-type' } : ex));
   const retries = new Map();
   const results = [];
   let pos = 0;
@@ -144,8 +145,11 @@ export function runLesson(root, { lang, exercises, onFinish, onExit, retry = tru
     if (ex.item.target) say(ex.item.target);
     showFeedback(correct, note, ex.item.target ? `${ex.item.target} — ${ex.item.meaning}` : ex.item.meaning, otherMeaning(ex.item));
     if (ex.type === 'speak' && sel?.heard) {
-      const words = wordDiff(ex.answer, sel.heard).map((w) => `<span class="${w.ok ? 'ok-text' : 'bad-text'}">${esc(w.word)}</span>`).join(' ');
-      $('.feedback').insertAdjacentHTML('beforeend', `<p class="diff">${t('ex.pron')} ${words}</p>`);
+      const marks = wordFeedback(wordDiff(ex.answer, sel.heard), sel.words);
+      const words = marks.map((w) => `<span class="pron-${w.status}">${esc(w.word)}</span>`).join(' ');
+      const legend = marks.some((w) => w.status === 'unclear') ? `<p class="also">${t('ex.unclearLegend')}</p>` : '';
+      const own = sel.clip ? `<div class="pron-actions"><button class="btn" data-act="my-voice">${t('ex.myVoice')}</button><button class="btn" data-act="compare">${t('ex.compare')}</button></div>` : '';
+      $('.feedback').insertAdjacentHTML('beforeend', `<p class="diff">${t('ex.pron')} ${words}</p>${legend}${own}`);
     }
     if (onFlag) $('.feedback').insertAdjacentHTML('beforeend', `<button class="link flag" data-act="flag">${t('flag.btn')}</button>`);
     if (!correct) {
@@ -172,24 +176,79 @@ export function runLesson(root, { lang, exercises, onFinish, onExit, retry = tru
     root.querySelectorAll('.option, .tile, .answer, .mic, .char, .hint').forEach((el) => { el.disabled = true; });
   }
 
-  async function record(ex) {
+  let recording = null;
+  let recordBesideRecognizer = true; // turned off if the browser can't share the mic between recorder and recognizer
+
+  function micFailed(err) {
+    recording = null;
+    $('.heard').textContent = err.message;
     const mic = $('.mic');
-    const heard = $('.heard');
+    mic.disabled = false;
+    mic.textContent = t('ex.micRetry');
+  }
+
+  const scored = (ex, heard, extra) => ({ heard, score: similarity(heard, ex.answer), ...extra });
+
+  // Whisper mode (local server): tap to start, tap again (or wait 10 s) to stop; the recording is analysed word by word.
+  async function finishWhisper(ex) {
+    const rec = recording;
+    if (!rec) return;
+    recording = null;
+    const mic = $('.mic');
     mic.disabled = true;
-    mic.textContent = t('ex.listening');
+    mic.textContent = t('ex.analyzing');
     try {
-      const alternatives = await listen(lang);
-      if (!alternatives.length) throw new Error(t('speech.no-speech'));
-      const best = alternatives
-        .map((text) => ({ heard: text, score: similarity(text, ex.answer) }))
-        .reduce((a, b) => (b.score > a.score ? b : a));
-      sel = best;
+      const blob = await rec.stop();
+      const { text, words } = await transcribe(blob, lang).catch(() => { throw new Error(t('speech.analyzeFailed')); });
+      if (!text) throw new Error(t('speech.no-speech'));
+      sel = scored(ex, text, { words, clip: URL.createObjectURL(blob) });
       check();
     } catch (err) {
-      heard.textContent = err.message;
-      mic.disabled = false;
-      mic.textContent = t('ex.micRetry');
+      micFailed(err);
     }
+  }
+
+  async function recordBrowser(ex) {
+    const mic = $('.mic');
+    mic.disabled = true;
+    mic.textContent = t('ex.listening');
+    const rec = recordBesideRecognizer && canRecord() ? await startRecording().catch(() => null) : null;
+    let alternatives;
+    let blob;
+    try {
+      alternatives = await listen(lang);
+    } catch (err) {
+      if (rec) recordBesideRecognizer = false;
+      throw err;
+    } finally {
+      blob = await rec?.stop();
+    }
+    if (!alternatives.length) throw new Error(t('speech.no-speech'));
+    sel = alternatives.map((text) => scored(ex, text)).reduce((a, b) => (b.score > a.score ? b : a));
+    if (blob?.size) sel = { ...sel, clip: URL.createObjectURL(blob) };
+    check();
+  }
+
+  async function record(ex) {
+    try {
+      if (recording) return await finishWhisper(ex);
+      if (canRecord() && (await whisperReady())) {
+        recording = await startRecording();
+        $('.mic').textContent = t('ex.stop');
+        recording.done.then(() => finishWhisper(ex)); // auto-stop after the time limit
+        return undefined;
+      }
+      return await recordBrowser(ex);
+    } catch (err) {
+      return micFailed(err);
+    }
+  }
+
+  // "Listen to yourself": your recording, or your recording followed by the correct pronunciation.
+  function playOwn(compare) {
+    const audio = new Audio(sel.clip);
+    if (compare) audio.onended = () => say(current().item.target);
+    audio.play().catch(() => {});
   }
 
   function onMatch(ex, el) {
@@ -270,8 +329,9 @@ export function runLesson(root, { lang, exercises, onFinish, onExit, retry = tru
     if (act === 'flag') { onFlag(ex.item); el.textContent = t('flag.done'); el.disabled = true; return undefined; }
     if (act === 'next') return checked ? (pos++, show()) : check();
     if (act === 'mic') return record(ex);
+    if (act === 'my-voice' || act === 'compare') return playOwn(act === 'compare');
     if (act === 'skip') return (pos++, show()); // no penalty, like turning the mic off
-    if (el.dataset.say) return say(ex.passage ? ex.passage.join(' ') : ex.item.target, el.dataset.say === 'slow');
+    if (el.dataset.say) return say(ex.passage ?? ex.item.target, el.dataset.say === 'slow');
     if (el.dataset.opt) {
       sel = ex.options[Number(el.dataset.opt)];
       root.querySelectorAll('.option').forEach((b) => b.classList.toggle('selected', b === el));

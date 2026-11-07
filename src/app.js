@@ -16,7 +16,8 @@ import { storyHtml, handleStoryClick } from './ui/story.js';
 import { buildConjugation } from './core/conjugation.js';
 import { buildReading } from './core/readings.js';
 import { isDue } from './core/srs.js';
-import { setVoicePrefs } from './core/speech.js';
+import { setVoicePrefs, loadClips } from './core/speech.js';
+import { whisperReady } from './core/pronounce.js';
 import { loadAi, saveAi } from './core/chat-api.js';
 import { renderHome } from './ui/home.js';
 import { runLesson } from './ui/lesson.js';
@@ -90,6 +91,8 @@ function commit(next) {
 }
 
 function home(notice = '') {
+  whisperReady();
+  loadClips(state.lang); // warm the clip index so the first tap plays instantly (iOS needs play() close to the tap)
   const cs = courseState(state, state.lang);
   const now = Date.now();
   const lookup = itemsByKey();

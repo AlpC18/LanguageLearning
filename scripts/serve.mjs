@@ -9,6 +9,7 @@ import { existsSync } from 'node:fs';
 import { execFileSync } from 'node:child_process';
 import { networkInterfaces } from 'node:os';
 import { join, extname, resolve, normalize } from 'node:path';
+import { transcribe, whisperAvailable, MAX_AUDIO_BYTES } from './transcribe.mjs';
 
 const ROOT = resolve(new URL('..', import.meta.url).pathname);
 const CERT_DIR = join(ROOT, '.cert');
@@ -17,6 +18,7 @@ const PORT = Number(process.env.PORT) || (useHttp ? 5173 : 5443);
 const TYPES = {
   '.html': 'text/html; charset=utf-8', '.js': 'text/javascript; charset=utf-8', '.mjs': 'text/javascript; charset=utf-8',
   '.css': 'text/css; charset=utf-8', '.svg': 'image/svg+xml', '.json': 'application/json', '.webmanifest': 'application/manifest+json',
+  '.mp3': 'audio/mpeg',
 };
 
 const lanIps = () => Object.values(networkInterfaces()).flat().filter((i) => i && i.family === 'IPv4' && !i.internal).map((i) => i.address);
@@ -42,9 +44,32 @@ async function certificate() {
   return { key: await readFile(key), cert: await readFile(cert) };
 }
 
-async function handle(req, res) {
+const sendJson = (res, status, body) => res.writeHead(status, { 'content-type': 'application/json' }).end(JSON.stringify(body));
+
+// Pronunciation API (only when whisper.cpp is installed): GET /api/health, POST /api/transcribe?lang=de with the raw recording.
+async function api(req, res, url) {
+  if (url.pathname === '/api/health') return sendJson(res, 200, { whisper: await whisperAvailable() });
+  if (url.pathname !== '/api/transcribe' || req.method !== 'POST') return sendJson(res, 404, { error: 'not found' });
+  if (!(await whisperAvailable())) return sendJson(res, 503, { error: 'whisper not installed' });
+  const chunks = [];
+  let size = 0;
+  for await (const chunk of req) {
+    size += chunk.length;
+    if (size > MAX_AUDIO_BYTES) return sendJson(res, 413, { error: 'recording too long' });
+    chunks.push(chunk);
+  }
   try {
-    const pathname = decodeURIComponent(new URL(req.url, 'http://x').pathname);
+    sendJson(res, 200, await transcribe(Buffer.concat(chunks), url.searchParams.get('lang')));
+  } catch (err) {
+    sendJson(res, 400, { error: err.message });
+  }
+}
+
+async function handle(req, res) {
+  const url = new URL(req.url, 'http://x');
+  if (url.pathname.startsWith('/api/')) return api(req, res, url);
+  try {
+    const pathname = decodeURIComponent(url.pathname);
     const path = normalize(join(ROOT, pathname.endsWith('/') ? `${pathname}index.html` : pathname));
     if (!path.startsWith(ROOT) || path.includes(`${ROOT}/.`)) return res.writeHead(403).end(); // no traversal, no dotfiles (.cert, .git)
     const body = await readFile(path);

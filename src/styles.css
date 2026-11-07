@@ -296,3 +296,9 @@ button:disabled { cursor: default; }
 .week { margin: 0; font-size: .9rem; }
 .weak li { display: flex; align-items: center; gap: 10px; flex-wrap: wrap; }
 .weak .bar { flex: 1 1 120px; }
+
+/* Pronunciation feedback */
+.pron-ok { color: var(--ok); }
+.pron-unclear { color: #d97706; text-decoration: underline dotted; }
+.pron-missed { color: var(--bad); text-decoration: line-through; }
+.pron-actions { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 8px; }

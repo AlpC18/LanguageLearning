@@ -11,7 +11,7 @@ import assert from 'node:assert/strict';
 const ROOT = resolve(new URL('..', import.meta.url).pathname);
 const PORT = 5199;
 const CDP = 9399;
-const TYPES = { '.html': 'text/html', '.js': 'text/javascript', '.css': 'text/css', '.svg': 'image/svg+xml', '.webmanifest': 'application/manifest+json' };
+const TYPES = { '.html': 'text/html', '.js': 'text/javascript', '.css': 'text/css', '.svg': 'image/svg+xml', '.webmanifest': 'application/manifest+json', '.mp3': 'audio/mpeg', '.json': 'application/json' };
 const CANDIDATES = [process.env.CHROME, '/Applications/Chromium.app/Contents/MacOS/Chromium', '/Applications/Google Chrome.app/Contents/MacOS/Google Chrome', '/usr/bin/chromium', '/usr/bin/google-chrome'];
 const sleep = (ms) => new Promise((r) => setTimeout(r, ms));
 

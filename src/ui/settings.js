@@ -1,15 +1,14 @@
 import { esc } from '../core/text.js';
-import { speak, voicesFor } from '../core/speech.js';
+import { speak, voicesFor, VOICE_SAMPLE } from '../core/speech.js';
 import { t } from '../i18n.js';
 import { GOALS } from '../core/progress.js';
 import { CHAT_MODELS } from '../core/chat-api.js';
 import { renderPage } from './page.js';
 
-const SAMPLE = { de: 'Guten Tag! Wie geht es dir?', it: 'Buongiorno! Come stai?', es: '¡Buenos días! ¿Cómo estás?' };
 
 export function renderSettings(root, { state, ai, langs, notice = '', onBack, onSave, onSaveAi, onReminder }) {
   const voiceRow = (lang) => `<label>${t('set.voice', { lang: t(`lang.${lang}`) })}
-      <select data-voice="${lang}"><option value="">${t('set.defaultVoice')}</option>${voicesFor(lang)
+      <select data-voice="${lang}"><option value="">${t('set.naturalVoice')}</option><option value="device" ${state.voice?.voices?.[lang] === 'device' ? 'selected' : ''}>${t('set.defaultVoice')}</option>${voicesFor(lang)
         .map((v) => `<option value="${esc(v.voiceURI)}" ${state.voice?.voices?.[lang] === v.voiceURI ? 'selected' : ''}>${esc(v.name)} (${esc(v.lang)})</option>`).join('')}</select>
       <button class="btn" data-test-voice="${lang}">${t('set.test')}</button></label>`;
   renderPage(root, {
@@ -43,7 +42,7 @@ export function renderSettings(root, { state, ai, langs, notice = '', onBack, on
       </section>
       <p class="notice" aria-live="polite">${esc(notice)}</p>`,
     onClick: async (el, d) => {
-      if (d.testVoice) speak(SAMPLE[d.testVoice], d.testVoice);
+      if (d.testVoice) speak(VOICE_SAMPLE[d.testVoice], d.testVoice);
       if (d.act === 'clear-flags') onSave({ flags: [] });
       if (d.act === 'copy-flags') {
         await navigator.clipboard?.writeText(JSON.stringify(state.flags, null, 2)).catch(() => {});

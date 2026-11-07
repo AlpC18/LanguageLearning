@@ -13,7 +13,7 @@ self.addEventListener('fetch', (e) => {
   e.respondWith(caches.open(CACHE).then(async (cache) => {
     const cached = await cache.match(e.request);
     const fresh = fetch(e.request).then((res) => {
-      if (res.ok) cache.put(e.request, res.clone());
+      if (res.status === 200) cache.put(e.request, res.clone()); // never cache partial (206) audio responses
       return res;
     }).catch(() => cached);
     return cached ?? fresh;

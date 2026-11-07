@@ -1,7 +1,9 @@
 import { t } from '../i18n.js';
+import { audioKey, normalizeSpeech } from './audio-key.js';
 
 // Text-to-speech and speech recognition via the browser's built-in Web Speech API (free, no keys).
 const LOCALES = { de: 'de-DE', it: 'it-IT', es: 'es-ES' };
+export const VOICE_SAMPLE = { de: 'Guten Tag! Wie geht es dir?', it: 'Buongiorno! Come stai?', es: '¡Buenos días! ¿Cómo estás?' };
 let prefs = { rate: 1, voices: {} };
 export const setVoicePrefs = (p) => { prefs = { rate: 1, voices: {}, ...p }; };
 
@@ -12,9 +14,23 @@ export const voicesFor = (lang) =>
 const Recognition = () => window.SpeechRecognition || window.webkitSpeechRecognition;
 export const canListen = () => Boolean(Recognition());
 
-export function speak(text, lang, { slow = false } = {}) {
+// Pre-generated natural clips (scripts/build-audio.mjs) are used when present; otherwise the device voice speaks.
+// Choosing a specific device voice in Settings ('device' or a voiceURI) always uses the device voice.
+const clipIndex = {};
+export const loadClips = (lang) =>
+  (clipIndex[lang] ??= fetch(`audio/${lang}.json`).then((r) => (r.ok ? r.json() : [])).then((keys) => new Set(keys)).catch(() => new Set()));
+
+let playing = null;
+let request = 0;
+function stopAll() {
+  request += 1;
+  playing?.pause();
+  playing = null;
+  if ('speechSynthesis' in window) speechSynthesis.cancel();
+}
+
+function deviceSpeak(text, lang, slow) {
   if (!('speechSynthesis' in window)) return;
-  speechSynthesis.cancel();
   const utterance = new SpeechSynthesisUtterance(text);
   utterance.lang = LOCALES[lang];
   const all = speechSynthesis.getVoices();
@@ -22,6 +38,33 @@ export function speak(text, lang, { slow = false } = {}) {
   if (voice) utterance.voice = voice;
   utterance.rate = prefs.rate * (slow ? 0.65 : 0.95);
   speechSynthesis.speak(utterance);
+}
+
+// Plays clips one after another (a passage is a list of sentences); falls back to the device voice on any error.
+function playClips(keys, lang, slow, fallbackText, id) {
+  const [key, ...rest] = keys;
+  if (!key || id !== request) return;
+  const audio = new Audio(`audio/${lang}/${key}.mp3`);
+  audio.playbackRate = prefs.rate * (slow ? 0.7 : 1);
+  audio.onended = () => playClips(rest, lang, slow, fallbackText, id);
+  playing = audio;
+  audio.play().catch(() => { if (id === request) deviceSpeak(fallbackText, lang, slow); });
+}
+
+// text: a string, or an array of sentences spoken in order.
+export async function speak(text, lang, { slow = false } = {}) {
+  const parts = (Array.isArray(text) ? text : [text]).map(normalizeSpeech).filter(Boolean);
+  stopAll();
+  const id = request;
+  const joined = parts.join(' ');
+  const pick = prefs.voices[lang];
+  if (!pick) {
+    const clips = await loadClips(lang);
+    const keys = parts.map(audioKey);
+    if (id !== request) return;
+    if (keys.length && keys.every((k) => clips.has(k))) return playClips(keys, lang, slow, joined, id);
+  }
+  deviceSpeak(joined, lang, slow);
 }
 
 const KNOWN_ERRORS = new Set(['not-allowed', 'no-speech', 'network', 'audio-capture']);
