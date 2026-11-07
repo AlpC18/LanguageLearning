@@ -40,7 +40,7 @@ export function unitItems(unit) {
   const item = (kind, i) => ([target, tr, en, pos]) => ({ key: `${unit.id}:${kind[0]}${i}`, kind, target, tr, en, pos, meaning: (locale() === 'en' && en) || tr });
   return [
     ...unit.words.map((pair, i) => item('word', i)(pair)),
-    ...unit.sentences.map((pair, i) => item('sentence', i)(pair)),
+    ...unit.sentences.map((s, i) => ({ ...item('sentence', i)(s), pos: undefined, cloze: s[3] })),
   ];
 }
 
@@ -53,6 +53,14 @@ function options(answer, candidates, rnd) {
 // otherwise fall back to capitalisation as a rough proxy (works for German nouns).
 function cloze(item, pool, rnd) {
   const words = tokens(item.target);
+  if (item.cloze) { // hand-picked blank + distractors from the course data
+    const index = words.indexOf(item.cloze.blank);
+    return {
+      type: 'cloze', item, answer: item.cloze.blank,
+      blanked: words.map((w, i) => (i === index ? BLANK : w)).join(' '),
+      options: shuffle([item.cloze.blank, ...item.cloze.options], rnd),
+    };
+  }
   const baseOf = (w) => clean(splitArticle(langOf(w), w.target)?.[1] ?? w.target);
   const known = pool.filter((i) => i.kind === 'word' && i.pos && !baseOf(i).includes(' '));
   const posOf = new Map(known.map((i) => [baseOf(i), i.pos]));

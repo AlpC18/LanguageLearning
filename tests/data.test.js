@@ -2,12 +2,14 @@
 // STRICT=1 also fails on missing part-of-speech tags (set once tagging is finished).
 import assert from 'node:assert/strict';
 import { LEVELS } from '../src/components/search-filter.js';
+import { tokens, clean } from '../src/core/text.js';
 
 export const POS = ['noun', 'verb', 'adj', 'adv', 'phrase', 'pron', 'num', 'prep', 'conj', 'other'];
 const only = process.argv[2];
 const strict = process.env.STRICT === '1';
 const langs = ['de', 'it', 'es'].filter((l) => !only || l === only);
 const missingPos = [];
+const missingCloze = [];
 
 for (const lang of langs) {
   const course = (await import(`../src/data/${lang}.js`)).default;
@@ -24,7 +26,15 @@ for (const lang of langs) {
       if (pos === undefined) missingPos.push(`${u.id}:${target}`);
       else assert.ok(POS.includes(pos), `${u.id}: "${target}" has unknown pos "${pos}" (use ${POS.join('|')})`);
     }
-    for (const [target, tr, en] of u.sentences) assert.ok(target && tr && en, `${u.id}: sentence "${target}" needs all three`);
+    for (const [target, tr, en, cloze] of u.sentences) {
+      assert.ok(target && tr && en, `${u.id}: sentence "${target}" needs all three`);
+      if (cloze === undefined) { missingCloze.push(`${u.id}:${target}`); continue; }
+      const { blank, options } = cloze;
+      assert.ok(tokens(target).includes(blank), `${u.id}: cloze blank "${blank}" must be one word of "${target}" exactly as written`);
+      assert.ok(Array.isArray(options) && options.length === 3, `${u.id}: cloze for "${target}" needs exactly 3 distractors`);
+      const all = [blank, ...options].map(clean);
+      assert.equal(new Set(all).size, 4, `${u.id}: cloze options for "${target}" must differ from each other and from the answer`);
+    }
     for (const col of [1, 2]) {
       const vals = u.words.map((w) => w[col]);
       assert.equal(new Set(vals).size, vals.length, `${u.id}: duplicate ${col === 1 ? 'Turkish' : 'English'} word meaning`);
@@ -53,6 +63,7 @@ for (const lang of langs) {
   }
   console.log(`data ${lang}: ${course.units.length} units, ${verbs.length} verbs, ${readings.length} readings`);
 }
+if (missingCloze.length) console.log(`note: ${missingCloze.length} sentences without hand-picked cloze`);
 if (missingPos.length) {
   const msg = `${missingPos.length} words without pos (e.g. ${missingPos.slice(0, 3).join(', ')})`;
   if (strict) assert.fail(msg);
