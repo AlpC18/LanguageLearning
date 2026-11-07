@@ -2,7 +2,7 @@
 // STRICT=1 also fails on missing part-of-speech tags (set once tagging is finished).
 import assert from 'node:assert/strict';
 import { LEVELS } from '../src/components/search-filter.js';
-import { tokens, clean } from '../src/core/text.js';
+import { tokens } from '../src/core/text.js';
 
 export const POS = ['noun', 'verb', 'adj', 'adv', 'phrase', 'pron', 'num', 'prep', 'conj', 'other'];
 const only = process.argv[2];
@@ -32,7 +32,7 @@ for (const lang of langs) {
       const { blank, options } = cloze;
       assert.ok(tokens(target).includes(blank), `${u.id}: cloze blank "${blank}" must be one word of "${target}" exactly as written`);
       assert.ok(Array.isArray(options) && options.length === 3, `${u.id}: cloze for "${target}" needs exactly 3 distractors`);
-      const all = [blank, ...options].map(clean);
+      const all = [blank, ...options].map((w) => w.toLocaleLowerCase()); // umlaut/accent pairs (wurde/würde) are valid distractors
       assert.equal(new Set(all).size, 4, `${u.id}: cloze options for "${target}" must differ from each other and from the answer`);
     }
     for (const col of [1, 2]) {
