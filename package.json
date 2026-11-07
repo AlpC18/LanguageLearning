@@ -1,0 +1,9 @@
+{
+  "name": "dilbaz",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "start": "python3 -m http.server 5173",
+    "test": "STRICT=1 node tests/data.test.js && node tests/search-filter.test.js && node tests/core.test.js && node tests/i18n.test.js && node tests/features.test.js"
+  }
+}
