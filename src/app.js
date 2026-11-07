@@ -8,7 +8,11 @@ import readingsDe from './data/readings/de.js';
 import readingsIt from './data/readings/it.js';
 import readingsEs from './data/readings/es.js';
 import { load, save, courseState, recordLesson, unitStatus, dayKey, parseBackup, backupName, completeUnits, LESSONS_PER_UNIT, TEST_PASS, DAILY_GOAL } from './core/progress.js';
-import { buildLesson, buildReview, buildTest, unitItems } from './core/exercises.js';
+import { buildLesson, buildReview, buildTest, buildDictation, buildFocus, unitItems } from './core/exercises.js';
+import { questsFor, questProgress, weeklyRecord, weakestKeys } from './core/insights.js';
+import { askTutor } from './core/tutor-api.js';
+import { renderPage } from './ui/page.js';
+import { storyHtml, handleStoryClick } from './ui/story.js';
 import { buildConjugation } from './core/conjugation.js';
 import { buildReading } from './core/readings.js';
 import { isDue } from './core/srs.js';
@@ -26,7 +30,7 @@ import { renderOnboarding } from './ui/onboarding.js';
 import { renderTutor } from './ui/tutor.js';
 import { setEffects } from './core/effects.js';
 import { LEVELS } from './components/search-filter.js';
-import { t, setLocale, locale, unitTip } from './i18n.js';
+import { t, setLocale, locale, unitTip, unitTitle } from './i18n.js';
 
 const COURSES = { de, it, es };
 const VERBS = { de: verbsDe, it: verbsIt, es: verbsEs };
@@ -36,6 +40,8 @@ const PERFECT_BONUS = 5;
 const DISTRACTOR_UNITS = 2;
 const TEST_XP = 20;
 const REMINDER_CHECK_MS = 60_000;
+const QUICK_SIZE = 10;
+const STORY_CACHE = 'dilbaz:stories';
 const FONT_SIZES = { S: '14px', M: '16px', L: '18px' };
 
 const root = document.getElementById('app');
@@ -56,6 +62,9 @@ function decoratedUnits() {
   const done = c.units.map((u) => cs.units[u.id] ?? 0);
   return c.units.map((u, i) => ({ ...u, language: c.lang, done: done[i], status: unitStatus(done, i), keywords: [...u.words.flat(), u.titleEn ?? ''] }));
 }
+
+const unlockedItems = () => [...decoratedUnits().filter((u) => u.status !== 'locked').flatMap(unitItems), ...myItems()];
+const explainLang = () => (locale() === 'en' ? 'English' : 'Turkish');
 
 // Highest level reached in this course; drives verb drills and the chat level.
 const currentLevel = () => decoratedUnits().filter((u) => u.status !== 'locked').map((u) => u.level).pop() ?? 'A1';
@@ -86,10 +95,21 @@ function home(notice = '') {
   const lookup = itemsByKey();
   const due = Object.entries(cs.cards).filter(([key, card]) => lookup.has(key) && isDue(card, now)).map(([key]) => key);
   const mistakes = Object.keys(cs.mistakes).filter((key) => lookup.has(key));
+  const quick = weakestKeys(cs.cards, cs.mistakes, (key) => lookup.has(key), QUICK_SIZE);
+  const today = dayKey();
 
   renderHome(root, {
     state, courses: COURSES, units: decoratedUnits(), today: state.daily[dayKey()] ?? 0,
     dueCount: due.length, mistakeCount: mistakes.length, notice,
+    quests: questsFor(today).map((quest) => ({ quest, ...questProgress(quest, state, today) })),
+    week: weeklyRecord(state.daily, today), quickCount: quick.length,
+    onQuick: () => startReview(quick),
+    onDictation: () => play(buildDictation(unlockedItems()), {}),
+    onClaim: (key, reward) => {
+      commit({ ...state, xp: state.xp + reward, daily: { ...state.daily, [today]: (state.daily[today] ?? 0) + reward }, claimed: { ...state.claimed, [key]: true } });
+      home();
+    },
+    onStory: (unit) => showStory(unit),
     onLang: (lang) => { commit({ ...state, lang }); home(); },
     onMeaning: (meaning) => { setLocale(meaning); commit({ ...state, meaning }); home(); },
     onLesson: (unit, advance) => startUnit(unit, advance),
@@ -103,7 +123,14 @@ function home(notice = '') {
 }
 
 const PAGES = {
-  stats: () => renderStats(root, { state, courses: COURSES, lookup: itemsByKey(), onBack: () => home() }),
+  stats: () => renderStats(root, {
+    state, courses: COURSES, lookup: itemsByKey(), onBack: () => home(),
+    onFocus: (cat) => {
+      if (cat === 'conjugation') return play(buildConjugation(state.lang, VERBS[state.lang], currentLevel()), {});
+      if (cat === 'reading') return PAGES.reading();
+      return play(buildFocus(cat, unlockedItems(), allItems()), {});
+    },
+  }),
   notebook: (notice = '') => {
     const unlocked = decoratedUnits().filter((u) => u.status !== 'locked');
     renderNotebook(root, {
@@ -124,7 +151,7 @@ const PAGES = {
     onVerbs: () => play(buildConjugation(state.lang, VERBS[state.lang], currentLevel()), {}),
   }),
   tutor: () => renderTutor(root, {
-    lang: state.lang, ai, level: currentLevel(), explain: locale() === 'en' ? 'English' : 'Turkish', onBack: () => home(),
+    lang: state.lang, ai, level: currentLevel(), explain: explainLang(), onBack: () => home(),
     onAddCards: addCards,
   }),
   chat: () => renderChat(root, { lang: state.lang, ai, defaultLevel: currentLevel(), onBack: () => home() }),
@@ -212,7 +239,7 @@ function startReview(keys) {
   const lookup = itemsByKey();
   const items = keys.map((k) => lookup.get(k)).filter(Boolean);
   if (!items.length) return home();
-  return play(buildReview(items, allItems()), {});
+  return play(buildReview(items, allItems()), { isReview: true });
 }
 
 // Only course and custom items feed spaced repetition; reading and verb answers just earn XP.
@@ -220,15 +247,47 @@ function play(exercises, { retry = true, ...meta }) {
   const lang = state.lang;
   if (!exercises.length) return home();
   return runLesson(root, {
-    lang, exercises, retry, tipFor, onExit: () => home(),
+    lang, exercises, retry, tipFor, onFlag: flagItem, onExit: () => home(),
     onFinish: ({ results }) => {
       const lookup = itemsByKey();
       const perfect = results.every((r) => r.correct);
       const xp = results.length ? LESSON_XP + (perfect ? PERFECT_BONUS : 0) : 0;
-      const saved = commit(recordLesson(state, { lang, ...meta, results: results.filter((r) => lookup.has(r.key)), xp, perfect }));
+      const saved = commit(recordLesson(state, { lang, ...meta, results: results.filter((r) => lookup.has(r.key)), attempts: results, xp, perfect }));
       renderResults(root, { lang, xp, results, streak: state.streak.count, itemsByKey: lookup, saved, onContinue: () => home() });
     },
   });
+}
+
+function flagItem(item) {
+  const flag = { key: item.key, target: item.target || item.meaning, meaning: item.meaning, date: dayKey() };
+  commit({ ...state, flags: [...(state.flags ?? []).filter((f) => f.key !== item.key), flag] });
+}
+
+// AI story for a unit, using its words; cached per unit and explanation language.
+async function showStory(unit, fresh = false) {
+  const cacheKey = `${unit.id}:${locale()}`;
+  let cache = {};
+  try { cache = JSON.parse(localStorage.getItem(STORY_CACHE) ?? '{}'); } catch { /* unreadable cache: regenerate */ }
+  const draw = (body, story = null) => renderPage(root, {
+    title: `${t('story.title')} · ${unitTitle(unit)}`, body, onBack: () => home(),
+    onClick: (el, d) => {
+      if (story && handleStoryClick(root, el, story, state.lang, addCards)) return;
+      if (d.act === 'regen') showStory(unit, true);
+    },
+  });
+  if (!ai.apiKey) return draw(`<section class="card"><p>${t('chat.needKey')}</p></section>`);
+  let story = fresh ? null : cache[cacheKey];
+  if (!story) {
+    draw(`<p class="notice">${t('tutor.loading')}</p>`);
+    try {
+      story = await askTutor('story', ai, { lang: state.lang, level: unit.level, explain: explainLang(), topic: unitTitle(unit), words: unit.words.map((w) => w[0]) });
+      cache = { ...cache, [cacheKey]: story };
+      try { localStorage.setItem(STORY_CACHE, JSON.stringify(cache)); } catch { /* cache is optional */ }
+    } catch (err) {
+      return draw(`<p class="notice">${err instanceof SyntaxError ? t('tutor.badReply') : t('chat.error', { msg: err.message })}</p>`);
+    }
+  }
+  return draw(`${storyHtml(story, state.lang)}<button class="btn" data-act="regen">${t('story.regen')}</button>`, story);
 }
 
 // Fires once a day while the app is open, if the daily goal isn't met by the chosen time.

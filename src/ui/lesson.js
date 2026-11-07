@@ -2,6 +2,7 @@ import { esc, clean, gradeText, similarity, shuffle } from '../core/text.js';
 import { BLANK } from '../core/exercises.js';
 import { t, otherMeaning } from '../i18n.js';
 import { answerEffect, finishEffect } from '../core/effects.js';
+import { wordDiff } from '../core/insights.js';
 
 const TYPED = new Set(['type', 'listen-type', 'conjugate', 'build', 'speak']); // answers that can be right in more than one way
 import { speak, listen, canListen } from '../core/speech.js';
@@ -14,7 +15,8 @@ const AUTO_SPEAK = new Set(['choice', 'listen-choice', 'listen-type', 'speak']);
 // Runs one lesson; wrong answers come back at the end (no hearts, no lockout).
 // retry: false for tests — wrong answers are not re-asked, so the score is honest.
 // tipFor(key) → grammar note for the item's unit (shown after a wrong answer).
-export function runLesson(root, { lang, exercises, onFinish, onExit, retry = true, tipFor = () => '' }) {
+// onFlag(item): learner reports wrong content.
+export function runLesson(root, { lang, exercises, onFinish, onExit, retry = true, tipFor = () => '', onFlag = null }) {
   const queue = exercises.map((ex) => (ex.type === 'speak' && !canListen() ? { ...ex, type: 'listen-type' } : ex));
   const retries = new Map();
   const results = [];
@@ -131,7 +133,7 @@ export function runLesson(root, { lang, exercises, onFinish, onExit, retry = tru
   function check() {
     const ex = current();
     const { correct, note } = grade(ex);
-    results.push({ key: ex.item.key, correct });
+    results.push({ key: ex.item.key, correct, type: ex.type });
     combo = correct ? combo + 1 : 0;
     const tries = retries.get(ex) ?? 0;
     if (!correct && retry && tries < MAX_RETRIES) {
@@ -141,6 +143,11 @@ export function runLesson(root, { lang, exercises, onFinish, onExit, retry = tru
     answerEffect(correct);
     if (ex.item.target) say(ex.item.target);
     showFeedback(correct, note, ex.item.target ? `${ex.item.target} — ${ex.item.meaning}` : ex.item.meaning, otherMeaning(ex.item));
+    if (ex.type === 'speak' && sel?.heard) {
+      const words = wordDiff(ex.answer, sel.heard).map((w) => `<span class="${w.ok ? 'ok-text' : 'bad-text'}">${esc(w.word)}</span>`).join(' ');
+      $('.feedback').insertAdjacentHTML('beforeend', `<p class="diff">${t('ex.pron')} ${words}</p>`);
+    }
+    if (onFlag) $('.feedback').insertAdjacentHTML('beforeend', `<button class="link flag" data-act="flag">${t('flag.btn')}</button>`);
     if (!correct) {
       const tip = tipFor(ex.item.key);
       const extra = `${TYPED.has(ex.type) ? `<button class="btn" data-act="was-right">${t('ex.wasRight')}</button>` : ''}${
@@ -204,7 +211,7 @@ export function runLesson(root, { lang, exercises, onFinish, onExit, retry = tru
     }
     sel.left = null;
     if (sel.matched.size === ex.pairs.length) {
-      ex.pairs.forEach((p) => results.push({ key: p.key, correct: !sel.wrong.has(p.key) }));
+      ex.pairs.forEach((p) => results.push({ key: p.key, correct: !sel.wrong.has(p.key), type: 'match' }));
       combo = sel.wrong.size ? 0 : combo + 1;
       showFeedback(true);
     }
@@ -260,6 +267,7 @@ export function runLesson(root, { lang, exercises, onFinish, onExit, retry = tru
     if (act === 'stay') return root.querySelector('.confirm')?.remove();
     if (act === 'was-right') return acceptAnswer();
     if (act === 'hint') return showHint();
+    if (act === 'flag') { onFlag(ex.item); el.textContent = t('flag.done'); el.disabled = true; return undefined; }
     if (act === 'next') return checked ? (pos++, show()) : check();
     if (act === 'mic') return record(ex);
     if (act === 'skip') return (pos++, show()); // no penalty, like turning the mic off

@@ -282,3 +282,17 @@ button:disabled { cursor: default; }
 .chat-bar { display: flex; flex-wrap: wrap; gap: 8px; align-items: center; }
 .chat-bar input { flex: 1 1 160px; padding: 8px 10px; border: 1px solid var(--border); border-radius: 10px; background: var(--bg); color: var(--text); font: inherit; }
 @media (max-width: 600px) { .home .pages { grid-template-columns: repeat(6, 1fr); } }
+
+/* Story / immersion */
+.story p { line-height: 2; }
+.story .w { border: 0; background: none; padding: 0 1px; font: inherit; color: inherit; border-radius: 4px; }
+.story .w:hover, .story .w.active { background: color-mix(in srgb, var(--primary) 22%, transparent); }
+.gloss { display: flex; flex-wrap: wrap; align-items: center; gap: 8px; position: sticky; bottom: 8px; }
+.diff { margin: 6px 0 0; }
+.flag { display: block; margin-top: 6px; font-size: .85rem; }
+.quests { list-style: none; margin: 8px 0 0; padding: 0; display: grid; gap: 8px; }
+.quests li { display: grid; grid-template-columns: 1fr auto; gap: 4px 10px; align-items: center; }
+.quests .bar { grid-column: 1 / -1; height: 8px; }
+.week { margin: 0; font-size: .9rem; }
+.weak li { display: flex; align-items: center; gap: 10px; flex-wrap: wrap; }
+.weak .bar { flex: 1 1 120px; }

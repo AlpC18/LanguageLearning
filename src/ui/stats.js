@@ -3,6 +3,7 @@ import { t } from '../i18n.js';
 import { dayKey, LESSONS_PER_UNIT } from '../core/progress.js';
 import { LEVELS } from '../components/search-filter.js';
 import { earnedBadges } from '../core/badges.js';
+import { weakSpots } from '../core/insights.js';
 import { renderPage } from './page.js';
 
 const lastDays = (n) => Array.from({ length: n }, (_, i) => {
@@ -12,7 +13,7 @@ const lastDays = (n) => Array.from({ length: n }, (_, i) => {
 });
 
 // courses: { lang: course }; lookup: Map(key → item) of the current course, for "hardest items".
-export function renderStats(root, { state, courses, lookup, onBack }) {
+export function renderStats(root, { state, courses, lookup, onBack, onFocus }) {
   const days = lastDays(14);
   const max = Math.max(state.goal ?? 30, ...days.map((d) => state.daily[d] ?? 0));
   const bars = days.map((d) => {
@@ -37,8 +38,12 @@ export function renderStats(root, { state, courses, lookup, onBack }) {
   const badges = earnedBadges(state)
     .map((b) => `<li class="badge-item ${b.has ? 'has' : ''}" title="${t(`badge.${b.id}`)}"><span>${b.icon}</span>${t(`badge.${b.id}`)}</li>`).join('');
 
+  const weak = weakSpots(state.skills);
+  const weakHtml = weak.length ? `<ul class="words weak">${weak.map((w) => `<li><b>${t(`cat.${w.cat}`)}</b>
+      <div class="bar"><div style="transform:scaleX(${w.rate})"></div></div><span class="muted">${t('weak.rate', { n: Math.round(w.rate * 100) })}</span>
+      <button class="btn" data-focus="${w.cat}">${t('weak.practice')}</button></li>`).join('')}</ul>` : `<p class="muted">${t('weak.none')}</p>`;
   renderPage(root, {
-    title: t('stats.title'), onBack,
+    title: t('stats.title'), onBack, onClick: (el, d) => { if (d.focus) onFocus(d.focus); },
     body: `<section class="card"><h2>${t('stats.last14')}</h2><div class="chart">${bars}</div></section>
       <section class="result-stats">
         <div class="card"><span>${t('stats.lessons')}</span><b>${state.stats?.lessons ?? 0}</b></div>
@@ -48,6 +53,7 @@ export function renderStats(root, { state, courses, lookup, onBack }) {
         <div class="card"><span>XP</span><b>⭐ ${state.xp}</b></div>
         <div class="card"><span>${t('home.freezeTitle')}</span><b>🧊 ${state.freezes ?? 0}</b></div>
       </section>
+      <section class="card"><h2>${t('weak.title')}</h2>${weakHtml}</section>
       <section class="card"><h2>${t('stats.badges')}</h2><ul class="badges">${badges}</ul></section>
       <section class="card"><h2>${t('stats.progress')}</h2>${progress}</section>
       ${mistakes ? `<section class="card"><h2>${t('stats.hardest')}</h2><ul class="words">${mistakes}</ul></section>` : ''}`,

@@ -3,6 +3,7 @@ import { speak } from '../core/speech.js';
 import { t } from '../i18n.js';
 import { askTutor, FOCUSES, MAX_CARDS } from '../core/tutor-api.js';
 import { renderPage } from './page.js';
+import { storyHtml, handleStoryClick } from './story.js';
 
 // Model text → safe HTML: escape first, then allow **bold** and line breaks.
 const rich = (s) => esc(s ?? '').replace(/\*\*(.+?)\*\*/g, '<b>$1</b>').replace(/\n/g, '<br>');
@@ -13,6 +14,7 @@ const FORMS = {
   lesson: () => `<label>${t('tutor.focus')} <select name="focus">${FOCUSES.map((f) => `<option value="${f}">${t(`focus.${f}`)}</option>`).join('')}</select></label>
     <input name="topic" placeholder="${t('tutor.topic')}" autocomplete="off">`,
   cards: () => `<textarea name="words" rows="4" placeholder="${t('tutor.words')}" required></textarea>`,
+  story: () => `<input name="topic" placeholder="${t('tutor.topic')}" autocomplete="off">`,
   grammar: () => `<input name="rule" placeholder="${t('tutor.rule')}" required autocomplete="off">`,
 };
 
@@ -37,7 +39,7 @@ const grammarView = (data) => `<section class="card"><h2>${esc(data.title)}</h2>
   <section class="card"><h3>${t('tutor.mistakes')}</h3><ol class="mistakes">${(data.mistakes ?? [])
     .map((m) => `<li><span class="bad-text">✗ ${esc(m.wrong)}</span><br><span class="ok-text">✓ ${esc(m.right)}</span><p class="muted">${rich(m.why)}</p></li>`).join('')}</ol></section>`;
 
-const VIEWS = { lesson: lessonView, cards: cardsView, grammar: grammarView };
+const VIEWS = { lesson: lessonView, cards: cardsView, grammar: grammarView, story: null };
 
 export function renderTutor(root, { lang, ai, level, explain, onBack, onAddCards }) {
   let mode = 'lesson';
@@ -54,6 +56,7 @@ export function renderTutor(root, { lang, ai, level, explain, onBack, onAddCards
         <div class="tutor-output" lang="${lang}"></div>`,
       onClick: (el, d) => {
         if (d.mode) { mode = d.mode; result = null; draw(); }
+        else if (mode === 'story' && result && handleStoryClick(root, el, result, lang, onAddCards)) return;
         else if (d.say) speak(d.say, lang);
         else if (d.flip) el.classList.toggle('flipped');
         else if (d.act === 'add-cards') draw(t('tutor.added', { n: onAddCards(result.cards ?? []) }));
@@ -61,7 +64,7 @@ export function renderTutor(root, { lang, ai, level, explain, onBack, onAddCards
       },
     });
     if (!ready) return;
-    if (result) root.querySelector('.tutor-output').innerHTML = VIEWS[mode](result);
+    if (result) root.querySelector('.tutor-output').innerHTML = mode === 'story' ? storyHtml(result, lang) : VIEWS[mode](result);
     root.querySelector('[data-role="form"]').onsubmit = submit;
   }
 
@@ -83,6 +86,7 @@ export function renderTutor(root, { lang, ai, level, explain, onBack, onAddCards
     e.preventDefault();
     const f = new FormData(e.target);
     const params = { lang, level, explain };
+    if (mode === 'story') params.topic = String(f.get('topic') ?? '').trim();
     if (mode === 'lesson') Object.assign(params, { focus: f.get('focus'), topic: String(f.get('topic') ?? '').trim() });
     if (mode === 'grammar') params.rule = String(f.get('rule')).trim();
     if (mode === 'cards') {

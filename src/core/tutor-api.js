@@ -32,6 +32,14 @@ export const PROMPTS = {
       + '"tr": string (Turkish meaning), "en": string (English meaning), "example": string, "exampleMeaning": string, "tip": string (a simple memory trick)}]}. '
       + 'One card per word, in the same order; keep examples beginner-friendly.',
   }),
+  story: ({ topic, words = [], ...ctx }) => ({
+    system: base(ctx),
+    user: `Write an original ${LANGUAGE_NAMES[ctx.lang]} ${topic ? `story or news article about "${topic}"` : 'short story'} for a ${ctx.level} learner, `
+      + `${ctx.level.startsWith('A') ? '80–130' : ctx.level.startsWith('B') ? '150–220' : '220–300'} words`
+      + `${words.length ? `, naturally using these words: ${words.join(', ')}` : ''}. JSON shape: {"title": string, "text": string (paragraphs separated by \n), `
+      + '"glossary": [{"word": string (exactly as it appears in the text), "lemma": string (dictionary form, nouns with article), "tr": string, "en": string}]}. '
+      + 'The glossary must cover every word a learner at this level may not know (at least 15 entries).',
+  }),
   grammar: ({ rule, ...ctx }) => ({
     system: base(ctx),
     user: `Explain this grammar rule: "${rule}". JSON shape: {"title": string, "explanation": string, `

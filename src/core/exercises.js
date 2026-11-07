@@ -160,3 +160,19 @@ export function buildTest(items, pool, rnd = Math.random, size = TEST_SIZE) {
       return makeExercise(types[i % types.length], item, pool, rnd);
     });
 }
+
+// Dictation: the longest sentences first, typed after listening.
+export function buildDictation(items, rnd = Math.random, size = 10) {
+  const sentences = shuffle(items.filter((i) => i.kind === 'sentence'), rnd).sort((a, b) => b.target.length - a.target.length);
+  return sentences.slice(0, size).map((item) => makeExercise('listen-type', item, items, rnd));
+}
+
+// Practice for one weak skill category (see insights.js). Conjugation and reading are handled by their own screens.
+const FOCUS_TYPES = { article: 'article', order: 'build', spelling: 'type', listening: 'listen-type', pronunciation: 'speak', vocab: 'reverse', grammar: 'cloze' };
+export function buildFocus(category, items, pool, rnd = Math.random, size = 10) {
+  const type = FOCUS_TYPES[category];
+  if (!type) return [];
+  const fits = (i) => (type === 'article' ? i.kind === 'word' && splitArticle(langOf(i), i.target)
+    : ['build', 'cloze', 'listen-type', 'speak'].includes(type) ? i.kind === 'sentence' : i.kind === 'word');
+  return shuffle(items.filter(fits), rnd).slice(0, size).map((item) => makeExercise(type, item, pool, rnd));
+}

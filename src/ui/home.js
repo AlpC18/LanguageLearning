@@ -20,7 +20,7 @@ function unitCard(unit, number) {
     <div class="unit-head"><span class="badge">${unit.level}</span><h3>${number}. ${esc(unitTitle(unit))}</h3><span class="dots" aria-label="${t('unit.lessonsDone', { done: unit.done, total: LESSONS_PER_UNIT })}">${dots}</span></div>
     <details><summary>${t('unit.grammar')}</summary><p>${esc(unitTip(unit))}</p></details>
     <details><summary>${t('unit.words', { n: unit.words.length })}</summary><ul class="words">${words}</ul></details>
-    <div class="unit-actions">${action}</div></li>`;
+    <div class="unit-actions">${action}${unit.status === 'locked' ? '' : ` <button class="btn" data-story="${unit.id}">${t('story.unit')}</button>`}</div></li>`;
 }
 
 // One collapsible section per CEFR level; empty levels show as "coming soon" only when nothing is filtered.
@@ -40,6 +40,17 @@ function levelSections(units, list, filters, byId) {
   }).join('');
 }
 
+function questCard(quests, week) {
+  if (!quests.length) return '';
+  const rows = quests.map(({ quest, value, done, claimed, claimKey }) => `<li><span>${quest.weekly ? '📅' : '🎯'} ${t(`quest.${quest.id}`)} <span class="muted">${value}/${quest.goal}</span></span>
+      ${claimed ? `<span class="muted">${t('quest.claimed')}</span>` : `<button class="btn" data-claim="${claimKey}" data-reward="${quest.reward}" ${done ? '' : 'disabled'}>${t('quest.claim', { xp: quest.reward })}</button>`}
+      <div class="bar"><div style="transform:scaleX(${value / quest.goal})"></div></div></li>`).join('');
+  const record = week && week.current > week.best && week.best > 0 ? ` <b>${t('home.weekRecord')}</b>` : '';
+  return `<section class="card"><h2>${t('home.quests')}</h2>
+      ${week ? `<p class="week muted">${t('home.week', { xp: week.current, last: week.last, best: week.best })}${record}</p>` : ''}
+      <ul class="quests">${rows}</ul></section>`;
+}
+
 // Big "continue" shortcut to the first unfinished, unlocked unit.
 function continueCard(units) {
   const index = units.findIndex((u) => u.status === 'active');
@@ -50,7 +61,7 @@ function continueCard(units) {
 }
 
 // units: course units decorated with { done, status, language, keywords }.
-export function renderHome(root, { state, courses, units, today, dueCount, mistakeCount, notice = '', onLang, onMeaning, onLesson, onReview, onMistakes, onExport, onImport, onTest, onPage }) {
+export function renderHome(root, { state, courses, units, today, dueCount, mistakeCount, notice = '', onLang, onMeaning, onLesson, onReview, onMistakes, onExport, onImport, onTest, onPage, quests = [], week, quickCount = 0, onQuick, onDictation, onClaim, onStory }) {
   const goal = state.goal ?? DAILY_GOAL;
   const goalPct = Math.min(100, Math.round((today / goal) * 100));
   root.innerHTML = `<div class="home">
@@ -75,7 +86,10 @@ export function renderHome(root, { state, courses, units, today, dueCount, mista
     <section class="quick">
       <button class="btn" data-act="review" ${dueCount ? '' : 'disabled'}>${t('home.review', { n: dueCount })}</button>
       <button class="btn" data-act="mistakes" ${mistakeCount ? '' : 'disabled'}>${t('home.mistakes', { n: mistakeCount })}</button>
+      <button class="btn" data-act="quick" ${quickCount ? '' : 'disabled'}>${t('home.quick')}</button>
+      <button class="btn" data-act="dictation">${t('home.dictation')}</button>
     </section>
+    ${questCard(quests, week)}
     <section class="card filter"></section>
     <ol class="path"></ol>
     <footer class="card backup">
@@ -106,8 +120,12 @@ export function renderHome(root, { state, courses, units, today, dueCount, mista
   root.onclick = (e) => {
     const el = e.target.closest('button');
     if (!el || el.disabled) return;
-    const { lang, meaning, act, lesson, practice, say, test, page } = el.dataset;
+    const { lang, meaning, act, lesson, practice, say, test, page, story, claim, reward } = el.dataset;
     if (page) onPage(page);
+    else if (claim) onClaim(claim, Number(reward));
+    else if (story) onStory(byId.get(story).unit);
+    else if (act === 'quick') onQuick();
+    else if (act === 'dictation') onDictation();
     else if (lang) onLang(lang);
     else if (meaning) onMeaning(meaning);
     else if (act === 'review') onReview();

@@ -36,8 +36,20 @@ export function renderSettings(root, { state, ai, langs, notice = '', onBack, on
         <label>${t('set.apiKey')} <input type="password" value="${esc(ai.apiKey)}" data-role="api-key" autocomplete="off" spellcheck="false"></label>
         <label>${t('set.model')} <select data-role="model">${Object.entries(CHAT_MODELS).map(([id, name]) => `<option value="${id}" ${id === ai.model ? 'selected' : ''}>${name}</option>`).join('')}</select></label>
       </section>
+      <section class="card form"><h2>${t('flag.title')}</h2>
+        ${(state.flags ?? []).length ? `<ul class="words">${state.flags.map((f) => `<li><b>${esc(f.target)}</b> — ${esc(f.meaning ?? '')} <span class="muted">${esc(f.key)}</span></li>`).join('')}</ul>
+          <div class="backup-row"><button class="btn" data-act="copy-flags">${t('flag.copy')}</button><button class="btn" data-act="clear-flags">${t('flag.clear')}</button></div>`
+          : `<p class="muted">${t('flag.none')}</p>`}
+      </section>
       <p class="notice" aria-live="polite">${esc(notice)}</p>`,
-    onClick: (el, d) => { if (d.testVoice) speak(SAMPLE[d.testVoice], d.testVoice); },
+    onClick: async (el, d) => {
+      if (d.testVoice) speak(SAMPLE[d.testVoice], d.testVoice);
+      if (d.act === 'clear-flags') onSave({ flags: [] });
+      if (d.act === 'copy-flags') {
+        await navigator.clipboard?.writeText(JSON.stringify(state.flags, null, 2)).catch(() => {});
+        el.textContent = t('flag.copied');
+      }
+    },
     onInput: (el) => { if (el.matches('[data-role="rate"]')) root.querySelector('[data-role="rate-value"]').textContent = `${el.value}×`; },
     onChange: (el) => {
       const role = el.dataset.role;
