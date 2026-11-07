@@ -260,10 +260,11 @@ button:disabled { cursor: default; }
 @media (max-width: 600px) {
   .home { padding-bottom: 72px; }
   .home .pages {
-    position: fixed; left: 0; right: 0; bottom: 0; z-index: 5; display: grid; grid-template-columns: repeat(5, 1fr); gap: 0;
+    position: fixed; left: 0; right: 0; bottom: 0; z-index: 5; display: grid; grid-template-columns: repeat(6, 1fr); gap: 0;
     background: var(--surface); border-top: 1px solid var(--border); padding: 4px 4px calc(4px + env(safe-area-inset-bottom));
   }
-  .home .pages .btn { border: 0; box-shadow: none; background: none; font-size: .72rem; padding: 6px 2px; white-space: normal; line-height: 1.2; }
+  .home .pages .btn { border: 0; box-shadow: none; background: none; font-size: .72rem; padding: 6px 2px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; line-height: 1.2; }
+  .home .pages .tab-icon { display: block; font-size: 1.1rem; }
 }
 
 /* AI tutor */
@@ -281,7 +282,6 @@ button:disabled { cursor: default; }
 .ok-text { color: var(--ok); }
 .chat-bar { display: flex; flex-wrap: wrap; gap: 8px; align-items: center; }
 .chat-bar input { flex: 1 1 160px; padding: 8px 10px; border: 1px solid var(--border); border-radius: 10px; background: var(--bg); color: var(--text); font: inherit; }
-@media (max-width: 600px) { .home .pages { grid-template-columns: repeat(6, 1fr); } }
 
 /* Story / immersion */
 .story p { line-height: 2; }

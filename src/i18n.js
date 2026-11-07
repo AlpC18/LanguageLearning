@@ -250,7 +250,7 @@ const STRINGS = {
     'speech.audio-capture': 'No microphone found.', 'speech.other': 'Speech recognition error: {error}',
     "lang.es": "Spanish",
     "nav.stats": "📊 Stats",
-    "nav.notebook": "📒 Notebook",
+    "nav.notebook": "📒 Notes",
     "nav.reading": "📚 Reading",
     "nav.verbs": "🔤 Conjugation",
     "nav.chat": "💬 Chat",
