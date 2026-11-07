@@ -17,6 +17,9 @@ for (const lang of langs) {
   assert.equal(new Set(ids).size, ids.length, `${lang}: duplicate unit ids`);
   const order = course.units.map((u) => LEVELS.indexOf(u.level));
   assert.deepEqual(order, [...order].sort((a, b) => a - b), `${lang}: units must go A1 → C2 in order`);
+  const targets = course.units.flatMap((u) => u.sentences.map((s) => s[0].toLocaleLowerCase()));
+  const dupes = targets.filter((s, i) => targets.indexOf(s) !== i);
+  assert.equal(dupes.length, 0, `${lang}: duplicate sentences: ${dupes.slice(0, 3).join(' | ')}`);
   for (const u of course.units) {
     assert.ok(LEVELS.includes(u.level), `${u.id}: bad level`);
     assert.ok(u.title && u.titleEn && u.tip && u.tipEn, `${u.id}: needs title, titleEn, tip, tipEn`);
