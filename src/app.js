@@ -22,7 +22,10 @@ import { renderNotebook } from './ui/notebook.js';
 import { renderReadingList } from './ui/reading.js';
 import { renderChat } from './ui/chat.js';
 import { renderSettings } from './ui/settings.js';
-import { t, setLocale, locale } from './i18n.js';
+import { renderOnboarding } from './ui/onboarding.js';
+import { setEffects } from './core/effects.js';
+import { LEVELS } from './components/search-filter.js';
+import { t, setLocale, locale, unitTip } from './i18n.js';
 
 const COURSES = { de, it, es };
 const VERBS = { de: verbsDe, it: verbsIt, es: verbsEs };
@@ -32,6 +35,7 @@ const PERFECT_BONUS = 5;
 const DISTRACTOR_UNITS = 2;
 const TEST_XP = 20;
 const REMINDER_CHECK_MS = 60_000;
+const FONT_SIZES = { S: '14px', M: '16px', L: '18px' };
 
 const root = document.getElementById('app');
 let state = load();
@@ -54,6 +58,21 @@ function decoratedUnits() {
 
 // Highest level reached in this course; drives verb drills and the chat level.
 const currentLevel = () => decoratedUnits().filter((u) => u.status !== 'locked').map((u) => u.level).pop() ?? 'A1';
+
+// Grammar note of the unit an item belongs to ("de-07:w3" → unit de-07).
+const tipFor = (key) => {
+  const unit = course().units.find((u) => u.id === key.split(':')[0]);
+  return unit ? unitTip(unit) : '';
+};
+
+function applyLook() {
+  const html = document.documentElement;
+  if (state.theme === 'light' || state.theme === 'dark') html.dataset.theme = state.theme;
+  else delete html.dataset.theme;
+  html.style.fontSize = FONT_SIZES[state.fontSize] ?? FONT_SIZES.M;
+  setEffects(state.effects);
+  setVoicePrefs(state.voice);
+}
 
 function commit(next) {
   state = next;
@@ -108,7 +127,7 @@ const PAGES = {
     state, ai, langs: Object.keys(COURSES), notice, onBack: () => home(),
     onSave: (patch) => {
       const saved = commit({ ...state, ...patch });
-      setVoicePrefs(state.voice);
+      applyLook();
       PAGES.settings(saved ? t('set.saved') : t('res.notSaved'));
     },
     onSaveAi: (next) => { ai = next; saveAi(ai); PAGES.settings(t('set.saved')); },
@@ -140,7 +159,7 @@ async function importBackup(file) {
     return home(t('backup.failed', { msg: err.message }));
   }
   setLocale(state.meaning);
-  setVoicePrefs(state.voice);
+  applyLook();
   return home(t(save(state) ? 'backup.loaded' : 'backup.notSaved'));
 }
 
@@ -156,7 +175,7 @@ function startTest(level) {
   const lang = state.lang;
   const units = course().units.filter((u) => u.level === level);
   runLesson(root, {
-    lang, retry: false, exercises: buildTest(units.flatMap(unitItems), allItems()), onExit: () => home(),
+    lang, retry: false, tipFor, exercises: buildTest(units.flatMap(unitItems), allItems()), onExit: () => home(),
     onFinish: ({ results }) => {
       const accuracy = firstTryAccuracy(results);
       const passed = accuracy >= TEST_PASS;
@@ -184,7 +203,7 @@ function play(exercises, { retry = true, ...meta }) {
   const lang = state.lang;
   if (!exercises.length) return home();
   return runLesson(root, {
-    lang, exercises, retry, onExit: () => home(),
+    lang, exercises, retry, tipFor, onExit: () => home(),
     onFinish: ({ results }) => {
       const lookup = itemsByKey();
       const perfect = results.every((r) => r.correct);
@@ -209,7 +228,21 @@ function checkReminder() {
 
 if ('serviceWorker' in navigator) navigator.serviceWorker.register('sw.js').catch(() => { /* offline cache is optional */ });
 window.speechSynthesis?.getVoices(); // voices load async in some browsers
+// First visit: choose course, explanation language, goal and starting level.
+function onboard() {
+  renderOnboarding(root, {
+    courses: COURSES,
+    onDone: ({ lang, meaning, goal, level }) => {
+      setLocale(meaning);
+      const below = COURSES[lang].units.filter((u) => LEVELS.indexOf(u.level) < LEVELS.indexOf(level)).map((u) => u.id);
+      commit(completeUnits({ ...state, lang, meaning, goal, onboarded: true }, lang, below));
+      home();
+    },
+  });
+}
+
 setLocale(state.meaning);
-setVoicePrefs(state.voice);
+applyLook();
 setInterval(checkReminder, REMINDER_CHECK_MS);
-home();
+if (state.onboarded === false) onboard();
+else home();

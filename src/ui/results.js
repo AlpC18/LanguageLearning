@@ -2,6 +2,8 @@ import { esc } from '../core/text.js';
 import { speak } from '../core/speech.js';
 import { t, otherMeaning } from '../i18n.js';
 
+const CONFETTI_FROM = 80; // % accuracy that earns a little celebration
+
 // First answer per item decides accuracy; retries only help you learn.
 export function firstTryAccuracy(results) {
   const first = new Map();
@@ -35,5 +37,9 @@ export function renderResults(root, { lang, xp, results, streak, itemsByKey, sav
     if (el.dataset.say) speak(el.dataset.say, lang);
     if (el.dataset.act === 'continue') onContinue();
   };
+  if (firstTryAccuracy(results) >= CONFETTI_FROM) {
+    const pieces = Array.from({ length: 18 }, (_, i) => `<span style="left:${(i * 37) % 100}%;animation-delay:${(i % 6) * 0.12}s">${['🎉', '⭐', '✨'][i % 3]}</span>`);
+    root.insertAdjacentHTML('beforeend', `<div class="confetti" aria-hidden="true">${pieces.join('')}</div>`);
+  }
   root.querySelector('[data-act="continue"]').focus();
 }

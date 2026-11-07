@@ -13,11 +13,13 @@ const empty = () => ({
   lang: 'de', meaning: 'tr', xp: 0, streak: { count: 0, last: null }, daily: {}, courses: {},
   goal: DAILY_GOAL, freezes: 0, bestStreak: 0, stats: { lessons: 0, perfect: 0 },
   voice: { rate: 1, voices: {} }, reminder: { on: false, time: '20:00' }, custom: {},
+  onboarded: true, theme: 'system', fontSize: 'M', effects: true,
 });
 
 export function load() {
   try {
-    return { ...empty(), ...JSON.parse(localStorage.getItem(KEY) ?? '{}') };
+    const saved = localStorage.getItem(KEY);
+    return saved ? { ...empty(), ...JSON.parse(saved) } : { ...empty(), onboarded: false }; // first visit → setup screen
   } catch {
     return empty();
   }

@@ -20,6 +20,12 @@ export function renderSettings(root, { state, ai, langs, notice = '', onBack, on
         ${langs.map(voiceRow).join('')}
       </section>
       <section class="card form">
+        <h2>${t('set.look')}</h2>
+        <label>${t('set.theme')} <select data-role="theme">${['system', 'light', 'dark'].map((v) => `<option value="${v}" ${state.theme === v ? 'selected' : ''}>${t(`set.theme${v[0].toUpperCase()}${v.slice(1)}`)}</option>`).join('')}</select></label>
+        <label>${t('set.font')} <select data-role="font">${['S', 'M', 'L'].map((v) => `<option value="${v}" ${state.fontSize === v ? 'selected' : ''}>${t(`set.font${v}`)}</option>`).join('')}</select></label>
+        <label><input type="checkbox" data-role="effects" ${state.effects !== false ? 'checked' : ''}> ${t('set.effects')}</label>
+      </section>
+      <section class="card form">
         <label><input type="checkbox" data-role="reminder" ${state.reminder?.on ? 'checked' : ''}> ${t('set.reminder')}</label>
         <input type="time" value="${state.reminder?.time ?? '20:00'}" data-role="reminder-time">
         <p class="muted">${t('set.reminderNote')}</p>
@@ -36,6 +42,9 @@ export function renderSettings(root, { state, ai, langs, notice = '', onBack, on
     onChange: (el) => {
       const role = el.dataset.role;
       if (role === 'goal') onSave({ goal: Number(el.value) });
+      else if (role === 'theme') onSave({ theme: el.value });
+      else if (role === 'font') onSave({ fontSize: el.value });
+      else if (role === 'effects') onSave({ effects: el.checked });
       else if (role === 'rate') onSave({ voice: { ...state.voice, rate: Number(el.value) } });
       else if (el.dataset.voice) onSave({ voice: { ...state.voice, voices: { ...state.voice?.voices, [el.dataset.voice]: el.value } } });
       else if (role === 'reminder' || role === 'reminder-time') {

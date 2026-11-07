@@ -40,6 +40,15 @@ function levelSections(units, list, filters, byId) {
   }).join('');
 }
 
+// Big "continue" shortcut to the first unfinished, unlocked unit.
+function continueCard(units) {
+  const index = units.findIndex((u) => u.status === 'active');
+  if (index < 0) return units.length ? `<section class="card continue"><b>${t('home.allDone')}</b></section>` : '';
+  const unit = units[index];
+  const sub = t('home.continueSub', { n: index + 1, title: unitTitle(unit), lesson: unit.done + 1, total: LESSONS_PER_UNIT });
+  return `<section class="card continue"><span>${esc(sub)}</span><button class="btn primary" data-lesson="${unit.id}">${t('home.continue')}</button></section>`;
+}
+
 // units: course units decorated with { done, status, language, keywords }.
 export function renderHome(root, { state, courses, units, today, dueCount, mistakeCount, notice = '', onLang, onMeaning, onLesson, onReview, onMistakes, onExport, onImport, onTest, onPage }) {
   const goal = state.goal ?? DAILY_GOAL;
@@ -54,6 +63,7 @@ export function renderHome(root, { state, courses, units, today, dueCount, mista
     </header>
     <nav class="pages">${['stats', 'notebook', 'reading', 'chat', 'settings'].map((p) => `<button class="btn" data-page="${p}">${t(`nav.${p}`)}</button>`).join('')}</nav>
     ${units.length ? '' : `<p class="card muted">${t('empty.course')}</p>`}
+    ${continueCard(units)}
     <div class="meaning" role="group" aria-label="${t('home.meaning')}">
       <span class="muted">${t('home.meaning')}:</span>
       ${Object.entries(LOCALES).map(([code, label]) => `<button class="chip" data-meaning="${code}" aria-pressed="${code === locale()}">${label}</button>`).join('')}

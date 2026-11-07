@@ -1,6 +1,9 @@
 import { esc, clean, gradeText, similarity, shuffle } from '../core/text.js';
 import { BLANK } from '../core/exercises.js';
 import { t, otherMeaning } from '../i18n.js';
+import { answerEffect, finishEffect } from '../core/effects.js';
+
+const TYPED = new Set(['type', 'listen-type', 'conjugate', 'build', 'speak']); // answers that can be right in more than one way
 import { speak, listen, canListen } from '../core/speech.js';
 
 const CHARS = { de: ['ä', 'ö', 'ü', 'ß'], it: ['à', 'è', 'é', 'ì', 'ò', 'ù'], es: ['á', 'é', 'í', 'ó', 'ú', 'ñ', 'ü', '¿', '¡'] };
@@ -10,7 +13,8 @@ const AUTO_SPEAK = new Set(['choice', 'listen-choice', 'listen-type', 'speak']);
 
 // Runs one lesson; wrong answers come back at the end (no hearts, no lockout).
 // retry: false for tests — wrong answers are not re-asked, so the score is honest.
-export function runLesson(root, { lang, exercises, onFinish, onExit, retry = true }) {
+// tipFor(key) → grammar note for the item's unit (shown after a wrong answer).
+export function runLesson(root, { lang, exercises, onFinish, onExit, retry = true, tipFor = () => '' }) {
   const queue = exercises.map((ex) => (ex.type === 'speak' && !canListen() ? { ...ex, type: 'listen-type' } : ex));
   const retries = new Map();
   const results = [];
@@ -27,7 +31,7 @@ export function runLesson(root, { lang, exercises, onFinish, onExit, retry = tru
     `<div class="speak-row"><button class="icon big" data-say="normal" aria-label="${t('listen')}">🔊</button><button class="icon" data-say="slow" aria-label="${t('listenSlow')}">🐢</button></div>`;
   const optionList = (ex) =>
     `<div class="options">${ex.options.map((o, i) => `<button class="option" data-opt="${i}"><kbd>${i + 1}</kbd>${esc(o)}</button>`).join('')}</div>`;
-  const input = () =>
+  const input = () => `<button class="link hint" data-act="hint">${t('ex.hint')}</button><p class="hint-text" aria-live="polite"></p>` +
     `<input class="answer" lang="${lang}" placeholder="${t('ex.placeholder')}" autocomplete="off" autocapitalize="off" spellcheck="false">
      <div class="chars">${CHARS[lang].map((c) => `<button class="char" data-char="${c}">${c}</button>`).join('')}</div>`;
 
@@ -134,8 +138,15 @@ export function runLesson(root, { lang, exercises, onFinish, onExit, retry = tru
       retries.set(ex, tries + 1);
       queue.push(ex);
     }
+    answerEffect(correct);
     if (ex.item.target) say(ex.item.target);
     showFeedback(correct, note, ex.item.target ? `${ex.item.target} — ${ex.item.meaning}` : ex.item.meaning, otherMeaning(ex.item));
+    if (!correct) {
+      const tip = tipFor(ex.item.key);
+      const extra = `${TYPED.has(ex.type) ? `<button class="btn" data-act="was-right">${t('ex.wasRight')}</button>` : ''}${
+        tip ? `<details class="tip"><summary>${t('ex.grammar')}</summary><p>${esc(tip)}</p></details>` : ''}`;
+      $('.feedback').insertAdjacentHTML('beforeend', extra);
+    }
   }
 
   function showFeedback(correct, note, answer, also = '') {
@@ -151,7 +162,7 @@ export function runLesson(root, { lang, exercises, onFinish, onExit, retry = tru
     btn.disabled = false;
     btn.textContent = t('ex.next');
     btn.focus();
-    root.querySelectorAll('.option, .tile, .answer, .mic, .char').forEach((el) => { el.disabled = true; });
+    root.querySelectorAll('.option, .tile, .answer, .mic, .char, .hint').forEach((el) => { el.disabled = true; });
   }
 
   async function record(ex) {
@@ -199,12 +210,42 @@ export function runLesson(root, { lang, exercises, onFinish, onExit, retry = tru
     }
   }
 
+  // Undo a wrong verdict: the last result becomes correct and the re-queued copy is dropped.
+  function acceptAnswer() {
+    const ex = current();
+    results[results.length - 1] = { ...results[results.length - 1], correct: true };
+    if (queue.length - 1 > pos && queue[queue.length - 1] === ex) {
+      queue.pop();
+      retries.set(ex, (retries.get(ex) ?? 1) - 1);
+    }
+    const foot = $('.lesson-foot');
+    foot.classList.replace('bad', 'ok');
+    foot.querySelector('.feedback').innerHTML = `<strong>${t('ex.acceptedNote')}</strong>`;
+    foot.querySelector('[data-act="next"]').focus();
+  }
+
+  function showHint() {
+    const answer = current().answer;
+    $('.hint-text').textContent = t('ex.hintText', { first: answer[0], n: answer.split(/\s+/).length });
+  }
+
+  // Leaving mid-lesson asks inline first (no browser dialogs).
+  function confirmExit() {
+    if (pos === 0 && !checked) return exit();
+    const foot = $('.lesson-foot');
+    if (foot.querySelector('.confirm')) return undefined;
+    foot.insertAdjacentHTML('afterbegin', `<div class="confirm"><span>${t('ex.confirmExit')}</span>
+      <button class="btn" data-act="leave">${t('ex.confirmLeave')}</button><button class="btn primary" data-act="stay">${t('ex.keepGoing')}</button></div>`);
+    return foot.querySelector('[data-act="stay"]').focus();
+  }
+
   function exit() {
     document.removeEventListener('keydown', onKey);
     onExit();
   }
 
   function finish() {
+    finishEffect();
     document.removeEventListener('keydown', onKey);
     onFinish({ results });
   }
@@ -214,7 +255,11 @@ export function runLesson(root, { lang, exercises, onFinish, onExit, retry = tru
     if (!el || el.disabled) return;
     const ex = current();
     const act = el.dataset.act;
-    if (act === 'exit') return exit();
+    if (act === 'exit') return confirmExit();
+    if (act === 'leave') return exit();
+    if (act === 'stay') return root.querySelector('.confirm')?.remove();
+    if (act === 'was-right') return acceptAnswer();
+    if (act === 'hint') return showHint();
     if (act === 'next') return checked ? (pos++, show()) : check();
     if (act === 'mic') return record(ex);
     if (act === 'skip') return (pos++, show()); // no penalty, like turning the mic off
