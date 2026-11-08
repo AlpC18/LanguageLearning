@@ -1,7 +1,9 @@
 // Lists ALL content problems at once (tests/data.test.js stops at the first). Run: node scripts/check-content.mjs [de|it|es]
+// TARGET=30/30 node scripts/check-content.mjs de   → also require that many words/sentences per unit (default 15/20).
 import { tokens } from '../src/core/text.js';
 
 const POS = ['noun', 'verb', 'adj', 'adv', 'phrase', 'pron', 'num', 'prep', 'conj', 'other'];
+const [MIN_WORDS, MIN_SENTENCES] = (process.env.TARGET ?? '15/20').split('/').map(Number);
 const langs = process.argv.slice(2).length ? process.argv.slice(2) : ['de', 'it', 'es'];
 let total = 0;
 for (const lang of langs) {
@@ -10,7 +12,7 @@ for (const lang of langs) {
   const seenSentence = new Map();
   const seenWord = new Map();
   for (const u of units) {
-    if (u.words.length < 15 || u.sentences.length < 20) problems.push(`${u.id}: ${u.words.length} words / ${u.sentences.length} sentences (want 15/20)`);
+    if (u.words.length < MIN_WORDS || u.sentences.length < MIN_SENTENCES) problems.push(`${u.id}: ${u.words.length} words / ${u.sentences.length} sentences (want ${MIN_WORDS}/${MIN_SENTENCES})`);
     for (const col of [1, 2]) {
       const vals = u.words.map((w) => w[col].toLocaleLowerCase());
       const d = vals.filter((v, i) => vals.indexOf(v) !== i);
