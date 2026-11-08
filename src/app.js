@@ -215,7 +215,8 @@ function startUnit(unit, advance) {
   const index = units.findIndex((u) => u.id === unit.id); // home passes a decorated copy, not the original object
   const done = courseState(state, state.lang).units[unit.id] ?? 0;
   const extra = units.slice(Math.max(0, index - DISTRACTOR_UNITS), index).flatMap(unitItems);
-  play(buildLesson(unit, advance ? done : LESSONS_PER_UNIT - 1, extra), { unitId: unit.id, advance });
+  const seen = new Set(Object.keys(courseState(state, state.lang).cards ?? {}));
+  play(buildLesson(unit, advance ? done : LESSONS_PER_UNIT - 1, extra, Math.random, seen), { unitId: unit.id, advance });
 }
 
 function startTest(level) {

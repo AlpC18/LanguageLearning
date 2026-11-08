@@ -13,20 +13,31 @@ const KEY = 'dilbaz:v1';
 export const DAILY_GOAL = 30;
 export const GOALS = [10, 20, 30, 50];
 export const MAX_FREEZES = 2; // one streak freeze is earned every 7 streak days
-export const LESSONS_PER_UNIT = 3;
+export const LESSONS_PER_UNIT = 10;
+const OLD_LESSONS_PER_UNIT = 3;
 export const TEST_PASS = 80; // % first-try accuracy needed to skip a level
 
 const empty = () => ({
   lang: 'de', meaning: 'tr', xp: 0, streak: { count: 0, last: null }, daily: {}, courses: {},
   goal: DAILY_GOAL, freezes: 0, bestStreak: 0, stats: { lessons: 0, perfect: 0 },
   voice: { rate: 1, voices: {} }, reminder: { on: false, time: '20:00' }, custom: {},
-  onboarded: true, theme: 'system', fontSize: 'M', effects: true,
+  onboarded: true, theme: 'system', fontSize: 'M', effects: true, lessonsPerUnit: LESSONS_PER_UNIT,
 });
+
+// Units used to have 3 lessons; keep units finished under that scheme finished (partial progress carries over as is).
+export function migrate(state) {
+  if (state.lessonsPerUnit === LESSONS_PER_UNIT) return state;
+  const courses = Object.fromEntries(Object.entries(state.courses ?? {}).map(([lang, course]) => [lang, {
+    ...course,
+    units: Object.fromEntries(Object.entries(course.units ?? {}).map(([id, n]) => [id, n >= OLD_LESSONS_PER_UNIT ? LESSONS_PER_UNIT : n])),
+  }]));
+  return { ...state, courses, lessonsPerUnit: LESSONS_PER_UNIT };
+}
 
 export function load() {
   try {
     const saved = localStorage.getItem(KEY);
-    return saved ? { ...empty(), ...JSON.parse(saved) } : { ...empty(), onboarded: false }; // first visit → setup screen
+    return saved ? migrate({ ...empty(), ...JSON.parse(saved) }) : { ...empty(), onboarded: false }; // first visit → setup screen
   } catch {
     return empty();
   }
@@ -52,7 +63,7 @@ export function parseBackup(text) {
   const valid = data && typeof data === 'object' && Number.isFinite(data.xp)
     && data.courses && typeof data.courses === 'object' && data.streak && typeof data.streak === 'object';
   if (!valid) throw new Error(t('backup.notBackup'));
-  return { ...empty(), ...data };
+  return migrate({ ...empty(), ...data });
 }
 
 export const backupName = (today = dayKey()) => `dilbaz-yedek-${today}.json`;

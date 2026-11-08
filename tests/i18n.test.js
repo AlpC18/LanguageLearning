@@ -27,13 +27,14 @@ console.log('i18n: all checks passed');
 // Every lesson still builds cleanly when meanings are English.
 import de from '../src/data/de.js';
 import it from '../src/data/it.js';
-import { buildLesson, planFor } from '../src/core/exercises.js';
+import { buildLesson } from '../src/core/exercises.js';
+import { LESSONS_PER_UNIT } from '../src/core/progress.js';
 import { otherMeaning } from '../src/i18n.js';
 setLocale('en');
 for (const course of [de, it]) {
   course.units.forEach((unit, idx) => {
     const extra = course.units.slice(Math.max(0, idx - 2), idx).flatMap(unitItems);
-    planFor(unit).forEach((_, lessonIndex) => {
+    Array.from({ length: LESSONS_PER_UNIT }, (_, lessonIndex) => lessonIndex).forEach((lessonIndex) => {
       for (const ex of buildLesson(unit, lessonIndex, extra)) {
         if (!ex.options || ex.type === 'article') continue;
         assert.equal(new Set(ex.options).size, 4, `${unit.id}: ${ex.type} needs 4 distinct options in English`);

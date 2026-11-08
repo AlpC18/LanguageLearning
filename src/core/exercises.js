@@ -34,6 +34,12 @@ export const ADVANCED_PLANS = [
 
 export const isAdvanced = (unit) => LEVELS.indexOf(unit.level) >= LEVELS.indexOf('B1');
 export const planFor = (unit) => (isAdvanced(unit) ? ADVANCED_PLANS : PLANS);
+// 10 lessons per unit walk through the 3 plan stages: recognise words → use them in sentences → produce.
+const STAGES = [0, 0, 0, 1, 1, 1, 1, 2, 2, 2];
+export const planForLesson = (unit, lessonIndex) => planFor(unit)[STAGES[Math.min(lessonIndex, STAGES.length - 1)]];
+
+// Not-yet-practised items first (in random order), then the rest — so every word and sentence of a unit comes up.
+const unseenFirst = (items, seen, rnd) => [...shuffle(items.filter((i) => !seen.has(i.key)), rnd), ...shuffle(items.filter((i) => seen.has(i.key)), rnd)];
 
 // meaning: what the learner sees as the translation (English when chosen and available, else Turkish).
 export function unitItems(unit) {
@@ -122,17 +128,17 @@ export function makeExercise(type, item, pool, rnd = Math.random, siblings = [])
 }
 
 // extraPool: items from earlier units, used only as distractors.
-export function buildLesson(unit, lessonIndex, extraPool = [], rnd = Math.random) {
+// seen: keys the learner has already practised (their SRS cards).
+export function buildLesson(unit, lessonIndex, extraPool = [], rnd = Math.random, seen = new Set()) {
   const items = unitItems(unit);
-  const words = shuffle(items.filter((i) => i.kind === 'word'), rnd);
-  const sentences = shuffle(items.filter((i) => i.kind === 'sentence'), rnd);
+  const words = unseenFirst(items.filter((i) => i.kind === 'word'), seen, rnd);
+  const sentences = unseenFirst(items.filter((i) => i.kind === 'sentence'), seen, rnd);
   const pool = [...items, ...extraPool];
-  const plans = planFor(unit);
   const nouns = words.filter((i) => splitArticle(langOf(i), i.target));
   let w = 0;
   let s = 0;
   let n = 0;
-  return plans[Math.min(lessonIndex, plans.length - 1)].map((planned) => {
+  return planForLesson(unit, lessonIndex).map((planned) => {
     const type = planned === 'article' && !nouns.length ? 'choice' : planned;
     if (type === 'article') return makeExercise(type, nouns[n++ % nouns.length], pool, rnd);
     if (type === 'match') return { type, pairs: shuffle(words, rnd).slice(0, 4) };

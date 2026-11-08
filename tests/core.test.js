@@ -3,9 +3,9 @@ import de from '../src/data/de.js';
 import it from '../src/data/it.js';
 import { clean, gradeText, similarity, tokens } from '../src/core/text.js';
 import { review, isDue } from '../src/core/srs.js';
-import { recordLesson, nextStreak, unitStatus, courseState, parseBackup, backupName, completeUnits } from '../src/core/progress.js';
+import { recordLesson, nextStreak, unitStatus, courseState, parseBackup, backupName, completeUnits, migrate, LESSONS_PER_UNIT } from '../src/core/progress.js';
 import { LEVELS } from '../src/components/search-filter.js';
-import { buildLesson, buildReview, buildTest, unitItems, planFor, BLANK } from '../src/core/exercises.js';
+import { buildLesson, buildReview, buildTest, unitItems, planFor, planForLesson, BLANK } from '../src/core/exercises.js';
 import { firstTryAccuracy } from '../src/ui/results.js';
 
 // Seeded RNG so lesson building is reproducible.
@@ -81,13 +81,13 @@ assert.equal(courseState(s2, 'de').units['de-01'], 1); // practice doesn't advan
 assert.equal(courseState(s2, 'de').mistakes['de-01:s0'], 1);
 
 assert.deepEqual([0, 1, 2].map((i) => unitStatus([0, 0, 0], i)), ['active', 'locked', 'locked']);
-assert.deepEqual([0, 1, 2].map((i) => unitStatus([3, 1, 0], i)), ['done', 'active', 'active']);
+assert.deepEqual([0, 1, 2].map((i) => unitStatus([LESSONS_PER_UNIT, 1, 0], i)), ['done', 'active', 'active']);
 
 // --- exercises: every lesson of every unit builds and is answerable
 for (const course of [de, it]) {
   course.units.forEach((unit, idx) => {
     const extra = course.units.slice(Math.max(0, idx - 2), idx).flatMap(unitItems);
-    planFor(unit).forEach((plan, lessonIndex) => {
+    Array.from({ length: LESSONS_PER_UNIT }, (_, i) => planForLesson(unit, i)).forEach((plan, lessonIndex) => {
       const lesson = buildLesson(unit, lessonIndex, extra, seeded(idx + lessonIndex));
       assert.equal(lesson.length, plan.length);
       for (const ex of lesson) {
@@ -131,7 +131,7 @@ assert.equal(test.length, 15);
 assert.ok(test.every((ex) => ['reverse', 'type', 'build', 'cloze', 'listen-type'].includes(ex.type)), 'test has no match/speak');
 
 const skipped = completeUnits(s0, 'de', ['de-07', 'de-08']);
-assert.deepEqual(courseState(skipped, 'de').units, { 'de-07': 3, 'de-08': 3 });
+assert.deepEqual(courseState(skipped, 'de').units, { 'de-07': LESSONS_PER_UNIT, 'de-08': LESSONS_PER_UNIT });
 assert.deepEqual(s0.courses, {}); // input not mutated
 
 const review12 = buildReview(unitItems(de.units[0]), unitItems(de.units[0]), seeded());
@@ -142,3 +142,17 @@ assert.equal(firstTryAccuracy([{ key: 'a', correct: false }, { key: 'b', correct
 assert.equal(firstTryAccuracy([]), 0);
 
 console.log('core: all checks passed');
+
+// --- 10 lessons per unit: old 3-lesson progress migrates, unseen items come first
+const old = migrate({ courses: { de: { units: { 'de-01': 3, 'de-02': 2 }, cards: {}, mistakes: {} } } });
+assert.deepEqual(old.courses.de.units, { 'de-01': 10, 'de-02': 2 });
+assert.equal(migrate(old), old, 'migration runs once');
+{
+  const unit = de.units[0];
+  const all = unitItems(unit);
+  const seen = new Set(all.filter((i) => i.kind === 'word').slice(0, 10).map((i) => i.key));
+  const first = buildLesson(unit, 0, [], seeded(1), seen).find((e) => e.type === 'choice');
+  assert.ok(!seen.has(first.item.key), 'an unseen word is asked before seen ones');
+  assert.ok(planForLesson(unit, LESSONS_PER_UNIT - 1), 'every lesson index has a plan');
+}
+console.log('lessons: all checks passed');

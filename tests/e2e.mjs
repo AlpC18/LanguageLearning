@@ -98,7 +98,7 @@ await scenario('onboarding sets course, language, goal and level', async () => {
   assert.ok(await ev("!!document.querySelector('.onboarding')"));
   for (const sel of ['[data-lang=it]', '[data-meaning=en]', '[data-goal="20"]', '[data-level=A2]', '[data-act=start]']) { await click(sel); await sleep(80); }
   const s = JSON.parse(await ev("localStorage.getItem('dilbaz:v1')"));
-  assert.deepEqual([s.lang, s.meaning, s.goal, s.onboarded, s.courses.it.units['it-01']], ['it', 'en', 20, true, 3]);
+  assert.deepEqual([s.lang, s.meaning, s.goal, s.onboarded, s.courses.it.units['it-01']], ['it', 'en', 20, true, 10]);
   assert.equal(await ev("document.querySelector('.goal-row span').textContent"), 'Daily goal');
 });
 
