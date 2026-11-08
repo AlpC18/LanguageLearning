@@ -132,7 +132,7 @@ export default [
       ["Mein Bruder ist elf.", "Erkek kardeşim on bir yaşında.", "My brother is eleven.", {"blank": "Mein", "options": ["Meine", "Meinen", "Meinem"]}],
       ["Wie viele Kinder haben Sie?", "Kaç çocuğunuz var?", "How many children do you have?", {"blank": "haben", "options": ["habe", "hast", "hat"]}],
       ["Der Zug kommt in zehn Minuten.", "Tren on dakika sonra geliyor.", "The train comes in ten minutes.", {"blank": "Minuten", "options": ["Minute", "Minuts", "Minutes"]}],
-      ["Dreimal drei ist neun.", "Üç kere üç dokuz eder.", "Three times three is nine.", {"blank": "neun", "options": ["sechs", "acht", "zehn"]}],
+      ["Drei mal drei ist neun.", "Üç kere üç dokuz eder.", "Three times three is nine.", {"blank": "neun", "options": ["sechs", "acht", "zehn"]}],
     ],
   },
   {

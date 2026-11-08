@@ -14,7 +14,7 @@ import { PRONOUNS } from '../src/core/conjugation.js';
 import { VOICE_SAMPLE } from '../src/core/speech.js';
 
 const ROOT = resolve(new URL('..', import.meta.url).pathname);
-const VOICES = { de: 'de_DE-thorsten-high', it: 'it_IT-paola-medium', es: 'es_ES-davefx-medium' };
+const VOICES = { de: 'de_DE-thorsten-medium', it: 'it_IT-paola-medium', es: 'es_ES-davefx-medium' };
 const PYTHON = join(ROOT, '.tools/venv/bin/python');
 
 // Every text the app can speak for a language without AI: words, sentences, sentence tiles, verb forms, readings.

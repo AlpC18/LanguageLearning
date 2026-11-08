@@ -83,7 +83,7 @@ export default [
   },
   {
     id: "de-r-a2-5", level: "A2", title: {"tr":"Daire arayışı","en":"Looking for a flat"},
-    text: "Hallo Herr Weber, ich habe Ihre Anzeige im Internet gesehen. Ist die Wohnung in der Lindenallee noch frei? Ich suche eine Wohnung mit zwei Zimmern, weil ich mit meinem Mann und unserem Baby umziehen möchte. Wie hoch ist die Miete, und sind die Nebenkosten schon dabei? Ist ein Balkon da? Ich kann die Wohnung gern am Freitagnachmittag ansehen. Mit freundlichen Grüßen, Elif Yılmaz",
+    text: "Hallo Herr Weber, ich habe Ihre Anzeige im Internet gesehen. Ist die Wohnung in der Lindenallee noch frei? Ich suche eine Wohnung mit zwei Zimmern, weil ich mit meinem Mann und unserem Baby umziehen möchte. Wie hoch ist die Miete, und sind die Nebenkosten schon dabei? Ist ein Balkon da? Ich kann die Wohnung gern am Freitagnachmittag ansehen. Mit freundlichen Grüßen\nElif Yılmaz",
     questions: [
       { q: {"tr":"Elif neden yazıyor?","en":"Why is Elif writing?"}, answer: 2, options: [{"tr":"Daireyi satmak istiyor","en":"She wants to sell the flat"},{"tr":"Dairenin kirasını ödemek istiyor","en":"She wants to pay the rent"},{"tr":"Daire hakkında bilgi istiyor","en":"She wants information about the flat"},{"tr":"Şikâyet ediyor","en":"She is complaining"}] },
       { q: {"tr":"Kaç odalı daire arıyor?","en":"How many rooms is she looking for?"}, answer: 1, options: [{"tr":"Bir","en":"One"},{"tr":"İki","en":"Two"},{"tr":"Üç","en":"Three"},{"tr":"Dört","en":"Four"}] },
