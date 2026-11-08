@@ -36,6 +36,28 @@ for (const lang of langs) {
       if (options?.length !== 3 || new Set(all).size !== 4) problems.push(`${u.id}: cloze options invalid for "${target}"`);
     }
   }
+  // Level vocabulary decks: complete entries, valid pos, no word already taught in a unit or another deck.
+  const decks = (await import(`../src/data/vocab/${lang}.js`)).default;
+  for (const [level, deck] of Object.entries(decks)) {
+    for (const entry of deck) {
+      const [target, tr, en, pos, ex, exTr, exEn] = entry;
+      if (entry.length !== 7 || ![target, tr, en, ex, exTr, exEn].every((v) => typeof v === 'string' && v.trim())) problems.push(`deck ${level}: incomplete entry "${target}"`);
+      if (!POS.includes(pos)) problems.push(`deck ${level}: "${target}" bad pos "${pos}"`);
+      const k = String(target).toLocaleLowerCase();
+      if (seenWord.has(k)) problems.push(`deck ${level}: word "${target}" already in ${seenWord.get(k)}`);
+      else seenWord.set(k, `deck ${level}`);
+    }
+  }
+  const readings = (await import(`../src/data/readings/${lang}.js`)).default;
+  const rIds = readings.map((r) => r.id);
+  for (const id of rIds.filter((id, i) => rIds.indexOf(id) !== i)) problems.push(`reading id "${id}" duplicated`);
+  for (const r of readings) {
+    if (!r.questions || r.questions.length < 3) problems.push(`${r.id}: needs ≥3 questions`);
+    for (const q of r.questions ?? []) {
+      if (q.options?.length !== 4 || !(q.answer >= 0 && q.answer < 4)) problems.push(`${r.id}: question needs 4 options and answer 0–3`);
+      for (const k of ['tr', 'en']) if (new Set((q.options ?? []).map((o) => o[k])).size !== 4) problems.push(`${r.id}: duplicate ${k} option`);
+    }
+  }
   total += problems.length;
   console.log(`${lang}: ${problems.length} problems`);
   for (const p of problems) console.log(`  ${p}`);

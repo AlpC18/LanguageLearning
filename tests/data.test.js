@@ -67,6 +67,19 @@ for (const lang of langs) {
   console.log(`data ${lang}: ${course.units.length} units, ${verbs.length} verbs, ${readings.length} readings`);
 }
 if (missingCloze.length) console.log(`note: ${missingCloze.length} sentences without hand-picked cloze`);
+// Level vocabulary decks (scripts/check-content.mjs lists every problem; this fails on the first).
+for (const lang of langs) {
+  const decks = (await import(`../src/data/vocab/${lang}.js`)).default;
+  const targets = Object.values(decks).flat().map((e) => e[0].toLocaleLowerCase());
+  assert.equal(new Set(targets).size, targets.length, `vocab/${lang}: duplicate deck word`);
+  for (const [level, deck] of Object.entries(decks)) {
+    for (const e of deck) {
+      assert.ok(e.length === 7 && e.every((v) => typeof v === 'string' && v.trim()), `vocab/${lang} ${level}: incomplete "${e[0]}"`);
+      assert.ok(POS.includes(e[3]), `vocab/${lang} ${level}: "${e[0]}" bad pos`);
+    }
+  }
+}
+
 if (missingPos.length) {
   const msg = `${missingPos.length} words without pos (e.g. ${missingPos.slice(0, 3).join(', ')})`;
   if (strict) assert.fail(msg);
