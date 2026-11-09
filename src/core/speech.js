@@ -22,50 +22,63 @@ export const loadClips = (lang) =>
 
 let playing = null;
 let request = 0;
+let finish = () => {}; // resolves the promise of the speech currently playing
+
 function stopAll() {
   request += 1;
   playing?.pause();
   playing = null;
   if ('speechSynthesis' in window) speechSynthesis.cancel();
+  finish();
 }
 
-function deviceSpeak(text, lang, slow) {
-  if (!('speechSynthesis' in window)) return;
+function deviceSpeak(text, lang, slow, done) {
+  if (!('speechSynthesis' in window)) return done();
   const utterance = new SpeechSynthesisUtterance(text);
   utterance.lang = LOCALES[lang];
   const all = speechSynthesis.getVoices();
   const voice = all.find((v) => v.voiceURI === prefs.voices[lang]) ?? all.find((v) => v.lang.replace('_', '-').startsWith(LOCALES[lang]));
   if (voice) utterance.voice = voice;
   utterance.rate = prefs.rate * (slow ? 0.65 : 0.95);
-  speechSynthesis.speak(utterance);
+  utterance.onend = done;
+  utterance.onerror = done;
+  return speechSynthesis.speak(utterance);
 }
 
 // Plays clips one after another (a passage is a list of sentences); falls back to the device voice on any error.
-function playClips(keys, lang, slow, fallbackText, id) {
+function playClips(keys, lang, slow, fallbackText, id, done) {
   const [key, ...rest] = keys;
-  if (!key || id !== request) return;
+  if (id !== request) return undefined;
+  if (!key) return done();
   const audio = new Audio(`audio/${lang}/${key}.mp3`);
   audio.playbackRate = prefs.rate * (slow ? 0.7 : 1);
-  audio.onended = () => playClips(rest, lang, slow, fallbackText, id);
+  audio.onended = () => playClips(rest, lang, slow, fallbackText, id, done);
   playing = audio;
-  audio.play().catch(() => { if (id === request) deviceSpeak(fallbackText, lang, slow); });
+  return audio.play().catch(() => { if (id === request) deviceSpeak(fallbackText, lang, slow, done); });
 }
 
-// text: a string, or an array of sentences spoken in order.
+// text: a string, or an array of sentences spoken in order. Resolves when speaking ends or is interrupted.
 export async function speak(text, lang, { slow = false } = {}) {
   const parts = (Array.isArray(text) ? text : [text]).map(normalizeSpeech).filter(Boolean);
   stopAll();
   const id = request;
+  const ended = new Promise((resolve) => { finish = resolve; });
+  const done = () => { if (id === request) finish(); };
   const joined = parts.join(' ');
-  const pick = prefs.voices[lang];
-  if (!pick) {
+  if (!prefs.voices[lang]) {
     const clips = await loadClips(lang);
     const keys = parts.map(audioKey);
-    if (id !== request) return;
-    if (keys.length && keys.every((k) => clips.has(k))) return playClips(keys, lang, slow, joined, id);
+    if (id !== request) return ended;
+    if (keys.length && keys.every((k) => clips.has(k))) {
+      playClips(keys, lang, slow, joined, id, done);
+      return ended;
+    }
   }
-  deviceSpeak(joined, lang, slow);
+  deviceSpeak(joined, lang, slow, done);
+  return ended;
 }
+
+export const stopSpeaking = () => stopAll();
 
 const KNOWN_ERRORS = new Set(['not-allowed', 'no-speech', 'network', 'audio-capture']);
 

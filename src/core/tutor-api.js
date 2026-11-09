@@ -40,6 +40,13 @@ export const PROMPTS = {
       + '"glossary": [{"word": string (exactly as it appears in the text), "lemma": string (dictionary form, nouns with article), "tr": string, "en": string}]}. '
       + 'The glossary must cover every word a learner at this level may not know (at least 15 entries).',
   }),
+  writing: ({ task, text, ...ctx }) => ({
+    system: base(ctx),
+    user: `${task ? `Writing task: "${task}". ` : ''}Correct this ${LANGUAGE_NAMES[ctx.lang]} text written by the learner, given between « and »:\n«${text}»\n`
+      + 'JSON shape: {"corrected": string (the text with only the errors fixed), "score": 0-100 (accuracy and range for the level), '
+      + '"errors": [{"original": string, "correction": string, "why": string}], "natural": string (how a native speaker would write it at this level), '
+      + '"tips": [string] (2–3 concrete next steps)}. List every error (grammar, spelling, word choice, register); keep explanations short.',
+  }),
   grammar: ({ rule, ...ctx }) => ({
     system: base(ctx),
     user: `Explain this grammar rule: "${rule}". JSON shape: {"title": string, "explanation": string, `

@@ -32,7 +32,7 @@ const profile = await mkdtemp(join(tmpdir(), 'dilbaz-e2e-'));
 const chrome = spawn(chromePath, ['--headless=new', `--remote-debugging-port=${CDP}`, `--user-data-dir=${profile}`, '--no-first-run', 'about:blank'], { stdio: 'ignore' });
 
 let wsUrl;
-for (let i = 0; i < 40 && !wsUrl; i++) {
+for (let i = 0; i < 120 && !wsUrl; i++) { // up to 30 s: a busy machine starts Chromium slowly
   await sleep(250);
   wsUrl = await fetch(`http://127.0.0.1:${CDP}/json/list`).then((r) => r.json()).then((l) => l.find((t) => t.type === 'page')?.webSocketDebuggerUrl).catch(() => null);
 }
@@ -175,6 +175,41 @@ await scenario('AI tutor and unit story render (Claude API mocked)', async () =>
   await click('[data-add-gloss]');
   const s = JSON.parse(await ev("localStorage.getItem('dilbaz:v1')"));
   assert.equal(s.custom.it[0].target, 'il cane');
+});
+
+await scenario('listening mode, vocabulary deck, listening comprehension and writing correction', async () => {
+  await fresh({ ...BASE, lang: 'es' }, { apiKey: 'test', model: 'claude-sonnet-5-5' });
+  await click('[data-page=listen]');
+  await sleep(150);
+  assert.ok(await ev("!!document.querySelector('.listen [data-act=toggle]')"), 'listen page');
+  await click('[data-act=back]');
+  await sleep(100);
+  await click('[data-page=decks]');
+  await sleep(150);
+  assert.ok(await ev("document.querySelectorAll('[data-study]').length >= 1"), 'deck levels listed');
+  await click('[data-study]');
+  await sleep(150);
+  assert.ok(await ev("!!document.querySelector('.lesson')"), 'deck session starts');
+  await click('[data-act=exit]');
+  await click('[data-act=leave]');
+  await sleep(100);
+  await click('[data-page=reading]');
+  await sleep(150);
+  await click('[data-listen-read]');
+  await sleep(150);
+  assert.ok(await ev("!!document.querySelector('details.reveal .passage')"), 'text hidden behind reveal');
+  assert.ok(await playThrough());
+  await click('[data-act=continue]');
+  await sleep(100);
+  await ev(`window.fetch = async () => new Response(JSON.stringify({ content: [{ type: 'text', text: JSON.stringify({ corrected: 'Fui al cine.', score: 70, errors: [{ original: 'Yo ha ido', correction: 'Fui', why: 'pretérito' }], natural: 'Ayer fui al cine.', tips: ['Repasa el indefinido'] }) }] }));`);
+  await click('[data-page=tutor]');
+  await sleep(100);
+  await click('[data-mode=writing]');
+  await sleep(100);
+  await ev("document.querySelector('[name=text]').value = 'Yo ha ido al cine.'; document.querySelector('[data-role=form]').requestSubmit()");
+  await sleep(300);
+  assert.ok((await ev("document.querySelector('.tutor-output').textContent")).includes('Ayer fui al cine.'));
+  assert.equal(await ev("document.querySelector('[name=text]').value"), 'Yo ha ido al cine.', 'draft kept');
 });
 
 // --- teardown ---------------------------------------------------------------

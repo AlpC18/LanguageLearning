@@ -88,6 +88,8 @@ export function renderHome(root, { state, courses, units, today, dueCount, mista
       <button class="btn" data-act="mistakes" ${mistakeCount ? '' : 'disabled'}>${t('home.mistakes', { n: mistakeCount })}</button>
       <button class="btn" data-act="quick" ${quickCount ? '' : 'disabled'}>${t('home.quick')}</button>
       <button class="btn" data-act="dictation">${t('home.dictation')}</button>
+      <button class="btn" data-page="listen">${t('home.listen')}</button>
+      <button class="btn" data-page="decks">${t('home.decks')}</button>
     </section>
     ${questCard(quests, week)}
     <section class="card filter"></section>

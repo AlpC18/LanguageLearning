@@ -47,9 +47,12 @@ export function runLesson(root, { lang, exercises, onFinish, onExit, retry = tru
         return `${title}<p class="prompt target"><span class="blank">&nbsp;</span> ${esc(ex.noun)}</p><p class="sub">${esc(ex.item.meaning)}</p>${speakRow()}${optionList(ex)}`;
       case 'conjugate':
         return `${title}<p class="prompt">${esc(ex.item.meaning)}</p><p class="prompt target">${esc(ex.pronoun)} <span class="blank">&nbsp;</span></p>${input()}`;
-      case 'comprehend':
-        return `${title}<div class="passage" lang="${lang}">${ex.passage[0].split('\n').map((p) => `<p>${esc(p)}</p>`).join('')}</div>${speakRow()}
+      case 'comprehend': {
+        const text = `<div class="passage" lang="${lang}">${ex.passage[0].split('\n').map((p) => `<p>${esc(p)}</p>`).join('')}</div>`;
+        const shown = ex.listen ? `<p class="muted">${t('ex.listenOnly')}</p><details class="reveal"><summary>${t('ex.showText')}</summary>${text}</details>` : text;
+        return `${title}${shown}${speakRow()}
           <p class="question">${esc(ex.question)}</p>${optionList(ex)}`;
+      }
       case 'cloze':
         return `${title}<p class="prompt target">${esc(ex.blanked).replace(BLANK, '<span class="blank">&nbsp;</span>')}</p><p class="sub">${esc(ex.item.meaning)}</p>${optionList(ex)}`;
       case 'read':
@@ -90,6 +93,7 @@ export function runLesson(root, { lang, exercises, onFinish, onExit, retry = tru
       </footer></div>`;
     if (ex.type === 'build') renderTiles(ex);
     if (AUTO_SPEAK.has(ex.type)) say(ex.item.target);
+    else if (ex.type === 'comprehend' && ex.listen && pos === 0) say(ex.passage);
     $('.answer')?.focus();
   }
 
@@ -151,6 +155,7 @@ export function runLesson(root, { lang, exercises, onFinish, onExit, retry = tru
       const own = sel.clip ? `<div class="pron-actions"><button class="btn" data-act="my-voice">${t('ex.myVoice')}</button><button class="btn" data-act="compare">${t('ex.compare')}</button></div>` : '';
       $('.feedback').insertAdjacentHTML('beforeend', `<p class="diff">${t('ex.pron')} ${words}</p>${legend}${own}`);
     }
+    if (ex.item.example) $('.feedback').insertAdjacentHTML('beforeend', `<p class="example"><span lang="${lang}">${esc(ex.item.example)}</span> <span class="muted">${esc(ex.item.exampleMeaning ?? '')}</span></p>`);
     if (onFlag) $('.feedback').insertAdjacentHTML('beforeend', `<button class="link flag" data-act="flag">${t('flag.btn')}</button>`);
     if (!correct) {
       const tip = tipFor(ex.item.key);

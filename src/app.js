@@ -7,6 +7,9 @@ import verbsEs from './data/verbs/es.js';
 import readingsDe from './data/readings/de.js';
 import readingsIt from './data/readings/it.js';
 import readingsEs from './data/readings/es.js';
+import vocabDe from './data/vocab/de.js';
+import vocabIt from './data/vocab/it.js';
+import vocabEs from './data/vocab/es.js';
 import { load, save, courseState, recordLesson, unitStatus, dayKey, parseBackup, backupName, completeUnits, LESSONS_PER_UNIT, TEST_PASS, DAILY_GOAL } from './core/progress.js';
 import { buildLesson, buildReview, buildTest, buildDictation, buildFocus, unitItems } from './core/exercises.js';
 import { questsFor, questProgress, weeklyRecord, weakestKeys } from './core/insights.js';
@@ -18,6 +21,9 @@ import { buildReading } from './core/readings.js';
 import { isDue } from './core/srs.js';
 import { setVoicePrefs, loadClips } from './core/speech.js';
 import { whisperReady } from './core/pronounce.js';
+import { deckItems, deckStats, buildDeckSession } from './core/decks.js';
+import { renderListen, listenSources } from './ui/listen.js';
+import { renderDecks } from './ui/decks.js';
 import { loadAi, saveAi } from './core/chat-api.js';
 import { renderHome } from './ui/home.js';
 import { runLesson } from './ui/lesson.js';
@@ -36,6 +42,7 @@ import { t, setLocale, locale, unitTip, unitTitle } from './i18n.js';
 const COURSES = { de, it, es };
 const VERBS = { de: verbsDe, it: verbsIt, es: verbsEs };
 const READINGS = { de: readingsDe, it: readingsIt, es: readingsEs };
+const DECKS = { de: vocabDe, it: vocabIt, es: vocabEs };
 const LESSON_XP = 10;
 const PERFECT_BONUS = 5;
 const DISTRACTOR_UNITS = 2;
@@ -54,7 +61,8 @@ const meaningOf = (tr, en) => (locale() === 'en' && en) || tr;
 const myItems = (lang = state.lang) => (state.custom?.[lang] ?? []).map((w) => ({
   key: `${lang}-my:${w.id}`, id: w.id, kind: 'word', mine: true, target: w.target, tr: w.tr, en: w.en, meaning: meaningOf(w.tr, w.en),
 }));
-const allItems = () => [...course().units.flatMap(unitItems), ...myItems()];
+const myDeck = (lang = state.lang) => deckItems(lang, DECKS[lang] ?? {});
+const allItems = () => [...course().units.flatMap(unitItems), ...myItems(), ...myDeck()];
 const itemsByKey = () => new Map(allItems().map((i) => [i.key, i]));
 
 function decoratedUnits() {
@@ -151,12 +159,28 @@ const PAGES = {
   reading: () => renderReadingList(root, {
     readings: READINGS[state.lang] ?? [], verbsCount: (VERBS[state.lang] ?? []).length, onBack: () => home(),
     onRead: (id) => play(buildReading(READINGS[state.lang].find((r) => r.id === id)), { retry: false }),
+    onListenRead: (id) => play(buildReading(READINGS[state.lang].find((r) => r.id === id), { listen: true }), { retry: false }),
     onVerbs: () => play(buildConjugation(state.lang, VERBS[state.lang], currentLevel()), {}),
   }),
   tutor: () => renderTutor(root, {
     lang: state.lang, ai, level: currentLevel(), explain: explainLang(), onBack: () => home(),
     onAddCards: addCards,
   }),
+  listen: () => renderListen(root, {
+    lang: state.lang, onBack: () => home(),
+    sources: listenSources(decoratedUnits().filter((u) => u.status !== 'locked'), READINGS[state.lang] ?? []),
+  }),
+  decks: () => {
+    const items = myDeck();
+    const cards = courseState(state, state.lang).cards;
+    renderDecks(root, {
+      lang: state.lang, items, stats: deckStats(items, cards), onBack: () => home(),
+      onStudy: (level) => {
+        const levelItems = items.filter((i) => i.level === level);
+        play(buildDeckSession(levelItems, courseState(state, state.lang).cards, levelItems), {});
+      },
+    });
+  },
   chat: () => renderChat(root, { lang: state.lang, ai, defaultLevel: currentLevel(), onBack: () => home() }),
   settings: (notice = '') => renderSettings(root, {
     state, ai, langs: Object.keys(COURSES), notice, onBack: () => home(),

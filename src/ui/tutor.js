@@ -16,6 +16,8 @@ const FORMS = {
   cards: () => `<textarea name="words" rows="4" placeholder="${t('tutor.words')}" required></textarea>`,
   story: () => `<input name="topic" placeholder="${t('tutor.topic')}" autocomplete="off">`,
   grammar: () => `<input name="rule" placeholder="${t('tutor.rule')}" required autocomplete="off">`,
+  writing: (draft = {}) => `<input name="task" placeholder="${t('tutor.writingTask')}" value="${esc(draft.task ?? '')}" autocomplete="off">
+    <textarea name="text" rows="7" placeholder="${t('tutor.writingText')}" required>${esc(draft.text ?? '')}</textarea>`,
 };
 
 function lessonView(data) {
@@ -39,11 +41,19 @@ const grammarView = (data) => `<section class="card"><h2>${esc(data.title)}</h2>
   <section class="card"><h3>${t('tutor.mistakes')}</h3><ol class="mistakes">${(data.mistakes ?? [])
     .map((m) => `<li><span class="bad-text">✗ ${esc(m.wrong)}</span><br><span class="ok-text">✓ ${esc(m.right)}</span><p class="muted">${rich(m.why)}</p></li>`).join('')}</ol></section>`;
 
-const VIEWS = { lesson: lessonView, cards: cardsView, grammar: grammarView, story: null };
+const writingView = (data) => `<section class="card"><h2>${t('tutor.writingScore', { n: Number(data.score) || 0 })}</h2>
+    <h3>${t('tutor.corrected')}</h3><p>${rich(data.corrected)}</p></section>
+  <section class="card"><h3>${t('tutor.yourErrors')}</h3><ol class="mistakes">${(data.errors ?? [])
+    .map((m) => `<li><span class="bad-text">✗ ${esc(m.original)}</span><br><span class="ok-text">✓ ${esc(m.correction)}</span><p class="muted">${rich(m.why)}</p></li>`).join('') || `<li>${t('tutor.noErrors')}</li>`}</ol></section>
+  <section class="card"><h3>${t('tutor.natural')}</h3><p>${sayBtn(data.natural ?? '')} ${rich(data.natural)}</p>
+    <ul>${(data.tips ?? []).map((tip) => `<li>💡 ${rich(tip)}</li>`).join('')}</ul></section>`;
+
+const VIEWS = { lesson: lessonView, cards: cardsView, grammar: grammarView, writing: writingView, story: null };
 
 export function renderTutor(root, { lang, ai, level, explain, onBack, onAddCards }) {
   let mode = 'lesson';
   let result = null;
+  let draft = {}; // the learner's writing stays in the form after correction
   const ready = Boolean(ai.apiKey);
 
   function draw(notice = '') {
@@ -51,7 +61,7 @@ export function renderTutor(root, { lang, ai, level, explain, onBack, onAddCards
       title: t('tutor.title'), onBack,
       body: !ready ? `<section class="card"><p>${t('chat.needKey')}</p></section>` : `
         <nav class="choice-row">${Object.keys(FORMS).map((m) => `<button class="chip" data-mode="${m}" aria-pressed="${m === mode}">${t(`tutor.${m}`)}</button>`).join('')}</nav>
-        <form class="card form tutor-form" data-role="form">${FORMS[mode]()}<button class="btn primary" type="submit">${t('tutor.make')}</button></form>
+        <form class="card form tutor-form" data-role="form">${FORMS[mode](draft)}<button class="btn primary" type="submit">${t('tutor.make')}</button></form>
         <p class="notice" aria-live="polite">${esc(notice)}</p>
         <div class="tutor-output" lang="${lang}"></div>`,
       onClick: (el, d) => {
@@ -89,6 +99,10 @@ export function renderTutor(root, { lang, ai, level, explain, onBack, onAddCards
     if (mode === 'story') params.topic = String(f.get('topic') ?? '').trim();
     if (mode === 'lesson') Object.assign(params, { focus: f.get('focus'), topic: String(f.get('topic') ?? '').trim() });
     if (mode === 'grammar') params.rule = String(f.get('rule')).trim();
+    if (mode === 'writing') {
+      draft = { task: String(f.get('task') ?? '').trim(), text: String(f.get('text') ?? '').trim() };
+      Object.assign(params, draft);
+    }
     if (mode === 'cards') {
       params.words = String(f.get('words')).split(/[,\n]/).map((w) => w.trim()).filter(Boolean);
       if (params.words.length > MAX_CARDS) return draw(t('tutor.tooMany'));
