@@ -1,7 +1,7 @@
 // Reading texts: { id, level, title: {tr, en}, text, questions: [{ q: {tr, en}, options: [{tr, en} x4], answer }] }.
 export default [
   {
-    id: "es-r-a1-1", level: "A1", title: {"tr":"Mi familia","en":"My family"},
+    id: "es-r-a1-1", level: "A1", title: {"tr":"Ailem","en":"My family"},
     text: "Me llamo Lucía y vivo en Valencia. Tengo veinte años y soy estudiante. Mi familia es pequeña: mi madre, mi padre y mi hermano Pablo. Pablo tiene diez años. Tenemos un gato que se llama Nube. Es blanco y muy simpático. Me gusta mucho mi casa.",
     questions: [
       { q: {"tr":"Lucía kaç yaşında?","en":"How old is Lucía?"}, answer: 1, options: [{"tr":"On","en":"Ten"},{"tr":"Yirmi","en":"Twenty"},{"tr":"Otuz","en":"Thirty"},{"tr":"On beş","en":"Fifteen"}] },
@@ -10,7 +10,7 @@ export default [
     ],
   },
   {
-    id: "es-r-a1-2", level: "A1", title: {"tr":"En el mercado","en":"At the market"},
+    id: "es-r-a1-2", level: "A1", title: {"tr":"Pazarda","en":"At the market"},
     text: "Hoy voy al mercado con mi abuela. Compramos manzanas, pan y queso. Las manzanas son rojas y cuestan dos euros. El pan está muy caliente. Mi abuela habla con la vendedora. Después volvemos a casa y desayunamos juntos. Es una mañana muy bonita.",
     questions: [
       { q: {"tr":"Kiminle pazara gidiyor?","en":"Who does the narrator go to the market with?"}, answer: 3, options: [{"tr":"Annesiyle","en":"With their mother"},{"tr":"Arkadaşıyla","en":"With a friend"},{"tr":"Yalnız","en":"Alone"},{"tr":"Büyükannesiyle","en":"With their grandmother"}] },
@@ -19,7 +19,7 @@ export default [
     ],
   },
   {
-    id: "es-r-a1-3", level: "A1", title: {"tr":"Mi día","en":"My day"},
+    id: "es-r-a1-3", level: "A1", title: {"tr":"Günüm","en":"My day"},
     text: "Me levanto a las siete. Desayuno café con leche y una tostada. A las ocho voy al trabajo en autobús. Trabajo en una tienda de ropa. Como a las dos con mis compañeros. Por la tarde estudio inglés. Por la noche veo la tele y me acuesto a las once.",
     questions: [
       { q: {"tr":"Anlatıcı işe nasıl gidiyor?","en":"How does the narrator go to work?"}, answer: 1, options: [{"tr":"Yürüyerek","en":"On foot"},{"tr":"Otobüsle","en":"By bus"},{"tr":"Arabayla","en":"By car"},{"tr":"Bisikletle","en":"By bike"}] },
@@ -28,7 +28,7 @@ export default [
     ],
   },
   {
-    id: "es-r-a1-4", level: "A1", title: {"tr":"Un día de lluvia","en":"A rainy day"},
+    id: "es-r-a1-4", level: "A1", title: {"tr":"Yağmurlu bir gün","en":"A rainy day"},
     text: "Hoy hace mal tiempo en Madrid. Llueve y hace frío. Mario no sale de casa. Está en el sofá con una manta y un libro. Su amiga Elena llama por teléfono. Quiere ir al cine, pero Mario prefiere quedarse en casa y beber chocolate caliente.",
     questions: [
       { q: {"tr":"Madrid'de hava nasıl?","en":"What is the weather like in Madrid?"}, answer: 0, options: [{"tr":"Yağmurlu ve soğuk","en":"Rainy and cold"},{"tr":"Güneşli ve sıcak","en":"Sunny and hot"},{"tr":"Karlı","en":"Snowy"},{"tr":"Rüzgârlı ve sıcak","en":"Windy and warm"}] },
@@ -37,7 +37,7 @@ export default [
     ],
   },
   {
-    id: "es-r-a1-5", level: "A1", title: {"tr":"En el restaurante","en":"At the restaurant"},
+    id: "es-r-a1-5", level: "A1", title: {"tr":"Restoranda","en":"At the restaurant"},
     text: "Somos cuatro personas en el restaurante. Yo quiero sopa y pescado. Mi hermana pide una ensalada. Mis padres comen paella. Para beber, tomamos agua y una cerveza. El camarero es muy amable. La comida está buena y el postre es excelente. Es un día feliz.",
     questions: [
       { q: {"tr":"Restoranda kaç kişiler?","en":"How many people are at the restaurant?"}, answer: 2, options: [{"tr":"İki","en":"Two"},{"tr":"Üç","en":"Three"},{"tr":"Dört","en":"Four"},{"tr":"Beş","en":"Five"}] },
@@ -46,7 +46,7 @@ export default [
     ],
   },
   {
-    id: "es-r-a2-1", level: "A2", title: {"tr":"Un fin de semana en Sevilla","en":"A weekend in Seville"},
+    id: "es-r-a2-1", level: "A2", title: {"tr":"Sevilla'da bir hafta sonu","en":"A weekend in Seville"},
     text: "El sábado pasado viajé a Sevilla con dos amigas. Salimos de Madrid en tren a las nueve de la mañana y llegamos a mediodía. Dejamos las maletas en el hotel y fuimos a comer tapas en un bar del centro. Por la tarde visitamos la catedral y subimos a la Giralda. Hacía mucho calor, así que bebimos mucha agua. El domingo paseamos por el parque de María Luisa y compramos recuerdos para nuestras familias. Volvimos a casa cansadas, pero muy contentas.",
     questions: [
       { q: {"tr":"Sevilla'ya nasıl gittiler?","en":"How did they travel to Seville?"}, answer: 1, options: [{"tr":"Uçakla","en":"By plane"},{"tr":"Trenle","en":"By train"},{"tr":"Arabayla","en":"By car"},{"tr":"Otobüsle","en":"By bus"}] },
@@ -55,7 +55,7 @@ export default [
     ],
   },
   {
-    id: "es-r-a2-2", level: "A2", title: {"tr":"Mi nuevo piso","en":"My new flat"},
+    id: "es-r-a2-2", level: "A2", title: {"tr":"Yeni dairem","en":"My new flat"},
     text: "Hace un mes me mudé a un piso nuevo en Zaragoza. Es pequeño, pero tiene mucha luz. Hay un salón con cocina, un dormitorio y un baño. Comparto el piso con Andrés, un compañero de la universidad. Pagamos 600 euros al mes entre los dos. Lo que más me gusta es el balcón, donde tomo café por las mañanas. Lo que menos me gusta es el ruido de la calle, porque hay un bar abajo. Pero el piso está cerca del metro y eso es muy práctico.",
     questions: [
       { q: {"tr":"Daire nasıl?","en":"What is the flat like?"}, answer: 2, options: [{"tr":"Büyük ve karanlık","en":"Big and dark"},{"tr":"Büyük ve ucuz","en":"Big and cheap"},{"tr":"Küçük ama aydınlık","en":"Small but bright"},{"tr":"Eski ve sessiz","en":"Old and quiet"}] },
@@ -64,7 +64,7 @@ export default [
     ],
   },
   {
-    id: "es-r-a2-3", level: "A2", title: {"tr":"Una cita con el médico","en":"A doctor's appointment"},
+    id: "es-r-a2-3", level: "A2", title: {"tr":"Doktor randevusu","en":"A doctor's appointment"},
     text: "Ayer me desperté con dolor de garganta y un poco de fiebre. Llamé al centro de salud y me dieron cita para las cinco de la tarde. El doctor me preguntó cuántos días llevaba enfermo y me miró la garganta. Me dijo que tenía un resfriado fuerte y que debía descansar. Me recetó unas pastillas y me aconsejó beber mucho té con miel. También me pidió que no fuera al trabajo durante dos días. Compré las pastillas en la farmacia y me fui a la cama.",
     questions: [
       { q: {"tr":"Anlatıcının şikâyeti neydi?","en":"What was the narrator's complaint?"}, answer: 0, options: [{"tr":"Boğaz ağrısı ve ateş","en":"Sore throat and fever"},{"tr":"Baş ağrısı","en":"Headache"},{"tr":"Karın ağrısı","en":"Stomachache"},{"tr":"Diş ağrısı","en":"Toothache"}] },
@@ -73,7 +73,7 @@ export default [
     ],
   },
   {
-    id: "es-r-a2-4", level: "A2", title: {"tr":"Mi mejor amiga","en":"My best friend"},
+    id: "es-r-a2-4", level: "A2", title: {"tr":"En iyi arkadaşım","en":"My best friend"},
     text: "Conozco a Carmen desde que teníamos seis años. Éramos vecinas y jugábamos juntas en el patio del edificio. Cuando íbamos al colegio, siempre nos sentábamos en el mismo pupitre. Ahora vivimos en ciudades diferentes: ella estudia medicina en Granada y yo trabajo en Bilbao. No nos vemos mucho, pero hablamos por teléfono todos los domingos. En verano, nos gusta viajar juntas. El año pasado fuimos a Portugal y este año queremos ir a Italia. Para mí, Carmen es como una hermana.",
     questions: [
       { q: {"tr":"Carmen ve anlatıcı nasıl tanıştı?","en":"How did the narrator and Carmen meet?"}, answer: 1, options: [{"tr":"Üniversitede","en":"At university"},{"tr":"Komşu olarak, çocukken","en":"As neighbours when they were children"},{"tr":"İş yerinde","en":"At work"},{"tr":"Tatilde","en":"On holiday"}] },
@@ -82,7 +82,7 @@ export default [
     ],
   },
   {
-    id: "es-r-a2-5", level: "A2", title: {"tr":"Una receta fácil: la tortilla","en":"An easy recipe: the omelette"},
+    id: "es-r-a2-5", level: "A2", title: {"tr":"Kolay bir tarif: tortilla","en":"An easy recipe: the omelette"},
     text: "La tortilla de patatas es un plato típico de España y es muy fácil de preparar. Necesitas cuatro patatas, seis huevos, una cebolla, aceite y sal. Primero, pela las patatas y córtalas en trozos pequeños. Después, fríelas en una sartén con aceite caliente durante quince minutos. Mientras tanto, bate los huevos en un plato grande y añade un poco de sal. Mezcla las patatas con los huevos. Por último, echa todo en la sartén y cocina la tortilla por los dos lados. Se puede comer caliente o fría.",
     questions: [
       { q: {"tr":"Tarif için kaç yumurta gerekir?","en":"How many eggs does the recipe need?"}, answer: 3, options: [{"tr":"Dört","en":"Four"},{"tr":"İki","en":"Two"},{"tr":"Sekiz","en":"Eight"},{"tr":"Altı","en":"Six"}] },
@@ -91,7 +91,7 @@ export default [
     ],
   },
   {
-    id: "es-r-b1-1", level: "B1", title: {"tr":"Mi primer día en la oficina","en":"My first day at the office"},
+    id: "es-r-b1-1", level: "B1", title: {"tr":"Ofisteki ilk günüm","en":"My first day at the office"},
     text: "Ayer fue mi primer día en una empresa de publicidad en Barcelona. Estaba muy nervioso, así que llegué media hora antes de lo necesario. La directora, Marta, me recibió con una sonrisa y me presentó al resto del equipo. Al principio no recordaba ningún nombre, pero todos fueron muy amables. Me asignaron una mesa junto a la ventana y un ordenador nuevo. Por la mañana asistí a una reunión en la que hablaron de un proyecto para una marca de zapatillas. Aunque no entendí todos los términos técnicos, me di cuenta de que trabajar aquí me va a enseñar mucho. A la hora de comer, mis compañeros me invitaron a un restaurante cercano.",
     questions: [
       { q: {"tr":"Anlatıcı neden erken geldi?","en":"Why did the narrator arrive early?"}, answer: 2, options: [{"tr":"Trafik yoktu","en":"There was no traffic"},{"tr":"Müdür istemişti","en":"The director asked them to"},{"tr":"Çok heyecanlıydı","en":"They were very nervous"},{"tr":"Toplantı vardı","en":"There was a meeting"}] },
@@ -100,7 +100,7 @@ export default [
     ],
   },
   {
-    id: "es-r-b1-2", level: "B1", title: {"tr":"Cartas desde Argentina","en":"Letter from Argentina"},
+    id: "es-r-b1-2", level: "B1", title: {"tr":"Arjantin'den mektuplar","en":"Letter from Argentina"},
     text: "Querida Inés:\nTe escribo desde Buenos Aires, donde llevo ya tres semanas. Esta ciudad es enorme y está siempre llena de vida. Me alojo en casa de una familia que me trata como a un hijo. Cada noche cenamos tarde, normalmente a las diez, y después de la cena nos quedamos hablando durante horas. Al principio me costaba entender el acento, porque pronuncian la «ll» de forma muy diferente. Ahora ya me acostumbré y hasta uso algunas palabras de aquí, como «che» y «piola».\nEl fin de semana pasado fui a ver un partido de fútbol y la emoción de la gente me impresionó. Cuando vuelva, te contaré mucho más. Un abrazo fuerte,\nDaniel",
     questions: [
       { q: {"tr":"Daniel ne zamandır Buenos Aires'te?","en":"How long has Daniel been in Buenos Aires?"}, answer: 1, options: [{"tr":"Bir hafta","en":"One week"},{"tr":"Üç hafta","en":"Three weeks"},{"tr":"Üç ay","en":"Three months"},{"tr":"Bir yıl","en":"One year"}] },
@@ -109,7 +109,7 @@ export default [
     ],
   },
   {
-    id: "es-r-b1-3", level: "B1", title: {"tr":"El transporte público en mi ciudad","en":"Public transport in my city"},
+    id: "es-r-b1-3", level: "B1", title: {"tr":"Şehrimde toplu taşıma","en":"Public transport in my city"},
     text: "Vivo en Málaga y, desde hace un año, voy a trabajar en autobús en lugar de usar el coche. Al principio dudaba, porque pensaba que tardaría mucho más. Sin embargo, descubrí que el trayecto dura casi lo mismo, ya que hay un carril exclusivo para autobuses. Además, ahorro bastante dinero: antes gastaba unos cien euros al mes en gasolina y aparcamiento, y ahora pago solo treinta por el abono mensual. Lo único malo es que en hora punta los autobuses van llenos y a veces tengo que viajar de pie. Aun así, aprovecho el viaje para leer o escuchar música. Creo que, si más gente usara el transporte público, las ciudades serían mucho más agradables.",
     questions: [
       { q: {"tr":"Anlatıcı neden otobüsü seçti?","en":"Why did the narrator choose the bus?"}, answer: 2, options: [{"tr":"Arabası bozuldu","en":"Their car broke down"},{"tr":"Otobüs daha hızlıdır","en":"The bus is much faster"},{"tr":"Para biriktirmek için","en":"To save money"},{"tr":"Park yeri bulamadığı için","en":"They could not find parking"}] },
@@ -118,7 +118,7 @@ export default [
     ],
   },
   {
-    id: "es-r-b1-4", level: "B1", title: {"tr":"La fiesta de San Fermín","en":"The San Fermín festival"},
+    id: "es-r-b1-4", level: "B1", title: {"tr":"San Fermín şenliği","en":"The San Fermín festival"},
     text: "Cada año, del 6 al 14 de julio, la ciudad de Pamplona se llena de turistas que vienen a disfrutar de las fiestas de San Fermín. Lo más conocido es el encierro: todas las mañanas, a las ocho, varios toros corren por las calles estrechas del casco antiguo hasta llegar a la plaza. Muchos jóvenes corren delante de los animales, aunque es una actividad muy peligrosa y cada año hay heridos. Los participantes visten de blanco con un pañuelo rojo al cuello. Pero las fiestas son mucho más que el encierro: hay conciertos, desfiles de gigantes, fuegos artificiales y comidas populares en la calle. Hace décadas, el escritor Ernest Hemingway contribuyó a hacerlas famosas en el mundo entero.",
     questions: [
       { q: {"tr":"San Fermín ne zaman kutlanır?","en":"When is San Fermín celebrated?"}, answer: 3, options: [{"tr":"Aralık","en":"December"},{"tr":"Mart","en":"March"},{"tr":"Ağustos","en":"August"},{"tr":"Temmuz","en":"July"}] },
@@ -127,7 +127,7 @@ export default [
     ],
   },
   {
-    id: "es-r-b1-5", level: "B1", title: {"tr":"Aprender un idioma","en":"Learning a language"},
+    id: "es-r-b1-5", level: "B1", title: {"tr":"Bir dil öğrenmek","en":"Learning a language"},
     text: "Aprender un idioma nuevo no es fácil, pero tampoco es imposible. Yo empecé a estudiar español hace dos años y al principio me sentía muy frustrado, porque no entendía casi nada. Con el tiempo, descubrí algunos trucos que me ayudaron mucho. Primero, dediqué quince minutos todos los días a estudiar vocabulario en lugar de estudiar tres horas una sola vez a la semana. Segundo, empecé a ver series con subtítulos en español, lo cual mejoró mucho mi comprensión. Tercero, busqué a un amigo para practicar la conversación por videollamada. Al principio cometía muchos errores, pero mi amigo siempre me corregía con paciencia. Hoy puedo mantener una conversación larga sin demasiados problemas.",
     questions: [
       { q: {"tr":"Anlatıcı ne zamandır İspanyolca öğreniyor?","en":"How long has the narrator studied Spanish?"}, answer: 0, options: [{"tr":"İki yıl","en":"Two years"},{"tr":"Altı ay","en":"Six months"},{"tr":"Beş yıl","en":"Five years"},{"tr":"Bir yıl","en":"One year"}] },
@@ -136,7 +136,7 @@ export default [
     ],
   },
   {
-    id: "es-r-b2-1", level: "B2", title: {"tr":"El auge del teletrabajo","en":"The rise of remote work"},
+    id: "es-r-b2-1", level: "B2", title: {"tr":"Uzaktan çalışmanın yükselişi","en":"The rise of remote work"},
     text: "En los últimos años, el teletrabajo ha pasado de ser una excepción a convertirse en una opción habitual para miles de empresas españolas. Sus defensores sostienen que reduce el tiempo perdido en desplazamientos, permite conciliar mejor la vida familiar y laboral, y amplía las oportunidades de empleo para quienes viven lejos de las grandes ciudades. Sin embargo, no todo son ventajas. Muchos trabajadores confiesan que les resulta difícil desconectar cuando su casa es también su oficina, y que echan de menos el contacto diario con sus compañeros. Además, algunos directivos temen que la falta de supervisión directa disminuya la productividad, aunque varios estudios recientes indican lo contrario. Por todo ello, cada vez más compañías optan por un modelo híbrido, en el que los empleados acuden a la oficina dos o tres días por semana y el resto lo trabajan desde casa.",
     questions: [
       { q: {"tr":"Metne göre uzaktan çalışmanın bir avantajı nedir?","en":"According to the text, what is one advantage of remote work?"}, answer: 1, options: [{"tr":"Daha yüksek maaş","en":"Higher pay"},{"tr":"Yolda kaybedilen zamanın azalması","en":"Less time lost commuting"},{"tr":"Daha az toplantı","en":"Fewer meetings"},{"tr":"Daha fazla izin","en":"More holidays"}] },
@@ -146,7 +146,7 @@ export default [
     ],
   },
   {
-    id: "es-r-b2-2", level: "B2", title: {"tr":"Crónica de un viaje en tren por los Andes","en":"Chronicle of a train journey through the Andes"},
+    id: "es-r-b2-2", level: "B2", title: {"tr":"And Dağları'nda bir tren yolculuğunun güncesi","en":"Chronicle of a train journey through the Andes"},
     text: "El tren salió de Cusco con media hora de retraso, algo que, según me explicó el revisor, nadie en Perú considera un contratiempo. A medida que avanzábamos, el paisaje iba cambiando: los campos de maíz dejaron paso a montañas cubiertas de nieve, y el aire se volvió tan fino que algunos pasajeros empezaron a marearse. Una señora que viajaba a mi lado me ofreció hojas de coca para aliviar el malestar, y aunque al principio dudé, acepté con curiosidad. Durante las ocho horas del trayecto conversamos sobre su familia, sus llamas y las dificultades de vivir a cuatro mil metros de altura. Cuando por fin llegamos a Puno, ya anochecía y el lago Titicaca brillaba bajo la luz de la luna. Me despedí de ella con la sensación de que, más que un viaje, había vivido un encuentro.",
     questions: [
       { q: {"tr":"Yolculuğun başında ne oldu?","en":"What happened at the start of the journey?"}, answer: 1, options: [{"tr":"Tren bozuldu","en":"The train broke down"},{"tr":"Yarım saat gecikmeyle kalktı","en":"It left half an hour late"},{"tr":"Kar yağdı","en":"It snowed"},{"tr":"Bilet sorunu vardı","en":"There was a ticket problem"}] },
@@ -156,7 +156,7 @@ export default [
     ],
   },
   {
-    id: "es-r-b2-3", level: "B2", title: {"tr":"¿Es necesario dormir ocho horas?","en":"Do we really need eight hours of sleep?"},
+    id: "es-r-b2-3", level: "B2", title: {"tr":"Sekiz saat uyumak şart mı?","en":"Do we really need eight hours of sleep?"},
     text: "Desde hace décadas, los médicos recomiendan dormir ocho horas diarias, pero las investigaciones más recientes matizan esta cifra. Según un estudio realizado en varios países, la mayoría de los adultos sanos necesita entre siete y nueve horas, aunque existen diferencias individuales importantes. Algunas personas se sienten perfectamente descansadas con seis horas, mientras que otras necesitan más de nueve para rendir bien. Lo realmente decisivo, según los expertos, no es solo la cantidad, sino también la calidad del sueño. Dormir con el móvil en la mano, tomar café por la tarde o acostarse a horas irregulares puede reducir el descanso, aunque se pase muchas horas en la cama. Por ello, los especialistas aconsejan mantener horarios fijos, evitar las pantallas antes de dormir y mantener la habitación oscura y fresca. Ignorar estos hábitos, advierten, puede aumentar el riesgo de problemas cardíacos y de depresión.",
     questions: [
       { q: {"tr":"Yeni araştırmalara göre çoğu sağlıklı yetişkin kaç saat uykuya ihtiyaç duyar?","en":"According to recent research, how many hours do most healthy adults need?"}, answer: 2, options: [{"tr":"Altı ile yedi","en":"Six to seven"},{"tr":"Tam sekiz","en":"Exactly eight"},{"tr":"Yedi ile dokuz","en":"Seven to nine"},{"tr":"Dokuz ile on","en":"Nine to ten"}] },
@@ -166,7 +166,7 @@ export default [
     ],
   },
   {
-    id: "es-r-b2-4", level: "B2", title: {"tr":"Una tienda de barrio en peligro","en":"A neighbourhood shop in danger"},
+    id: "es-r-b2-4", level: "B2", title: {"tr":"Tehlikedeki bir mahalle dükkânı","en":"A neighbourhood shop in danger"},
     text: "La librería de don Eusebio lleva cuarenta años en la misma esquina del barrio de Gracia, pero este invierno podría cerrar sus puertas para siempre. El propietario del local ha anunciado que subirá el alquiler casi un cincuenta por ciento, una cifra que el librero no puede asumir. «Vendo menos que antes, y lo entiendo: la gente compra por internet y recibe el libro en casa al día siguiente», explica con resignación. Sin embargo, los vecinos no piensan rendirse tan fácilmente. Han creado una plataforma en redes sociales, han recogido más de dos mil firmas y han organizado una lectura colectiva frente al escaparate. «Aquí no solo se venden libros, se conversa, se descubren autores y se cuida una forma de vivir», dice una clienta habitual. Don Eusebio asegura que, pase lo que pase, esta muestra de cariño es el mejor regalo que ha recibido en su vida.",
     questions: [
       { q: {"tr":"Kitapçı neden kapanabilir?","en":"Why might the bookshop close?"}, answer: 1, options: [{"tr":"Kitapçı emekli oluyor","en":"The owner is retiring"},{"tr":"Kira çok artacak","en":"The rent will rise sharply"},{"tr":"Müşteri yok","en":"There are no customers"},{"tr":"Bina yıkılacak","en":"The building will be demolished"}] },
@@ -176,7 +176,7 @@ export default [
     ],
   },
   {
-    id: "es-r-b2-5", level: "B2", title: {"tr":"Los beneficios de aprender música","en":"The benefits of learning music"},
+    id: "es-r-b2-5", level: "B2", title: {"tr":"Müzik öğrenmenin faydaları","en":"The benefits of learning music"},
     text: "Tocar un instrumento no es solo un pasatiempo agradable: según diversos estudios, también transforma el cerebro. Los niños que reciben formación musical durante años suelen desarrollar mejor la memoria, la atención y la capacidad para resolver problemas. Un equipo de neurólogos de la Universidad de Granada comprobó que, al leer una partitura y mover los dedos a la vez, el cerebro activa simultáneamente varias áreas que normalmente trabajan por separado. Esto no implica que haya que ser un genio para disfrutar de estos efectos. Los investigadores subrayan que lo importante es la constancia, no el talento. Incluso los adultos que empiezan a tocar el piano a los cincuenta años notan mejoras en su concentración y en su estado de ánimo. Por eso, aconsejan a las familias que no obliguen a los niños, sino que les permitan elegir el instrumento que más les atraiga.",
     questions: [
       { q: {"tr":"Müzik eğitimi alan çocuklarda ne gelişir?","en":"What tends to improve in children with music training?"}, answer: 3, options: [{"tr":"Boy","en":"Height"},{"tr":"Hız","en":"Speed"},{"tr":"Görme","en":"Eyesight"},{"tr":"Hafıza ve dikkat","en":"Memory and attention"}] },
@@ -186,7 +186,7 @@ export default [
     ],
   },
   {
-    id: "es-r-c1-1", level: "C1", title: {"tr":"La memoria de los pueblos vaciados","en":"The memory of emptied villages"},
+    id: "es-r-c1-1", level: "C1", title: {"tr":"Boşaltılmış köylerin belleği","en":"The memory of emptied villages"},
     text: "En el interior de España existen cientos de pueblos que han perdido a casi todos sus habitantes. Lo que antaño fueron comunidades bulliciosas, con escuela, panadería y fiestas patronales, son hoy calles silenciosas donde el único sonido es el de las campanas, que alguien sigue haciendo repicar por costumbre. El fenómeno, conocido como «la España vaciada», no responde a una causa única: la mecanización del campo, la falta de servicios básicos y la atracción que ejercen las ciudades han contribuido, cada cual a su manera, a un éxodo que se prolonga desde mediados del siglo pasado.\nNo obstante, en los últimos años se observa una tímida inversión de la tendencia. El teletrabajo y el encarecimiento de la vivienda urbana han llevado a algunas familias a replantearse su modo de vida. Hay quien ha reabierto el bar del pueblo, quien ha puesto en marcha una cooperativa agrícola y quien, simplemente, ha vuelto a la casa de sus abuelos. Los expertos advierten, sin embargo, de que sin una inversión pública sostenida en transporte, sanidad y conexión a internet, estas iniciativas aisladas difícilmente bastarán para revertir décadas de abandono.",
     questions: [
       { q: {"tr":"Metne göre \"la España vaciada\" olgusu neye bağlıdır?","en":"According to the text, what explains \"la España vaciada\"?"}, answer: 2, options: [{"tr":"Doğal afetlere","en":"Natural disasters"},{"tr":"Savaşa","en":"War"},{"tr":"Birden çok nedene","en":"Several combined causes"},{"tr":"Tek bir hükümet politikasına","en":"A single government policy"}] },
@@ -196,7 +196,7 @@ export default [
     ],
   },
   {
-    id: "es-r-c1-2", level: "C1", title: {"tr":"Reseña: una novela inquietante","en":"Review: an unsettling novel"},
+    id: "es-r-c1-2", level: "C1", title: {"tr":"Eleştiri: tedirgin edici bir roman","en":"Review: an unsettling novel"},
     text: "Hay novelas que se leen de un tirón y otras que exigen detenerse, releer un párrafo y levantar la vista del libro para respirar. «La casa de las voces», la última obra de la escritora gallega Noemí Veiga, pertenece sin duda a este segundo grupo. Su argumento, en apariencia sencillo, narra el regreso de una traductora a la casa familiar tras la muerte de su madre. Lo que debería ser un trámite de unos días se convierte, poco a poco, en un descenso a los silencios, mentiras piadosas y rencores que sostenían la vida de tres generaciones.\nVeiga maneja con maestría la ambigüedad: nunca sabemos con certeza si los ruidos nocturnos de la casa son fruto del miedo de la protagonista o de algo más oscuro. Esa incertidumbre, lejos de frustrar al lector, lo mantiene en vilo hasta la última página. Si acaso, cabe reprocharle cierta lentitud en el tramo central, donde las descripciones se alargan más de lo necesario. Pese a ello, estamos ante una obra madura, perturbadora y, a su manera, profundamente tierna.",
     questions: [
       { q: {"tr":"Kitap nasıl bir okuma gerektirir?","en":"What kind of reading does the book demand?"}, answer: 1, options: [{"tr":"Hızlı ve kesintisiz","en":"Fast and uninterrupted"},{"tr":"Yavaş, duraklayarak ve yeniden okuyarak","en":"Slow, with pauses and rereading"},{"tr":"Sesli","en":"Aloud"},{"tr":"Sadece geceleri","en":"Only at night"}] },
@@ -206,7 +206,7 @@ export default [
     ],
   },
   {
-    id: "es-r-c1-3", level: "C1", title: {"tr":"Inteligencia artificial y empleo","en":"Artificial intelligence and employment"},
+    id: "es-r-c1-3", level: "C1", title: {"tr":"Yapay zekâ ve istihdam","en":"Artificial intelligence and employment"},
     text: "Cada vez que una tecnología irrumpe en el mercado laboral, resurge el mismo temor: que las máquinas nos quiten el trabajo. La inteligencia artificial no es una excepción, y el debate se ha intensificado desde que los sistemas generativos demostraron ser capaces de redactar informes, traducir textos o programar con una soltura impensable hace apenas una década. Algunos economistas pronostican una oleada de despidos en profesiones administrativas y creativas; otros, en cambio, sostienen que la historia demuestra que cada revolución técnica acaba generando más empleos de los que destruye.\nQuizá la clave no esté tanto en el volumen de puestos como en su naturaleza. Es probable que muchas tareas rutinarias se automaticen, lo que obligará a los trabajadores a reciclarse hacia funciones que requieran juicio, empatía o creatividad. El riesgo, por tanto, no reside solo en la pérdida de ocupaciones, sino en que la transición sea desigual: quienes dispongan de formación y recursos se adaptarán con rapidez, mientras que los demás podrían quedarse atrás. De ahí que numerosos expertos reclamen políticas públicas de formación continua antes de que el cambio sea irreversible.",
     questions: [
       { q: {"tr":"Metin hangi korkudan söz ediyor?","en":"What fear does the text mention?"}, answer: 0, options: [{"tr":"Makinelerin işleri elinden alacağı","en":"That machines will take jobs"},{"tr":"Enerji krizinin","en":"An energy crisis"},{"tr":"Vergilerin artacağı","en":"Taxes rising"},{"tr":"İnternetin çökeceği","en":"The internet collapsing"}] },
@@ -216,7 +216,7 @@ export default [
     ],
   },
   {
-    id: "es-r-c1-4", level: "C1", title: {"tr":"Una carta al director","en":"A letter to the editor"},
+    id: "es-r-c1-4", level: "C1", title: {"tr":"Gazete editörüne bir mektup","en":"A letter to the editor"},
     text: "Muy señor mío:\nMe dirijo a usted con motivo del artículo publicado el pasado domingo sobre la peatonalización del casco histórico, con cuyas conclusiones discrepo abiertamente. El texto sugiere que los comercios de la zona han sufrido una caída de ventas desde que se prohibió el tráfico rodado. Quien suscribe lleva veintidós años al frente de una pequeña papelería en la calle Mayor y puede asegurar que su experiencia es justamente la contraria.\nEs cierto que, durante los primeros meses, la falta de acceso para los camiones de reparto causó molestias que no conviene minimizar. Pero una vez resueltos esos problemas mediante horarios de carga y descarga, el flujo de transeúntes ha aumentado de forma notable, y con él, la clientela. La calle, antes ruidosa y contaminada, es hoy un lugar donde la gente se detiene, curiosea y, a menudo, compra. Resulta preocupante que un periódico de su prestigio publique conclusiones basadas en una muestra tan reducida de testimonios, sin contrastar datos objetivos. Confío en que futuras ediciones corrijan este desequilibrio.\nAtentamente,\nRosa Almagro",
     questions: [
       { q: {"tr":"Rosa neden yazıyor?","en":"Why is Rosa writing?"}, answer: 1, options: [{"tr":"Yeni dükkân açtığı için","en":"To announce a new shop"},{"tr":"Bir makaleye karşı çıkmak için","en":"To disagree with an article"},{"tr":"İş aramak için","en":"To look for a job"},{"tr":"Bir ödülü kutlamak için","en":"To congratulate on an award"}] },
@@ -226,7 +226,7 @@ export default [
     ],
   },
   {
-    id: "es-r-c1-5", level: "C1", title: {"tr":"El silencio como lujo","en":"Silence as a luxury"},
+    id: "es-r-c1-5", level: "C1", title: {"tr":"Bir lüks olarak sessizlik","en":"Silence as a luxury"},
     text: "Vivimos rodeados de ruido: el tráfico, las notificaciones del móvil, las conversaciones ajenas en el transporte público. Tan acostumbrados estamos a este murmullo constante que apenas lo percibimos, hasta que desaparece y nos sorprende la intensidad de su ausencia. No es casual que el silencio se haya convertido en un bien codiciado. En algunos hoteles de montaña se publicita como el principal atractivo, y proliferan los retiros donde los participantes pagan por pasar varios días sin pronunciar palabra.\nLos científicos llevan tiempo advirtiendo de que la exposición prolongada al ruido eleva la presión arterial y dificulta la concentración. Más sorprendente es que los breves intervalos de silencio parecen tener un efecto restaurador: según algunos experimentos, dos minutos sin estímulos sonoros relajan más que escuchar música tranquila. El filósofo Byung-Chul Han sostiene incluso que el silencio es una forma de resistencia frente a una sociedad que premia la hiperactividad. Sea como fuere, quizá convenga empezar por lo más modesto: apagar el teléfono durante un paseo y escuchar, simplemente, lo que ocurre alrededor.",
     questions: [
       { q: {"tr":"Yazara göre gürültüyü ne zaman fark ederiz?","en":"When do we notice noise, according to the author?"}, answer: 2, options: [{"tr":"Uyurken","en":"When sleeping"},{"tr":"Çalışırken","en":"When working"},{"tr":"Ortadan kalktığında","en":"When it disappears"},{"tr":"Şehirden ayrılırken","en":"When leaving the city"}] },
@@ -236,7 +236,7 @@ export default [
     ],
   },
   {
-    id: "es-r-c2-1", level: "C2", title: {"tr":"Elogio de la lentitud","en":"In praise of slowness"},
+    id: "es-r-c2-1", level: "C2", title: {"tr":"Yavaşlığa övgü","en":"In praise of slowness"},
     text: "Hay épocas que se definen por una virtud y otras por su ausencia. La nuestra, sin duda, ha hecho de la velocidad una religión sin disidentes: respondemos mensajes en segundos, exigimos entregas en horas y consideramos una afrenta cualquier espera superior a la que dura un semáforo. Lo curioso es que, pese a haber multiplicado la rapidez de casi todos nuestros actos, seguimos quejándonos de no tener tiempo. La paradoja es solo aparente: cada minuto que la tecnología nos ahorra es inmediatamente ocupado por una nueva obligación, de modo que la aceleración, lejos de liberarnos, nos esclaviza con mayor eficacia.\nDe ahí que cobre sentido reivindicar la lentitud, no como pereza ni como nostalgia, sino como una forma de atención. Quien cocina despacio saborea lo que prepara; quien pasea sin rumbo descubre lo que el itinerario más corto le habría ocultado; quien lee con detenimiento advierte los matices que la lectura en diagonal convierte en ruido. La lentitud, en definitiva, no consiste en hacer menos, sino en permanecer en lo que se hace.\nSería ingenuo, con todo, proponer un regreso a la vida preindustrial. Nadie desea renunciar a la medicina moderna ni a la posibilidad de conversar con un ser querido a miles de kilómetros. Se trata, más bien, de recuperar el derecho a elegir el ritmo, de decidir cuándo conviene correr y cuándo detenerse. Quizá la verdadera libertad contemporánea sea, justamente, la de poder esperar.",
     questions: [
       { q: {"tr":"Yazar çağımızı nasıl tanımlıyor?","en":"How does the author characterise our age?"}, answer: 0, options: [{"tr":"Hızı bir din haline getirmiş","en":"It has made speed a religion"},{"tr":"Tembelliği övüyor","en":"It praises laziness"},{"tr":"Geçmişe özlem duyuyor","en":"It is nostalgic"},{"tr":"Sabrı değerli buluyor","en":"It values patience"}] },
@@ -246,7 +246,7 @@ export default [
     ],
   },
   {
-    id: "es-r-c2-2", level: "C2", title: {"tr":"Un traductor ante el abismo","en":"A translator facing the abyss"},
+    id: "es-r-c2-2", level: "C2", title: {"tr":"Uçurumun kıyısında bir çevirmen","en":"A translator facing the abyss"},
     text: "Llevaba tres semanas atascado en una sola frase. No era una frase especialmente larga ni oscura, pero contenía una palabra que, en el idioma original, designaba a un mismo tiempo la nostalgia y la esperanza, y que yo, tras haber recorrido todos los diccionarios de la casa, no conseguía acomodar en castellano sin traicionar alguna de sus dos mitades. Mi editora, mujer de una paciencia heroica, me había sugerido que dejara una nota a pie de página, solución que a mí me parecía una confesión de derrota.\nFue una tarde de lluvia, mientras esperaba el autobús bajo una marquesina, cuando escuché a una anciana decirle a su nieto: «Ya verás como todo vuelve a ser como antes, hijo». Y comprendí, con una claridad casi humillante, que la palabra que buscaba no estaba en ningún diccionario, sino en la manera en que la gente habla cuando necesita consolar. No la traduje con un término, sino con una construcción entera, ligeramente más larga que el original, pero cuyo ritmo dejaba intacta la ambigüedad.\nSe suele afirmar que traducir es traicionar, y es cierto en un sentido trivial. Lo que se olvida es que toda traición tiene grados, y que el oficio consiste en elegir, con humildad y sin garantías, cuál de ellas resulta más fiel. Al cerrar el libro, ya impreso, descubrí que nadie había reparado en aquella frase. Y, sin embargo, para mí seguía siendo la única que importaba.",
     questions: [
       { q: {"tr":"Anlatıcıyı üç haftadır ne uğraştırıyor?","en":"What has troubled the narrator for three weeks?"}, answer: 1, options: [{"tr":"Uzun bir bölüm","en":"A long chapter"},{"tr":"Tek bir cümledeki bir sözcük","en":"A single word in one sentence"},{"tr":"Bir sözleşme","en":"A contract"},{"tr":"Editörünün eleştirisi","en":"The editor's criticism"}] },
@@ -256,7 +256,7 @@ export default [
     ],
   },
   {
-    id: "es-r-c2-3", level: "C2", title: {"tr":"Ciencia y sentido común","en":"Science and common sense"},
+    id: "es-r-c2-3", level: "C2", title: {"tr":"Bilim ve sağduyu","en":"Science and common sense"},
     text: "Existe la extendida creencia de que la ciencia no es más que sentido común sistematizado, una especie de refinamiento de lo que cualquier persona sensata habría llegado a pensar. La historia, sin embargo, desmiente esta idea con obstinación. Que la Tierra gira alrededor del Sol contradice lo que nuestros ojos nos muestran cada mañana; que los objetos pesados y ligeros caen a la misma velocidad choca con la experiencia cotidiana; y que el tiempo transcurra de forma distinta según la velocidad de quien lo mide desafía cualquier intuición razonable. Los grandes avances han exigido, casi siempre, desconfiar de lo evidente.\nEsto no significa que el sentido común carezca de valor. Es un instrumento admirable para moverse por el mundo inmediato, y la propia ciencia se apoya en él cuando formula preguntas o interpreta resultados. El problema surge cuando se le otorga una autoridad que no le corresponde, cuando se utiliza para zanjar cuestiones que exceden la escala humana, desde lo infinitamente pequeño hasta lo inconcebiblemente remoto.\nConviene, asimismo, no caer en el error opuesto. Del hecho de que algunas intuiciones sean falsas no se sigue que toda intuición lo sea, ni que cualquier afirmación extravagante merezca el beneplácito de la duda metódica. Lo que distingue a la ciencia no es su rareza, sino su disposición a someterse a la contrastación: una hipótesis, por fascinante que resulte, perece si la evidencia le da la espalda. En ese gesto de humildad organizada reside, acaso, su rasgo más admirable.",
     questions: [
       { q: {"tr":"Yaygın inanç nedir?","en":"What is the widespread belief?"}, answer: 2, options: [{"tr":"Bilim fazla karmaşıktır","en":"Science is too complex"},{"tr":"Bilim dinsel bir inançtır","en":"Science is a form of faith"},{"tr":"Bilim sistemleştirilmiş sağduyudur","en":"Science is systematised common sense"},{"tr":"Bilim yalnızca laboratuvarda yapılır","en":"Science only happens in labs"}] },
@@ -266,7 +266,7 @@ export default [
     ],
   },
   {
-    id: "es-r-c2-4", level: "C2", title: {"tr":"Una tarde en el mercado de Oaxaca","en":"An afternoon at the Oaxaca market"},
+    id: "es-r-c2-4", level: "C2", title: {"tr":"Oaxaca pazarında bir öğleden sonra","en":"An afternoon at the Oaxaca market"},
     text: "Al atravesar el umbral del Mercado 20 de Noviembre, lo primero que asalta al visitante no es la vista, sino el olfato: una mezcla densa de chile tostado, chocolate recién molido, carne asada sobre brasas y flores de cempasúchil. Pasillos angostos, techados con lonas de colores, se bifurcan en una geometría caprichosa donde resulta fácil perderse, y tal vez ese sea el mejor modo de recorrerlo. Las vendedoras, en su mayoría mujeres de edad indefinible y delantales bordados, pregonan sus mercancías con una musicalidad que no se aprende en ninguna escuela.\nMe detuve ante un puesto donde una señora molía cacao en un metate de piedra. Sin que yo preguntara nada, me explicó que su abuela le había enseñado el oficio y que ella, a su vez, se lo había transmitido a su hija, aunque esta última prefería ahora trabajar en una oficina de la capital. Lo dijo sin amargura, con la serenidad de quien sabe que las tradiciones, como los ríos, cambian de cauce sin dejar de ser lo que son.\nMe invitó a probar un chocolate caliente espeso, condimentado con canela y un toque de chile. Era áspero, ligeramente amargo, nada que ver con las versiones industriales y dulces a las que estaba acostumbrado. Mientras lo bebía, entre el bullicio de regateos y risas, comprendí que un mercado no es solo un lugar donde se intercambian productos, sino un archivo vivo donde una comunidad guarda su memoria. Salí con las manos vacías y, sin embargo, con la sensación de llevarme algo que no habría podido pagar.",
     questions: [
       { q: {"tr":"Ziyaretçiyi ilk ne etkiliyor?","en":"What first strikes the visitor?"}, answer: 3, options: [{"tr":"Renkler","en":"The colours"},{"tr":"Kalabalık","en":"The crowd"},{"tr":"Müzik","en":"The music"},{"tr":"Kokular","en":"The smells"}] },
@@ -276,7 +276,7 @@ export default [
     ],
   },
   {
-    id: "es-r-c2-5", level: "C2", title: {"tr":"Memoria y olvido","en":"Memory and forgetting"},
+    id: "es-r-c2-5", level: "C2", title: {"tr":"Bellek ve unutuş","en":"Memory and forgetting"},
     text: "Solemos concebir la memoria como un archivo: un depósito donde los recuerdos se almacenan intactos, a la espera de ser recuperados. Las investigaciones de las últimas décadas sugieren, sin embargo, un modelo bastante distinto. Cada vez que evocamos un episodio, no lo extraemos de una caja fuerte, sino que lo reconstruimos a partir de fragmentos dispersos, y en ese proceso lo modificamos ligeramente. De ahí que los recuerdos más queridos, los que más veces revisitamos, sean paradójicamente los más susceptibles de deformarse.\nEsta plasticidad tiene consecuencias inquietantes en el ámbito judicial. Numerosos estudios han demostrado que el testimonio ocular, durante mucho tiempo considerado la prueba reina, es mucho menos fiable de lo que se pensaba: basta una pregunta formulada de manera tendenciosa para que un testigo «recuerde» detalles que jamás presenció, y lo haga con absoluta convicción. Varios condenados han sido exonerados años después gracias a pruebas de ADN, tras haber sido identificados erróneamente por víctimas sinceras.\nSería un error, no obstante, interpretar todo esto como una condena de la memoria. El olvido, lejos de ser un defecto, cumple una función esencial: nos permite descartar lo accesorio y retener lo significativo. Quien lo recordara todo, como el célebre personaje de Borges, Funes, quedaría paralizado por la avalancha de detalles, incapaz de generalizar o de pensar. En cierto sentido, pensar es olvidar diferencias. Quizá debamos, pues, aprender a mirar nuestra memoria con una mezcla de gratitud y escepticismo, aceptando que lo que somos se parece menos a un registro fiel que a un relato en perpetua revisión.",
     questions: [
       { q: {"tr":"Geleneksel bellek anlayışı nedir?","en":"What is the traditional conception of memory?"}, answer: 0, options: [{"tr":"Anıların bozulmadan saklandığı bir arşiv","en":"An archive where memories are stored intact"},{"tr":"Sürekli değişen bir ağ","en":"A constantly changing network"},{"tr":"Duyguların deposu","en":"A store of emotions"},{"tr":"Sadece görsel bir kayıt","en":"A purely visual record"}] },

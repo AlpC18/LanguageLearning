@@ -1,7 +1,7 @@
 // Reading texts: { id, level, title: {tr, en}, text, questions: [{ q: {tr, en}, options: [{tr, en} x4], answer }] }.
 export default [
   {
-    id: "it-r-a1-1", level: "A1", title: {"tr":"La mia famiglia","en":"My family"},
+    id: "it-r-a1-1", level: "A1", title: {"tr":"Ailem","en":"My family"},
     text: "Mi chiamo Marco e ho dieci anni. Abito a Roma con la mia famiglia. Mio padre si chiama Paolo e mia madre si chiama Anna. Ho anche una sorella, Giulia. Lei ha sette anni. Abbiamo un gatto nero e si chiama Nero. Io amo il mio gatto e la mia famiglia.",
     questions: [
       { q: {"tr":"Marco nerede yaşıyor?","en":"Where does Marco live?"}, answer: 0, options: [{"tr":"Roma'da","en":"In Rome"},{"tr":"Napoli'de","en":"In Naples"},{"tr":"Milano'da","en":"In Milan"},{"tr":"Torino'da","en":"In Turin"}] },
@@ -10,7 +10,7 @@ export default [
     ],
   },
   {
-    id: "it-r-a1-2", level: "A1", title: {"tr":"Al bar","en":"At the café"},
+    id: "it-r-a1-2", level: "A1", title: {"tr":"Kafede","en":"At the café"},
     text: "Oggi è sabato mattina. Luca va al bar con un amico. Ordina un cappuccino e una brioche. L'amico beve un caffè e mangia un panino. Il cappuccino costa due euro. Luca paga e dice: «Grazie, arrivederci!». Poi tornano a casa a piedi. Il bar è vicino a casa e Luca ci va spesso.",
     questions: [
       { q: {"tr":"Luca kafeye ne zaman gidiyor?","en":"When does Luca go to the café?"}, answer: 3, options: [{"tr":"Pazar akşamı","en":"Sunday evening"},{"tr":"Cuma sabahı","en":"Friday morning"},{"tr":"Cumartesi akşamı","en":"Saturday evening"},{"tr":"Cumartesi sabahı","en":"Saturday morning"}] },
@@ -19,7 +19,7 @@ export default [
     ],
   },
   {
-    id: "it-r-a1-3", level: "A1", title: {"tr":"La mia giornata","en":"My day"},
+    id: "it-r-a1-3", level: "A1", title: {"tr":"Günüm","en":"My day"},
     text: "Mi alzo alle sette. Faccio colazione con latte e biscotti. Alle otto vado a scuola in autobus. Studio italiano, matematica e musica. Alle due torno a casa e mangio la pasta. Il pomeriggio faccio i compiti e gioco a calcio con i miei amici. La sera guardo la televisione.",
     questions: [
       { q: {"tr":"Saat kaçta kalkıyor?","en":"What time does he/she get up?"}, answer: 1, options: [{"tr":"Altıda","en":"At six"},{"tr":"Yedide","en":"At seven"},{"tr":"Sekizde","en":"At eight"},{"tr":"İkide","en":"At two"}] },
@@ -28,7 +28,7 @@ export default [
     ],
   },
   {
-    id: "it-r-a1-4", level: "A1", title: {"tr":"Il tempo","en":"The weather"},
+    id: "it-r-a1-4", level: "A1", title: {"tr":"Hava durumu","en":"The weather"},
     text: "A Napoli oggi c'è il sole e fa caldo. Anna e Sara vanno al mare. Portano un ombrellone, un libro e una bottiglia d'acqua. Il mare è azzurro e l'acqua è fresca. Domani invece piove e fa freddo, quindi restano a casa e guardano un film.",
     questions: [
       { q: {"tr":"Bugün Napoli'de hava nasıl?","en":"What is the weather like in Naples today?"}, answer: 2, options: [{"tr":"Yağmurlu ve soğuk","en":"Rainy and cold"},{"tr":"Bulutlu","en":"Cloudy"},{"tr":"Güneşli ve sıcak","en":"Sunny and hot"},{"tr":"Karlı","en":"Snowy"}] },
@@ -37,7 +37,7 @@ export default [
     ],
   },
   {
-    id: "it-r-a1-5", level: "A1", title: {"tr":"La mia casa","en":"My home"},
+    id: "it-r-a1-5", level: "A1", title: {"tr":"Evim","en":"My home"},
     text: "Questa è la mia casa. È piccola ma bella. Ha una cucina, un bagno, un soggiorno e due camere. La mia camera è blu. Ho un letto, una scrivania e una finestra grande. Dalla finestra vedo un giardino con molti fiori. Mi piace molto la mia casa.",
     questions: [
       { q: {"tr":"Ev nasıl?","en":"What is the house like?"}, answer: 3, options: [{"tr":"Büyük ve eski","en":"Big and old"},{"tr":"Küçük ve çirkin","en":"Small and ugly"},{"tr":"Büyük ve yeni","en":"Big and new"},{"tr":"Küçük ama güzel","en":"Small but nice"}] },
@@ -46,7 +46,7 @@ export default [
     ],
   },
   {
-    id: "it-r-a2-1", level: "A2", title: {"tr":"Una gita a Firenze","en":"A trip to Florence"},
+    id: "it-r-a2-1", level: "A2", title: {"tr":"Floransa'ya bir gezi","en":"A trip to Florence"},
     text: "Domenica scorsa io e i miei amici siamo andati a Firenze in treno. Siamo partiti alle otto e siamo arrivati dopo due ore. Prima abbiamo visitato il Duomo, che è enorme e molto bello. Poi abbiamo mangiato una pizza in una piccola trattoria vicino al Ponte Vecchio. Nel pomeriggio abbiamo fatto una passeggiata e comprato dei souvenir. Siamo tornati a casa stanchi ma felici, perché è stata una giornata bellissima.",
     questions: [
       { q: {"tr":"Floransa'ya nasıl gittiler?","en":"How did they get to Florence?"}, answer: 2, options: [{"tr":"Arabayla","en":"By car"},{"tr":"Uçakla","en":"By plane"},{"tr":"Trenle","en":"By train"},{"tr":"Otobüsle","en":"By bus"}] },
@@ -55,7 +55,7 @@ export default [
     ],
   },
   {
-    id: "it-r-a2-2", level: "A2", title: {"tr":"Un messaggio a un'amica","en":"A message to a friend"},
+    id: "it-r-a2-2", level: "A2", title: {"tr":"Bir arkadaşa mesaj","en":"A message to a friend"},
     text: "Ciao Elena, come stai? Ti scrivo da Torino, dove sto passando una settimana per lavoro. La città mi piace molto: ci sono tanti parchi e caffè eleganti. Di giorno lavoro in ufficio, ma la sera esco con i colleghi. Sabato prossimo torno a Milano. Che ne dici di cenare insieme domenica? Conosco un ristorante nuovo vicino a casa tua. Fammi sapere! Un abbraccio, Matteo",
     questions: [
       { q: {"tr":"Matteo neden Torino'da?","en":"Why is Matteo in Turin?"}, answer: 1, options: [{"tr":"Tatil için","en":"For a holiday"},{"tr":"İş için","en":"For work"},{"tr":"Okul için","en":"For school"},{"tr":"Akrabalarını ziyaret için","en":"To visit relatives"}] },
@@ -64,7 +64,7 @@ export default [
     ],
   },
   {
-    id: "it-r-a2-3", level: "A2", title: {"tr":"Il mercato del giovedì","en":"The Thursday market"},
+    id: "it-r-a2-3", level: "A2", title: {"tr":"Perşembe pazarı","en":"The Thursday market"},
     text: "Ogni giovedì in piazza c'è il mercato. Mia nonna ci va sempre presto, perché la frutta e la verdura sono più fresche la mattina. Compra pomodori, zucchine e arance da un signore simpatico che si chiama Gino. Poi passa dal banco del formaggio e prende un po' di pecorino. Spende circa venti euro. Quando torna a casa, prepara una buona minestra per tutta la famiglia.",
     questions: [
       { q: {"tr":"Büyükanne neden erken gidiyor?","en":"Why does the grandmother go early?"}, answer: 2, options: [{"tr":"Kalabalık sevmediği için","en":"She dislikes crowds"},{"tr":"Fiyatlar ucuz olduğu için","en":"Prices are cheaper"},{"tr":"Sabah meyve ve sebzeler daha taze olduğu için","en":"Fruit and vegetables are fresher in the morning"},{"tr":"Sonra işi olduğu için","en":"She has work later"}] },
@@ -73,7 +73,7 @@ export default [
     ],
   },
   {
-    id: "it-r-a2-4", level: "A2", title: {"tr":"Il mio hobby","en":"My hobby"},
+    id: "it-r-a2-4", level: "A2", title: {"tr":"Hobim","en":"My hobby"},
     text: "Mi chiamo Paola e il mio hobby preferito è la cucina. Ho cominciato due anni fa, quando mia zia mi ha regalato un libro di ricette. All'inizio bruciavo tutto! Adesso invece preparo la pasta fresca ogni weekend. Il mio piatto preferito sono le tagliatelle al ragù. Spesso invito gli amici a cena e loro dicono che sono molto brava. Il prossimo anno vorrei fare un corso di pasticceria.",
     questions: [
       { q: {"tr":"Paola yemek yapmaya nasıl başladı?","en":"How did Paola start cooking?"}, answer: 3, options: [{"tr":"Bir kursa gitti","en":"She took a course"},{"tr":"Annesi öğretti","en":"Her mother taught her"},{"tr":"Bir televizyon programı izledi","en":"She watched a TV show"},{"tr":"Teyzesi ona bir tarif kitabı hediye etti","en":"Her aunt gave her a recipe book"}] },
@@ -82,7 +82,7 @@ export default [
     ],
   },
   {
-    id: "it-r-a2-5", level: "A2", title: {"tr":"Dal medico","en":"At the doctor"},
+    id: "it-r-a2-5", level: "A2", title: {"tr":"Doktorda","en":"At the doctor"},
     text: "Ieri non mi sentivo bene. Avevo mal di testa, un po' di febbre e la gola molto rossa. Così sono andata dal medico. Il dottore mi ha visitata e ha detto che è solo un'influenza. Mi ha consigliato di restare a letto per tre giorni, bere molta acqua e prendere una medicina due volte al giorno. Oggi sto già meglio, ma resto a casa e leggo un libro.",
     questions: [
       { q: {"tr":"Dün nesi vardı?","en":"What was wrong with her yesterday?"}, answer: 0, options: [{"tr":"Baş ağrısı, hafif ateş ve boğaz ağrısı","en":"A headache, a slight fever and a sore throat"},{"tr":"Karın ağrısı","en":"A stomachache"},{"tr":"Diş ağrısı","en":"A toothache"},{"tr":"Hiçbir şey","en":"Nothing"}] },
@@ -91,7 +91,7 @@ export default [
     ],
   },
   {
-    id: "it-r-b1-1", level: "B1", title: {"tr":"Lavorare da casa","en":"Working from home"},
+    id: "it-r-b1-1", level: "B1", title: {"tr":"Evden çalışmak","en":"Working from home"},
     text: "Da quando lavoro da casa, la mia vita è cambiata molto. Prima mi svegliavo alle sei, prendevo il treno affollato e passavo quasi due ore al giorno tra andata e ritorno. Adesso mi alzo con calma, preparo il caffè e accendo il computer alle nove. Risparmio tempo e soldi, e posso pranzare con la mia famiglia. Però non è tutto perfetto: mi mancano le chiacchiere con i colleghi e a volte faccio fatica a staccare la sera, perché l'ufficio è nello stesso posto dove vivo. Per questo ho deciso di andare in ufficio due giorni a settimana. Credo che sia un buon compromesso.",
     questions: [
       { q: {"tr":"Uzaktan çalışmanın en büyük avantajı nedir?","en":"What is the main advantage of working from home?"}, answer: 1, options: [{"tr":"Daha çok maaş almak","en":"Earning more"},{"tr":"Yolda zaman ve para kazanmak","en":"Saving time and money on commuting"},{"tr":"Daha az çalışmak","en":"Working less"},{"tr":"Daha büyük bir ev","en":"A bigger house"}] },
@@ -100,7 +100,7 @@ export default [
     ],
   },
   {
-    id: "it-r-b1-2", level: "B1", title: {"tr":"Un viaggio in Sicilia","en":"A trip to Sicily"},
+    id: "it-r-b1-2", level: "B1", title: {"tr":"Sicilya'ya bir yolculuk","en":"A trip to Sicily"},
     text: "L'estate scorsa ho passato dieci giorni in Sicilia con la mia migliore amica. Abbiamo noleggiato una piccola macchina e girato l'isola da est a ovest. Ci è piaciuta soprattutto Siracusa, con le sue stradine antiche e il mare cristallino. Una sera, in un ristorante sul porto, abbiamo mangiato il pesce più buono della nostra vita e il cameriere ci ha regalato un dolce tipico, la cassata. Il giorno dopo abbiamo salito l'Etna: faceva freddo in cima, nonostante il caldo della costa! Quando siamo ripartite, eravamo già d'accordo: l'anno prossimo torneremo, ma questa volta resteremo almeno due settimane.",
     questions: [
       { q: {"tr":"Sicilya'yı nasıl gezdiler?","en":"How did they tour Sicily?"}, answer: 2, options: [{"tr":"Trenle","en":"By train"},{"tr":"Bisikletle","en":"By bicycle"},{"tr":"Kiraladıkları arabayla","en":"In a rented car"},{"tr":"Otobüs turuyla","en":"On a bus tour"}] },
@@ -109,7 +109,7 @@ export default [
     ],
   },
   {
-    id: "it-r-b1-3", level: "B1", title: {"tr":"La raccolta differenziata","en":"Recycling"},
+    id: "it-r-b1-3", level: "B1", title: {"tr":"Atık ayrıştırma","en":"Recycling"},
     text: "In Italia la raccolta differenziata è diventata un'abitudine quotidiana, anche se ogni comune ha regole un po' diverse. A casa mia abbiamo cinque contenitori: uno per la carta, uno per la plastica, uno per il vetro, uno per l'umido e uno per il resto. Ogni giorno della settimana passa il camion a ritirare un tipo di rifiuto diverso, quindi bisogna consultare il calendario. All'inizio mio marito sbagliava spesso e metteva le bottiglie di plastica insieme al vetro, ma ora è diventato bravissimo. Secondo me, il sistema funziona se tutti collaborano. Ridurre i rifiuti è importante, soprattutto se pensiamo al mondo che lasceremo ai nostri figli.",
     questions: [
       { q: {"tr":"Neden takvime bakmak gerekiyor?","en":"Why is it necessary to check the calendar?"}, answer: 1, options: [{"tr":"Çöp ücretli olduğu için","en":"Rubbish collection costs money"},{"tr":"Her gün farklı bir atık türü toplandığı için","en":"A different type of waste is collected each day"},{"tr":"Tatil günleri olduğu için","en":"Because of holidays"},{"tr":"Konteynerler değiştiği için","en":"The bins change"}] },
@@ -118,7 +118,7 @@ export default [
     ],
   },
   {
-    id: "it-r-b1-4", level: "B1", title: {"tr":"La Befana","en":"The Befana"},
+    id: "it-r-b1-4", level: "B1", title: {"tr":"Befana","en":"The Befana"},
     text: "Il 6 gennaio, in Italia, si festeggia l'Epifania, e i bambini aspettano con impazienza la Befana. Secondo la tradizione, è una vecchietta con un naso lungo e un vestito logoro che vola su una scopa durante la notte tra il 5 e il 6 gennaio. Entra nelle case dalla cappa del camino e riempie le calze appese dai bambini. Chi è stato buono trova dolci e cioccolatini, mentre chi si è comportato male riceve del carbone, che oggi però è fatto di zucchero! Mia nonna mi raccontava sempre che la Befana porta via tutte le feste, e infatti il proverbio dice: «L'Epifania tutte le feste porta via».",
     questions: [
       { q: {"tr":"Befana evlere nereden giriyor?","en":"How does the Befana enter houses?"}, answer: 2, options: [{"tr":"Kapıdan","en":"Through the door"},{"tr":"Pencereden","en":"Through the window"},{"tr":"Bacadan","en":"Through the chimney"},{"tr":"Çatıdan","en":"Through the roof"}] },
@@ -127,7 +127,7 @@ export default [
     ],
   },
   {
-    id: "it-r-b1-5", level: "B1", title: {"tr":"Il colloquio di lavoro","en":"The job interview"},
+    id: "it-r-b1-5", level: "B1", title: {"tr":"İş görüşmesi","en":"The job interview"},
     text: "Ieri ho avuto il mio primo colloquio di lavoro in una libreria del centro. Ero molto nervosa e mi sono svegliata presto per prepararmi. Ho scelto una camicia semplice e sono arrivata dieci minuti prima, perché non volevo fare brutta figura. La titolare, la signora Bianchi, mi ha fatto molte domande sulle mie esperienze e sui libri che amo leggere. Quando le ho detto che adoro i romanzi gialli, è sembrata contenta. Alla fine mi ha spiegato che cercano una persona per i fine settimana e che mi farà sapere entro venerdì. Adesso aspetto la telefonata e spero di avere una buona notizia.",
     questions: [
       { q: {"tr":"Anlatıcı neden on dakika erken geldi?","en":"Why did the narrator arrive ten minutes early?"}, answer: 3, options: [{"tr":"Trafik olmadığı için","en":"There was no traffic"},{"tr":"Kitap seçmek istediği için","en":"To choose a book"},{"tr":"Çok sabırsız olduğu için","en":"She was impatient"},{"tr":"Kötü izlenim bırakmak istemediği için","en":"She did not want to make a bad impression"}] },
@@ -136,7 +136,7 @@ export default [
     ],
   },
   {
-    id: "it-r-b2-1", level: "B2", title: {"tr":"Il rito del caffè","en":"The coffee ritual"},
+    id: "it-r-b2-1", level: "B2", title: {"tr":"Kahve ritüeli","en":"The coffee ritual"},
     text: "Per un italiano, il caffè non è semplicemente una bevanda, ma un vero e proprio rito sociale. Al mattino, prima di andare al lavoro, quasi tutti si fermano al bar, ordinano un espresso e lo bevono in piedi al banco, in pochi minuti. Sedersi al tavolino, infatti, costa spesso di più e viene considerato un lusso da riservare ai momenti di relax. Esistono poi regole non scritte che i turisti ignorano volentieri: il cappuccino si beve solo a colazione, e chiederlo dopo un pasto abbondante fa alzare più di un sopracciglio. Anche la scelta delle parole conta: si dice «un caffè» per intendere l'espresso, mentre quello lungo si chiama «americano». Dietro queste abitudini c'è un'idea precisa: il bar è il luogo dove si scambiano due chiacchiere con il barista, si commentano le notizie e ci si sente parte della comunità del quartiere.",
     questions: [
       { q: {"tr":"İtalyanlar neden kahvelerini çoğunlukla ayakta içer?","en":"Why do Italians often drink coffee standing at the bar?"}, answer: 1, options: [{"tr":"Barlarda sandalye yoktur","en":"Bars have no chairs"},{"tr":"Masada oturmak genelde daha pahalıdır","en":"Sitting at a table usually costs more"},{"tr":"Kahve çok sıcaktır","en":"The coffee is very hot"},{"tr":"Sağlığa iyi geldiği düşünülür","en":"It is thought to be healthy"}] },
@@ -146,7 +146,7 @@ export default [
     ],
   },
   {
-    id: "it-r-b2-2", level: "B2", title: {"tr":"La fuga dei cervelli","en":"The brain drain"},
+    id: "it-r-b2-2", level: "B2", title: {"tr":"Beyin göçü","en":"The brain drain"},
     text: "Negli ultimi vent'anni migliaia di giovani laureati hanno lasciato l'Italia per costruirsi un futuro all'estero, un fenomeno che i giornali chiamano «fuga dei cervelli». Le ragioni sono note: stipendi bassi, contratti precari e poche opportunità di carriera per chi non ha conoscenze influenti. Chi parte trova spesso condizioni migliori in paesi come la Germania o il Regno Unito, dove la ricerca è più finanziata e il merito viene riconosciuto più rapidamente. Il problema, tuttavia, non riguarda soltanto i singoli individui. L'Italia investe nella formazione di questi giovani, ma a beneficiarne sono poi altre economie. Alcuni esperti sostengono che bisognerebbe offrire incentivi fiscali per incoraggiare il ritorno, mentre altri ritengono che la vera soluzione sia riformare il mercato del lavoro. Nel frattempo, molti emigrati confessano di sentire la nostalgia di casa, ma di non essere disposti a rinunciare alla stabilità conquistata.",
     questions: [
       { q: {"tr":"Gençler neden ülkeyi terk ediyor?","en":"Why do young people leave?"}, answer: 0, options: [{"tr":"Düşük maaşlar ve güvencesiz sözleşmeler","en":"Low pay and precarious contracts"},{"tr":"İklim nedeniyle","en":"Because of the climate"},{"tr":"Aile baskısı nedeniyle","en":"Family pressure"},{"tr":"Askerlik nedeniyle","en":"Military service"}] },
@@ -156,7 +156,7 @@ export default [
     ],
   },
   {
-    id: "it-r-b2-3", level: "B2", title: {"tr":"Venezia e il turismo","en":"Venice and tourism"},
+    id: "it-r-b2-3", level: "B2", title: {"tr":"Venedik ve turizm","en":"Venice and tourism"},
     text: "Venezia conta ormai meno di cinquantamila abitanti nel centro storico, mentre ogni anno la visitano oltre venti milioni di persone. Questo squilibrio sta trasformando la città in una sorta di museo a cielo aperto, dove i negozi tradizionali chiudono e lasciano il posto a botteghe di souvenir. Gli affitti sono saliti alle stelle, perché molti proprietari preferiscono affittare le case ai turisti piuttosto che ai residenti. Per contrastare il fenomeno, il comune ha introdotto un contributo d'accesso per i visitatori giornalieri, una misura che ha suscitato opinioni contrastanti. C'è chi la considera necessaria per proteggere la laguna, e chi la giudica un passo verso la «turistificazione» definitiva, quasi un biglietto d'ingresso per una città-parco a tema. Quel che è certo è che senza un equilibrio tra economia e vita quotidiana, Venezia rischia di perdere ciò che la rende unica: i suoi abitanti.",
     questions: [
       { q: {"tr":"Hangi dengesizlik anlatılıyor?","en":"What imbalance is described?"}, answer: 3, options: [{"tr":"Çok yaşlı, az genç","en":"Too many old people"},{"tr":"Çok mağaza, az müşteri","en":"Many shops, few customers"},{"tr":"Çok su, az kara","en":"Too much water"},{"tr":"Az sakin, çok turist","en":"Few residents, huge numbers of tourists"}] },
@@ -176,7 +176,7 @@ export default [
     ],
   },
   {
-    id: "it-r-b2-5", level: "B2", title: {"tr":"I dialetti italiani","en":"Italian dialects"},
+    id: "it-r-b2-5", level: "B2", title: {"tr":"İtalyan lehçeleri","en":"Italian dialects"},
     text: "Quando l'Italia fu unificata, nel 1861, solo una piccola parte della popolazione parlava correntemente l'italiano; la maggioranza usava il proprio dialetto, spesso incomprensibile per chi abitava a pochi chilometri di distanza. Furono la scuola, il servizio militare e, più tardi, la televisione a diffondere una lingua comune. Oggi quasi tutti parlano italiano, ma i dialetti non sono scomparsi: in molte famiglie sopravvivono nelle conversazioni informali, nelle canzoni e nelle espressioni più affettuose. Alcuni linguisti sottolineano che non si tratta di versioni «sbagliate» dell'italiano, bensì di lingue con una storia autonoma, spesso più antica. Le nuove generazioni, tuttavia, tendono a usarli sempre meno, e per questo in diverse regioni sono nati corsi e iniziative per tramandarli. Perdere un dialetto significherebbe perdere un modo unico di guardare il mondo, e per questo la sua tutela interessa linguisti e famiglie.",
     questions: [
       { q: {"tr":"Ortak dilin yayılmasında ne etkili oldu?","en":"What helped spread a common language?"}, answer: 2, options: [{"tr":"Turizm ve ticaret","en":"Tourism and trade"},{"tr":"Kilise ve müzik","en":"Church and music"},{"tr":"Okul, askerlik ve televizyon","en":"School, military service and television"},{"tr":"Gazete ve mektup","en":"Newspapers and letters"}] },
@@ -186,7 +186,7 @@ export default [
     ],
   },
   {
-    id: "it-r-c1-1", level: "C1", title: {"tr":"Il paradosso della lettura","en":"The reading paradox"},
+    id: "it-r-c1-1", level: "C1", title: {"tr":"Okuma paradoksu","en":"The reading paradox"},
     text: "Si dice spesso che gli italiani leggano poco, e le statistiche sembrano dar ragione a chi lo afferma: meno della metà della popolazione apre almeno un libro all'anno. Eppure la questione è più sfumata di quanto appaia. Le piccole librerie indipendenti, che si credevano condannate dall'avvento dei grandi distributori online, hanno trovato nuova vitalità trasformandosi in luoghi di incontro, dove si organizzano presentazioni, gruppi di lettura e laboratori per bambini. Chi vi entra non cerca soltanto un titolo, ma un consiglio, una conversazione, un senso di appartenenza. Questa tendenza dimostra che il libro, lungi dall'essere un semplice oggetto di consumo, conserva un valore relazionale che nessun algoritmo riesce a replicare. Al tempo stesso, resta irrisolto il problema delle biblioteche pubbliche, spesso penalizzate da orari ridotti e fondi insufficienti, soprattutto nel Mezzogiorno. Se davvero si vuole incrementare la lettura, non basterà affidarsi all'entusiasmo dei singoli librai: occorrerà un investimento strutturale che parta dalla scuola e raggiunga ogni quartiere.\nIn fondo, la vera domanda non è quanti libri si vendano, ma quanti cittadini abbiano gli strumenti per desiderarli, sceglierli e discuterne con altri.",
     questions: [
       { q: {"tr":"Bağımsız kitapçıların yeniden canlanması neyi gösteriyor?","en":"What does the revival of independent bookshops show?"}, answer: 2, options: [{"tr":"Çevrimiçi satışların düştüğünü","en":"Online sales are falling"},{"tr":"İnsanların daha çok okuduğunu","en":"People read more"},{"tr":"Kitabın algoritmaların taklit edemediği ilişkisel bir değeri olduğunu","en":"Books have a relational value algorithms cannot replicate"},{"tr":"Kitapların ucuzladığını","en":"Books became cheaper"}] },
@@ -196,7 +196,7 @@ export default [
     ],
   },
   {
-    id: "it-r-c1-2", level: "C1", title: {"tr":"I borghi che si svuotano","en":"Villages that are emptying"},
+    id: "it-r-c1-2", level: "C1", title: {"tr":"Boşalan köyler","en":"Villages that are emptying"},
     text: "Lungo la dorsale appenninica sorgono centinaia di borghi che, negli ultimi decenni, hanno visto dimezzarsi la popolazione. I giovani se ne vanno in cerca di lavoro, le scuole chiudono per mancanza di alunni e le case, un tempo animate da intere famiglie, restano vuote per gran parte dell'anno. Per arginare questo declino, alcuni comuni hanno escogitato iniziative singolari: c'è chi vende abitazioni a un euro, a patto che l'acquirente si impegni a ristrutturarle entro tempi stabiliti, e chi offre incentivi a chi sceglie di trasferirsi stabilmente lavorando a distanza. I risultati sono controversi. Se da un lato arrivano stranieri entusiasti e nuovi residenti, dall'altro si teme che queste operazioni producano una comunità di facciata, poco radicata nel territorio, in cui i servizi essenziali continuano a mancare. Un borgo, ricordano gli urbanisti, non è fatto soltanto di pietre pittoresche, ma di relazioni, mestieri e trasporti. Senza una politica che garantisca scuole, sanità e collegamenti, anche la più suggestiva delle rinascite rischia di rivelarsi un miraggio.\nForse il futuro di questi luoghi dipenderà meno dalle iniziative spettacolari che dalla pazienza quotidiana di chi decide di restare e di costruire qualcosa di duraturo.",
     questions: [
       { q: {"tr":"Borgolar neden nüfus kaybediyor?","en":"Why are the villages losing population?"}, answer: 1, options: [{"tr":"Depremler yüzünden","en":"Because of earthquakes"},{"tr":"Gençler iş aramak için ayrıldığı için","en":"Young people leave to look for work"},{"tr":"İklim sertleştiği için","en":"The climate became harsher"},{"tr":"Turistler istemediği için","en":"Tourists do not want them"}] },
@@ -206,7 +206,7 @@ export default [
     ],
   },
   {
-    id: "it-r-c1-3", level: "C1", title: {"tr":"Il neorealismo","en":"Neorealism"},
+    id: "it-r-c1-3", level: "C1", title: {"tr":"Yeni gerçekçilik","en":"Neorealism"},
     text: "Nell'Italia uscita dalla guerra, un gruppo di registi sentì l'urgenza di raccontare la realtà senza gli orpelli dei film di regime. Nacque così il neorealismo, una stagione breve ma decisiva, che portò sugli schermi le macerie, la fame e la dignità della gente comune. Rossellini, De Sica e Visconti girarono spesso in strada, con pochi mezzi e attori non professionisti, affidando a volti sconosciuti il compito di rendere credibili storie di disoccupazione e sopravvivenza. «Ladri di biciclette», ad esempio, segue un padre che cerca disperatamente la bicicletta rubata, indispensabile per conservare il lavoro; eppure dietro la trama minima si cela un ritratto implacabile di un intero paese. La critica ha talvolta rimproverato a questo cinema un eccesso di pietismo, ma la sua influenza è indiscutibile: dalla Nouvelle Vague francese al cinema indipendente americano, innumerevoli autori hanno riconosciuto il proprio debito verso quella lezione di sobrietà e di sguardo morale.\nOggi, nelle scuole di cinema, quei film si studiano ancora come esempi di come la macchina da presa possa diventare uno strumento di conoscenza civile e non soltanto di intrattenimento.",
     questions: [
       { q: {"tr":"Neorealizm neden doğdu?","en":"Why did neorealism arise?"}, answer: 0, options: [{"tr":"Gerçeği rejim filmlerinin süslerinden arınmış anlatmak için","en":"To portray reality without the trappings of regime films"},{"tr":"Hollywood'u taklit etmek için","en":"To imitate Hollywood"},{"tr":"Renkli film çekmek için","en":"To make colour films"},{"tr":"Turistleri çekmek için","en":"To attract tourists"}] },
@@ -216,7 +216,7 @@ export default [
     ],
   },
   {
-    id: "it-r-c1-4", level: "C1", title: {"tr":"Tradurre con le macchine","en":"Translating with machines"},
+    id: "it-r-c1-4", level: "C1", title: {"tr":"Makinelerle çeviri","en":"Translating with machines"},
     text: "L'avvento dei traduttori automatici ha riacceso un dibattito che sembrava sopito: una macchina potrà mai sostituire un traduttore in carne e ossa? Per i testi tecnici, dove la precisione terminologica prevale sullo stile, i risultati sono già sorprendenti, e molte agenzie ricorrono ormai a questi strumenti per una prima stesura. Il discorso cambia radicalmente quando si tratta di letteratura. Un romanzo non si limita a trasmettere informazioni: gioca con i ritmi, le ambiguità, i registri, e talvolta con ciò che è taciuto. Tradurre significa dunque compiere continue scelte interpretative, e ogni scelta implica una rinuncia. I traduttori professionisti non temono tanto di essere scalzati, quanto che si diffonda l'idea che la loro competenza sia superflua, riducendo compensi già modesti. Per questo propongono un modello di collaborazione, in cui il software accelera le fasi meccaniche e l'essere umano conserva la responsabilità del risultato finale. Resta da vedere se il mercato saprà riconoscere la differenza tra un testo comprensibile e un testo davvero ben scritto.\nNel frattempo, le università stanno ripensando i corsi di traduzione, insegnando agli studenti a correggere e migliorare i testi automatici anziché a ignorarli.",
     questions: [
       { q: {"tr":"Makine çevirisi hangi alanda şimdiden şaşırtıcı sonuçlar veriyor?","en":"Where are machine translation results already surprising?"}, answer: 3, options: [{"tr":"Şiirde","en":"Poetry"},{"tr":"Romanlarda","en":"Novels"},{"tr":"Şarkı sözlerinde","en":"Song lyrics"},{"tr":"Teknik metinlerde","en":"Technical texts"}] },
@@ -226,7 +226,7 @@ export default [
     ],
   },
   {
-    id: "it-r-c1-5", level: "C1", title: {"tr":"Pompei oggi","en":"Pompeii today"},
+    id: "it-r-c1-5", level: "C1", title: {"tr":"Bugünün Pompeii'si","en":"Pompeii today"},
     text: "Da oltre due secoli Pompei affascina studiosi e visitatori, eppure il sito continua a rivelare segreti inattesi. Recenti scavi hanno portato alla luce affreschi di straordinaria freschezza, che raccontano scene di vita quotidiana con una vivacità quasi fotografica. Ma la manutenzione di un patrimonio così vasto rappresenta una sfida permanente: la pioggia, i flussi turistici e la vegetazione infestante minacciano continuamente strutture già fragili. Nel 2010 il crollo della Schola Armaturarum, la casa dei gladiatori, scosse l'opinione pubblica e costrinse le istituzioni a un ripensamento. Da allora, grazie a finanziamenti europei e a un piano di interventi coordinato, sono stati recuperati decine di edifici. Alcuni archeologi avvertono, tuttavia, che concentrare le risorse sulle aree più celebri rischia di trascurare quelle meno visitate, destinate a deteriorarsi in silenzio. La sfida, in definitiva, non è soltanto conservare ciò che già conosciamo, ma decidere quanto scavare ancora, consapevoli che ogni scoperta comporta anche l'obbligo di proteggerla.\nIntanto i visitatori continuano ad affollare le strade lastricate, spesso ignari del lavoro silenzioso di restauratori e archeologi che rende possibile la loro visita.",
     questions: [
       { q: {"tr":"Yeni kazılarda ne bulundu?","en":"What did recent excavations uncover?"}, answer: 1, options: [{"tr":"Altın hazineler","en":"Gold treasures"},{"tr":"Çok taze görünümlü fresklar","en":"Remarkably fresh frescoes"},{"tr":"Yeni bir şehir","en":"A new city"},{"tr":"Yazıtlı tabletler","en":"Inscribed tablets"}] },
@@ -236,7 +236,7 @@ export default [
     ],
   },
   {
-    id: "it-r-c2-1", level: "C2", title: {"tr":"Elogio della lentezza","en":"In praise of slowness"},
+    id: "it-r-c2-1", level: "C2", title: {"tr":"Yavaşlığa övgü","en":"In praise of slowness"},
     text: "Viviamo in un'epoca che ha fatto della velocità un feticcio. Ogni attesa appare un difetto di sistema, ogni pausa un'inefficienza da eliminare, e persino il riposo viene venduto come una prestazione da ottimizzare. Eppure, chi ha avuto la ventura di trascorrere un'estate in un paese di montagna sa che esiste un altro modo di abitare il tempo. Lì le ore non scorrono, si depositano: la mattina ha la consistenza del pane appena sfornato, il pomeriggio è un lungo respiro all'ombra, e la sera si accende di conversazioni che nessuno ha fretta di concludere. Sarebbe ingenuo, tuttavia, scambiare questa lentezza per pigrizia o, peggio, per nostalgia di un passato idealizzato. Gli abitanti di quei luoghi lavorano, e con fatica; ciò che li distingue è la capacità di non confondere l'urgenza con l'importanza. La vera lentezza, insomma, non consiste nel fare meno, bensì nel fare ciò che si fa con attenzione piena, rifiutando la dispersione che ci rende presenti ovunque e da nessuna parte. Forse è questa la lezione più sovversiva che i margini del mondo possono ancora impartire a chi vive al centro dell'accelerazione: che il tempo non si guadagna correndo, ma abitandolo. Chi la impara, difficilmente torna indietro.\nNon a caso, i viaggiatori più attenti tornano da quei luoghi con una domanda scomoda: che cosa stiamo davvero inseguendo, mentre ci affanniamo a non perdere tempo?",
     questions: [
       { q: {"tr":"Çağımızda bekleyiş nasıl algılanıyor?","en":"How is waiting perceived in our age?"}, answer: 2, options: [{"tr":"Bir zevk olarak","en":"As a pleasure"},{"tr":"Bir sanat olarak","en":"As an art"},{"tr":"Sistemin bir kusuru olarak","en":"As a defect of the system"},{"tr":"Bir ayrıcalık olarak","en":"As a privilege"}] },
@@ -246,7 +246,7 @@ export default [
     ],
   },
   {
-    id: "it-r-c2-2", level: "C2", title: {"tr":"L'ultimo atto del notaio","en":"The notary's last act"},
+    id: "it-r-c2-2", level: "C2", title: {"tr":"Noterin son işlemi","en":"The notary's last act"},
     text: "Il notaio Ernesto Ferrante aveva ormai settantadue anni quando decise di chiudere lo studio che, per quasi mezzo secolo, era stato il centro della sua esistenza. Non lo fece per stanchezza, come amava raccontare ai conoscenti, ma perché una mattina di marzo, rileggendo un atto di compravendita, si era accorto di non provare più nulla. Nessuna curiosità per i nomi, nessuna emozione davanti alle firme che sancivano il passaggio di una casa da una generazione all'altra. Per anni aveva creduto che il suo mestiere consistesse nel custodire la memoria degli altri; solo allora comprese di aver trascurato la propria. Svuotò gli scaffali con lentezza quasi cerimoniosa, e a ogni fascicolo ricordava un volto: la vedova che aveva pianto sul tavolo, i fratelli che non si parlavano più dopo l'eredità, la giovane coppia che aveva comprato, con un mutuo troppo grande, un sogno troppo piccolo. L'ultimo giorno, uscì senza voltarsi, lasciando la chiave sotto il vaso di gerani. Percorrendo la strada che conosceva a memoria, ebbe la strana sensazione di camminare per la prima volta in una città sconosciuta, e ne provò, con sua stessa sorpresa, una gioia timida e quasi colpevole.\nMesi dopo, un vecchio cliente lo incontrò al mercato e lo trovò stranamente leggero; Ferrante sorrise, senza spiegare nulla, e gli chiese soltanto, con sincero interesse, notizie dei suoi figli e dei suoi nipoti.",
     questions: [
       { q: {"tr":"Ferrante bürosunu gerçekte neden kapattı?","en":"Why did Ferrante really close his office?"}, answer: 1, options: [{"tr":"Yorulduğu için","en":"He was tired"},{"tr":"Artık hiçbir şey hissetmediğini fark ettiği için","en":"He realised he no longer felt anything"},{"tr":"Emekli maaşı aldığı için","en":"He received a pension"},{"tr":"Müşterisi kalmadığı için","en":"He had no clients left"}] },
@@ -256,7 +256,7 @@ export default [
     ],
   },
   {
-    id: "it-r-c2-3", level: "C2", title: {"tr":"Italiano e anglicismi","en":"Italian and anglicisms"},
+    id: "it-r-c2-3", level: "C2", title: {"tr":"İtalyanca ve İngilizce kökenli sözcükler","en":"Italian and anglicisms"},
     text: "Ogni volta che un nuovo anglicismo entra nell'uso, riaffiora in Italia la querelle tra puristi e permissivi. I primi denunciano un'invasione che minaccerebbe l'identità della lingua e invocano, talvolta, interventi legislativi; i secondi ricordano che l'italiano è sempre stato una lingua di prestiti, dal francese del Settecento al tedesco della scienza ottocentesca, e che la sua vitalità si misura proprio nella capacità di assimilare l'altrui. La verità, come spesso accade, si colloca in una zona intermedia e più scomoda. È vero che il fenomeno non è nuovo, ma l'intensità attuale, favorita dal lessico aziendale e dalla comunicazione digitale, ha pochi precedenti: parole come «meeting», «competitor» o «performance» si insediano nel linguaggio pubblico senza alcun adattamento, e non di rado scalzano termini italiani perfettamente funzionali. Il rischio non è tanto la contaminazione in sé, quanto l'impoverimento che deriva dall'abdicare alla ricerca di equivalenti, come se l'italiano non fosse più in grado di descrivere il presente. Una lingua, del resto, non si difende con i divieti, che il tempo travolge puntualmente, bensì con l'uso consapevole e creativo di chi la parla, dai giornalisti agli insegnanti, fino al più comune dei parlanti. Soltanto così potrà continuare a evolversi senza smarrire la propria voce.\nChe l'italiano sappia rispondere a questa sfida con la creatività che ne ha segnato la storia, e non con la rassegnazione, dipende in larga misura da noi tutti.",
     questions: [
       { q: {"tr":"Püristler ne savunuyor?","en":"What do the purists claim?"}, answer: 2, options: [{"tr":"Yabancı sözcüklerin zenginlik olduğunu","en":"Foreign words are an enrichment"},{"tr":"Dilin hiç değişmemesi gerektiğini","en":"The language should never change"},{"tr":"Bir istilanın dilin kimliğini tehdit ettiğini","en":"An invasion threatens the language's identity"},{"tr":"İngilizce öğretilmemesi gerektiğini","en":"English should not be taught"}] },
@@ -266,7 +266,7 @@ export default [
     ],
   },
   {
-    id: "it-r-c2-4", level: "C2", title: {"tr":"La questione meridionale","en":"The Southern Question"},
+    id: "it-r-c2-4", level: "C2", title: {"tr":"Güney meselesi","en":"The Southern Question"},
     text: "La cosiddetta questione meridionale accompagna la storia italiana dall'unificazione, e proprio la sua longevità ne rende difficile un'analisi non viziata da luoghi comuni. Da un lato, la narrazione tradizionale attribuisce il divario economico tra Nord e Sud a presunte carenze culturali del Mezzogiorno, quali il familismo o la sfiducia nelle istituzioni; dall'altro, una storiografia più recente insiste sulle scelte politiche che, dopo il 1861, privilegiarono l'industrializzazione settentrionale a scapito dell'agricoltura del Sud, già gravata da strutture fondiarie arcaiche. Nessuna di queste spiegazioni, presa isolatamente, appare soddisfacente. Le ricerche più accorte suggeriscono piuttosto un intreccio di fattori che si rafforzano a vicenda: infrastrutture carenti scoraggiano gli investimenti, la scarsità di lavoro qualificato alimenta l'emigrazione dei giovani, e l'emorragia di competenze indebolisce ulteriormente l'amministrazione locale, in un circolo vizioso difficile da spezzare. Le politiche straordinarie, come la Cassa per il Mezzogiorno, hanno prodotto risultati altalenanti, perché spesso concepite come interventi dall'alto, scollegati dalle esigenze dei territori. Oggi molti studiosi ritengono che la sfida non sia più colmare un ritardo secondo un modello unico, bensì valorizzare le specificità locali e rafforzare la capacità amministrativa, condizione indispensabile affinché i fondi, europei e nazionali, si traducano in sviluppo reale e duraturo.\nIn assenza di tale cambio di prospettiva, ogni nuovo piano rischia di ripetere, con altri nomi e altre sigle, gli errori già commessi nel secolo scorso.",
     questions: [
       { q: {"tr":"Güney sorununun analizi neden zor?","en":"Why is analysis of the Southern Question difficult?"}, answer: 3, options: [{"tr":"Veri bulunmadığı için","en":"No data exists"},{"tr":"Konu çok yeni olduğu için","en":"The subject is very new"},{"tr":"Sadece ekonomistleri ilgilendirdiği için","en":"It concerns only economists"},{"tr":"Uzun ömrü nedeniyle klişelerden arınmış analiz zor olduğu için","en":"Its longevity makes analysis free of clichés hard"}] },
@@ -276,7 +276,7 @@ export default [
     ],
   },
   {
-    id: "it-r-c2-5", level: "C2", title: {"tr":"Caravaggio e la luce","en":"Caravaggio and light"},
+    id: "it-r-c2-5", level: "C2", title: {"tr":"Caravaggio ve ışık","en":"Caravaggio and light"},
     text: "Davanti alla «Vocazione di san Matteo», nella chiesa romana di San Luigi dei Francesi, lo spettatore ha l'impressione di assistere a un evento che sta accadendo adesso. Un raggio di luce obliqua taglia la penombra di una bottega, e colpisce il volto di Matteo mentre Cristo, quasi in ombra, lo indica con un gesto che riecheggia quello di Adamo nella Sistina. Caravaggio non idealizza: i personaggi indossano abiti dell'epoca, hanno mani callose e fisionomie da strada, e la scena sacra si svolge in un ambiente di una concretezza quasi sfacciata. Fu proprio questa scelta a suscitare, ai suoi tempi, tanto ammirazione quanto scandalo; alcuni committenti rifiutarono le sue tele, giudicandole indecorose per l'eccessivo realismo. Eppure la lezione del Merisi, ossia l'uso drammatico del chiaroscuro e la capacità di sorprendere il momento decisivo di un'azione, si propagò in tutta Europa, da Utrecht a Siviglia, generando una schiera di imitatori noti come caravaggeschi. La sua vita turbolenta, segnata da risse, condanne e fughe, ha talvolta distratto la critica dalla sostanza dell'opera, alimentando un mito romantico che il pittore forse non avrebbe riconosciuto. Resta, a distanza di secoli, la sensazione di una pittura che non si osserva, ma si subisce, come un lampo nel buio.\nForse è questo il motivo per cui, ancora oggi, le code davanti alle sue tele non diminuiscono: in quella luce brutale ciascuno riconosce qualcosa di sé.",
     questions: [
       { q: {"tr":"Tabloyu izleyen kişi ne hisseder?","en":"What impression does the viewer get?"}, answer: 1, options: [{"tr":"Çok eski bir sahne gördüğünü","en":"Seeing a very ancient scene"},{"tr":"Olayın şu anda gerçekleştiğini","en":"That the event is happening now"},{"tr":"Bir rüya gördüğünü","en":"Seeing a dream"},{"tr":"Bir savaş gördüğünü","en":"Seeing a battle"}] },
