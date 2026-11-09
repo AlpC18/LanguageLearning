@@ -29,6 +29,8 @@ async function textsFor(lang) {
   }
   for (const v of verbs) texts.push(v.verb, ...v.present, ...v.present.map((form, i) => `${PRONOUNS[lang][i]} ${form}`));
   for (const r of readings) texts.push(r.text);
+  const decks = (await import(`../src/data/vocab/${lang}.js`)).default;
+  for (const [word, , , , example] of Object.values(decks).flat()) texts.push(word, example);
   return [...new Set(texts.map(normalizeSpeech).filter((s) => /\p{L}/u.test(s)))];
 }
 

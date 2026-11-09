@@ -24,6 +24,7 @@ async function run(lang) {
   const items = [
     ...units.flatMap((u) => u.sentences.map(([s]) => ({ where: u.id, text: s }))),
     ...readings.map((r) => ({ where: r.id, text: r.text })),
+    ...Object.entries((await import(`../src/data/vocab/${lang}.js`)).default).flatMap(([level, deck]) => deck.map((e) => ({ where: `deck ${level}: ${e[0]}`, text: e[4] }))),
   ];
   let hits = 0;
   for (let i = 0; i < items.length; i += 8) {
